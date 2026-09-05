@@ -97,12 +97,12 @@
             margin-right: 8px;
         }
 
-        /* 日期 - 加宽，显示完整 */
+        /* 日期 - 短格式：9月1日 - 9月7日 */
         .date-range-wrap {
             display: flex;
             justify-content: center;
             align-items: center;
-            gap: 14px;
+            gap: 10px;
             margin-top: 14px;
             font-family: 'Orbitron', monospace;
             font-size: 16px;
@@ -113,12 +113,12 @@
             background: rgba(255, 255, 255, 0.04);
             border: 1px solid rgba(255, 255, 255, 0.06);
             border-radius: 10px;
-            padding: 6px 18px;
+            padding: 6px 14px;
             color: rgba(255, 255, 255, 0.85);
             font-size: 16px;
             font-family: 'Orbitron', monospace;
             letter-spacing: 0.5px;
-            width: 155px;
+            width: 100px;
             text-align: center;
             background: transparent;
             outline: none;
@@ -126,9 +126,13 @@
         .date-range-wrap .date-num:focus {
             border-color: rgba(240, 160, 224, 0.2);
         }
+        .date-range-wrap .date-num::placeholder {
+            color: rgba(255, 255, 255, 0.15);
+            font-size: 13px;
+        }
         .date-range-wrap .date-sep {
             color: rgba(255, 255, 255, 0.15);
-            font-size: 18px;
+            font-size: 16px;
             flex-shrink: 0;
         }
         .date-range-wrap .date-icon {
@@ -495,18 +499,20 @@
                 font-size: 12px;
                 padding: 8px 16px;
             }
-            /* 手机端日期框加宽 */
             .date-range-wrap .date-num {
                 font-size: 14px;
-                width: 105px;
-                padding: 4px 10px;
+                width: 75px;
+                padding: 4px 8px;
             }
             .date-range-wrap {
                 font-size: 14px;
-                gap: 8px;
+                gap: 6px;
             }
             .date-range-wrap .date-sep {
                 font-size: 14px;
+            }
+            .date-range-wrap .date-num::placeholder {
+                font-size: 11px;
             }
         }
     </style>
@@ -521,9 +527,9 @@
                 <div class="teacher-name"><i class="fas fa-star"></i> @Thia西亚</div>
                 <div class="date-range-wrap">
                     <span class="date-icon">📅</span>
-                    <input class="date-num" id="startDate" type="text" placeholder="2025.09.01" value="">
+                    <input class="date-num" id="startDate" type="text" placeholder="9月1日" value="">
                     <span class="date-sep">—</span>
-                    <input class="date-num" id="endDate" type="text" placeholder="2025.09.07" value="">
+                    <input class="date-num" id="endDate" type="text" placeholder="9月7日" value="">
                 </div>
             </div>
 
@@ -609,8 +615,7 @@
                 monday.setDate(now.getDate() - dayOfWeek + 1);
                 const sunday = new Date(monday);
                 sunday.setDate(monday.getDate() + 6);
-                const f = (d) => d.getFullYear() + '.' + String(d.getMonth() + 1).padStart(2, '0') + '.' + String(d.getDate())
-                    .padStart(2, '0');
+                const f = (d) => (d.getMonth() + 1) + '月' + d.getDate() + '日';
                 return { start: f(monday), end: f(sunday) };
             }
 
