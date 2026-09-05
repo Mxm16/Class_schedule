@@ -40,10 +40,11 @@
             position: relative;
             z-index: 1;
             border-radius: 20px;
-            padding: 20px 18px 24px;
+            padding: 24px 20px 28px;
             background: linear-gradient(160deg, #282230, #1e1a26);
             border: 1px solid rgba(255, 200, 255, 0.06);
             min-height: 400px;
+            overflow: visible;
         }
 
         /* 课表头部 */
@@ -96,12 +97,41 @@
             color: #f0a0e0;
             margin-right: 6px;
         }
-        .timetable-header .week-range {
-            font-size: 12px;
-            color: rgba(255, 255, 255, 0.15);
-            margin-top: 4px;
+
+        /* 日期范围 - 可编辑 */
+        .date-range-wrap {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+            margin-top: 6px;
+            flex-wrap: wrap;
+        }
+        .date-range-wrap .date-label {
+            font-size: 13px;
+            color: rgba(255, 255, 255, 0.2);
             font-family: 'Orbitron', monospace;
             letter-spacing: 1px;
+        }
+        .date-range-wrap .date-input {
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            border-radius: 12px;
+            padding: 4px 12px;
+            font-size: 13px;
+            color: rgba(255, 255, 255, 0.7);
+            width: 110px;
+            text-align: center;
+            outline: none;
+            font-family: inherit;
+        }
+        .date-range-wrap .date-input:focus {
+            border-color: rgba(240, 160, 224, 0.2);
+            background: rgba(255, 255, 255, 0.06);
+        }
+        .date-range-wrap .date-sep {
+            color: rgba(255, 255, 255, 0.15);
+            font-size: 14px;
         }
 
         /* ===== 星期选择（交互用） ===== */
@@ -142,11 +172,10 @@
             display: flex;
             flex-direction: column;
             gap: 8px;
-            margin: 10px 0 14px;
+            margin: 10px 0 8px;
             min-height: 60px;
         }
 
-        /* 课表卡片 - 表格风格 */
         .card {
             background: rgba(255, 255, 255, 0.03);
             border-radius: 12px;
@@ -211,7 +240,6 @@
             color: #66e0a0;
         }
 
-        /* 交互元素（不显示在导出图片中） */
         .card .check {
             font-size: 18px;
             color: rgba(255, 255, 255, 0.1);
@@ -457,6 +485,10 @@
             .card {
                 padding: 10px 12px;
             }
+            .date-range-wrap .date-input {
+                width: 80px;
+                font-size: 12px;
+            }
         }
 
         /* ===== 打印/导出优化 ===== */
@@ -489,7 +521,12 @@
                 <div class="main-title">✦ DANCE PLANNER ✦</div>
                 <div class="sub-title">— 本周课程表 —</div>
                 <div class="teacher-name"><i class="fas fa-star"></i> @Thia西亚</div>
-                <div class="week-range" id="weekRangeDisplay">WEEK 34 · 2026</div>
+                <div class="date-range-wrap">
+                    <span class="date-label">📅</span>
+                    <input class="date-input" id="startDate" type="text" placeholder="9月1日" value="">
+                    <span class="date-sep">—</span>
+                    <input class="date-input" id="endDate" type="text" placeholder="9月7日" value="">
+                </div>
             </div>
 
             <!-- 星期选择（交互） -->
@@ -570,29 +607,37 @@
             const cancelBtn = document.getElementById('cancelBtn');
             const resetBtn = document.getElementById('resetBtn');
             const saveBtn = document.getElementById('saveBtn');
-            const weekRangeDisplay = document.getElementById('weekRangeDisplay');
+            const startDateInput = document.getElementById('startDate');
+            const endDateInput = document.getElementById('endDate');
 
             function genId() { return Date.now() + '-' + Math.random().toString(36).slice(2, 6); }
 
-            // ===== 获取当前周数 =====
-            function getWeekNumber() {
+            // ===== 自动计算本周日期范围 =====
+            function getThisWeekRange() {
                 const now = new Date();
-                const start = new Date(now.getFullYear(), 0, 1);
-                const diff = (now - start) / (7 * 24 * 60 * 60 * 1000);
-                return Math.ceil(diff);
+                const dayOfWeek = now.getDay() || 7; // 周一=1, 周日=7
+                const monday = new Date(now);
+                monday.setDate(now.getDate() - dayOfWeek + 1);
+                const sunday = new Date(monday);
+                sunday.setDate(monday.getDate() + 6);
+
+                const formatDate = (d) => {
+                    return (d.getMonth() + 1) + '月' + d.getDate() + '日';
+                };
+                return { start: formatDate(monday), end: formatDate(sunday) };
             }
 
-            function updateWeekRange() {
-                const week = getWeekNumber();
-                const year = new Date().getFullYear();
-                weekRangeDisplay.textContent = `WEEK ${week} · ${year}`;
+            function setDefaultDates() {
+                const range = getThisWeekRange();
+                if (!startDateInput.value) startDateInput.value = range.start;
+                if (!endDateInput.value) endDateInput.value = range.end;
             }
 
             // ===== 渲染 =====
             function render() {
                 renderWeekRow();
                 renderList();
-                updateWeekRange();
+                setDefaultDates();
             }
 
             function renderWeekRow() {
@@ -655,7 +700,6 @@
                 });
                 listEl.innerHTML = html;
 
-                // 打勾
                 document.querySelectorAll('.check').forEach(el => {
                     el.addEventListener('click', function() {
                         const id = this.dataset.id;
@@ -665,7 +709,6 @@
                     });
                 });
 
-                // 删除
                 document.querySelectorAll('.del-btn').forEach(el => {
                     el.addEventListener('click', function(e) {
                         e.stopPropagation();
@@ -708,29 +751,40 @@
                     const days = new Set(items.map(item => item.day));
                     activeDays = new Set(ALL_DAYS.filter(d => days.has(d)));
                     if (activeDays.size === 0) activeDays.add('周一');
+                    // 重置日期
+                    const range = getThisWeekRange();
+                    startDateInput.value = range.start;
+                    endDateInput.value = range.end;
                     render();
                 }
             }
 
-            // ===== 导出 JPG =====
+            // ===== 导出 JPG（修复截一半的问题） =====
             function exportJPG() {
                 const el = document.getElementById('capture');
 
-                // 暂时隐藏交互元素（但保留打勾状态显示）
+                // 保存交互元素引用
                 const checks = el.querySelectorAll('.check');
                 const dels = el.querySelectorAll('.del-btn');
                 const weekRowEl = el.querySelector('.week-row');
 
-                // 隐藏交互元素（导出时不需要）
+                // 隐藏交互元素
                 checks.forEach(c => c.style.display = 'none');
                 dels.forEach(d => d.style.display = 'none');
                 if (weekRowEl) weekRowEl.style.display = 'none';
 
+                // 强制重新计算布局
+                el.style.overflow = 'visible';
+                el.style.height = 'auto';
+
                 saveBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> 生成中...';
                 saveBtn.disabled = true;
 
+                // 先用较小的 scale 预览，确保完整
+                const scale = Math.min(2.5, window.devicePixelRatio || 2);
+
                 html2canvas(el, {
-                    scale: 2.5,
+                    scale: scale,
                     backgroundColor: '#282230',
                     useCORS: true,
                     logging: false,
@@ -739,11 +793,17 @@
                     height: el.scrollHeight,
                     windowWidth: el.scrollWidth,
                     windowHeight: el.scrollHeight,
+                    onclone: function(doc, element) {
+                        // 确保所有内容可见
+                        element.style.overflow = 'visible';
+                    }
                 }).then(canvas => {
                     // 恢复显示
                     checks.forEach(c => c.style.display = '');
                     dels.forEach(d => d.style.display = '');
                     if (weekRowEl) weekRowEl.style.display = '';
+                    el.style.overflow = '';
+                    el.style.height = '';
 
                     // 导出为 JPG
                     const link = document.createElement('a');
@@ -770,6 +830,8 @@
                     checks.forEach(c => c.style.display = '');
                     dels.forEach(d => d.style.display = '');
                     if (weekRowEl) weekRowEl.style.display = '';
+                    el.style.overflow = '';
+                    el.style.height = '';
                     alert('导出失败，请尝试截图保存。');
                     saveBtn.innerHTML = '<i class="fas fa-image"></i> 导出 JPG';
                     saveBtn.disabled = false;
@@ -781,6 +843,20 @@
             cancelBtn.addEventListener('click', clearForm);
             resetBtn.addEventListener('click', resetAll);
             saveBtn.addEventListener('click', exportJPG);
+
+            // 日期输入框自动填充默认值
+            startDateInput.addEventListener('focus', function() {
+                if (!this.value) {
+                    const range = getThisWeekRange();
+                    this.value = range.start;
+                }
+            });
+            endDateInput.addEventListener('focus', function() {
+                if (!this.value) {
+                    const range = getThisWeekRange();
+                    this.value = range.end;
+                }
+            });
 
             [timeInput, studioInput, typeInput, classInput].forEach(inp => {
                 inp.addEventListener('keypress', function(e) {
@@ -794,6 +870,7 @@
             const days = new Set(items.map(item => item.day));
             activeDays = new Set(ALL_DAYS.filter(d => days.has(d)));
             if (activeDays.size === 0) activeDays.add('周一');
+            setDefaultDates();
             render();
 
             // 修复手机 input 缩放
