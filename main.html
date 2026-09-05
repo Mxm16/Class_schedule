@@ -1,0 +1,656 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+    <title>练舞手帐 · 行程计划</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <!-- html2canvas 用于截图 -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+        }
+        body {
+            background: linear-gradient(145deg, #f7efe8 0%, #ece1d8 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+        .app-wrapper {
+            max-width: 820px;
+            width: 100%;
+            background: rgba(255, 248, 242, 0.7);
+            backdrop-filter: blur(6px);
+            border-radius: 48px 48px 32px 32px;
+            padding: 24px 20px 36px;
+            box-shadow: 0 20px 40px rgba(80, 60, 45, 0.15), 0 6px 12px rgba(0,0,0,0.05);
+            border: 1px solid rgba(235, 215, 200, 0.5);
+        }
+        /* 截图区域——包含整个app-wrapper，但保留背景 */
+        #captureArea {
+            border-radius: 48px 48px 32px 32px;
+            background: rgba(255, 248, 242, 0.7);
+            backdrop-filter: blur(6px);
+            padding: 24px 20px 36px;
+            border: 1px solid rgba(235, 215, 200, 0.5);
+        }
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 4px 16px 4px;
+            border-bottom: 2px dashed #d6c0b2;
+        }
+        .header h1 {
+            font-size: 28px;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            color: #4d3a2e;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .header h1 i {
+            color: #b87c5b;
+            font-size: 26px;
+        }
+        .header-actions {
+            display: flex;
+            gap: 10px;
+        }
+        .header-actions button {
+            background: transparent;
+            border: none;
+            font-size: 20px;
+            color: #7f6858;
+            cursor: pointer;
+            transition: 0.2s;
+            padding: 6px 12px;
+            border-radius: 40px;
+            background: rgba(225, 205, 190, 0.3);
+        }
+        .header-actions button:hover {
+            background: #d6c0b2;
+            color: #3f2f24;
+        }
+        /* 保存按钮特殊样式 */
+        .save-btn {
+            background: #b87c5b !important;
+            color: white !important;
+            font-weight: 500;
+            padding: 6px 16px !important;
+            border-radius: 40px !important;
+            font-size: 16px !important;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .save-btn:hover {
+            background: #a56e4f !important;
+        }
+        .week-selector {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px 6px;
+            margin: 18px 0 14px;
+            justify-content: center;
+        }
+        .day-btn {
+            background: #ece1d8;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 40px;
+            font-size: 15px;
+            font-weight: 500;
+            color: #4d3a2e;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+            transition: all 0.15s;
+            cursor: pointer;
+            border: 1px solid transparent;
+            flex: 0 1 auto;
+        }
+        .day-btn.active {
+            background: #b87c5b;
+            color: white;
+            box-shadow: 0 6px 12px rgba(184, 124, 91, 0.25);
+            border-color: #a56e4f;
+        }
+        .day-btn i {
+            margin-right: 6px;
+            font-size: 13px;
+        }
+        .day-btn.add-day {
+            background: transparent;
+            border: 1px dashed #b99a85;
+            color: #7f6858;
+        }
+        .day-btn.add-day:hover {
+            background: #d6c0b2;
+        }
+        .schedule-list {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            margin: 16px 0 20px;
+        }
+        .schedule-card {
+            background: rgba(255, 248, 242, 0.8);
+            backdrop-filter: blur(2px);
+            border-radius: 28px;
+            padding: 16px 18px 16px 20px;
+            box-shadow: 0 6px 14px rgba(100, 70, 50, 0.06);
+            border: 1px solid #f0dfd2;
+            transition: 0.2s;
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 10px 12px;
+        }
+        .schedule-card:hover {
+            border-color: #d0b8a8;
+            background: #fffaf5;
+        }
+        .card-left {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            flex: 2 1 220px;
+        }
+        .card-check {
+            font-size: 26px;
+            color: #bfa18b;
+            cursor: pointer;
+            transition: 0.1s;
+            width: 38px;
+            text-align: center;
+            user-select: none;
+        }
+        .card-check.done {
+            color: #5d8c6b;
+        }
+        .card-check i {
+            transition: 0.1s;
+        }
+        .card-info {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+            flex: 3;
+            min-width: 150px;
+        }
+        .card-title {
+            font-weight: 600;
+            font-size: 17px;
+            color: #3a2e27;
+            display: flex;
+            flex-wrap: wrap;
+            align-items: baseline;
+            gap: 6px 10px;
+        }
+        .card-title .day-tag {
+            background: #dccfc4;
+            padding: 0 14px;
+            border-radius: 40px;
+            font-size: 12px;
+            font-weight: 500;
+            color: #4d3a2e;
+            letter-spacing: 0.3px;
+        }
+        .card-time {
+            font-size: 14px;
+            color: #7a6456;
+            background: #eee3da;
+            padding: 2px 16px;
+            border-radius: 40px;
+            display: inline-block;
+            width: fit-content;
+        }
+        .card-detail {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 4px 16px;
+            font-size: 14px;
+            color: #5f4d40;
+        }
+        .card-detail i {
+            width: 18px;
+            color: #b0876d;
+        }
+        .card-detail span {
+            background: #f5ede7;
+            padding: 2px 14px 2px 10px;
+            border-radius: 30px;
+        }
+        .card-actions {
+            display: flex;
+            gap: 6px;
+            margin-left: auto;
+            align-items: center;
+        }
+        .card-actions button {
+            background: transparent;
+            border: none;
+            color: #a38674;
+            font-size: 16px;
+            padding: 6px 8px;
+            border-radius: 30px;
+            cursor: pointer;
+            transition: 0.15s;
+        }
+        .card-actions button:hover {
+            background: #e5d3c6;
+            color: #4d362b;
+        }
+        .card-actions .delete-btn:hover {
+            color: #b5533a;
+        }
+        .empty-state {
+            text-align: center;
+            padding: 40px 10px;
+            color: #b09786;
+            font-size: 15px;
+        }
+        .empty-state i {
+            font-size: 42px;
+            margin-bottom: 12px;
+            opacity: 0.5;
+        }
+        .add-form {
+            background: #f5ede7;
+            border-radius: 40px;
+            padding: 20px 18px;
+            margin: 10px 0 6px;
+            border: 1px solid #e2d0c2;
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+        }
+        .form-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px 8px;
+            align-items: center;
+        }
+        .form-row label {
+            font-weight: 500;
+            color: #4d3a2e;
+            min-width: 44px;
+            font-size: 14px;
+        }
+        .form-row input, .form-row select {
+            background: white;
+            border: 1px solid #dccfc4;
+            border-radius: 40px;
+            padding: 10px 16px;
+            font-size: 14px;
+            flex: 1 0 120px;
+            outline: none;
+            transition: 0.15s;
+        }
+        .form-row input:focus, .form-row select:focus {
+            border-color: #b87c5b;
+            box-shadow: 0 0 0 3px rgba(184, 124, 91, 0.15);
+        }
+        .form-row .btn-primary {
+            background: #b87c5b;
+            border: none;
+            color: white;
+            padding: 10px 24px;
+            border-radius: 40px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: 0.15s;
+            border: 1px solid #a56e4f;
+            font-size: 15px;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .form-row .btn-primary:hover {
+            background: #a56e4f;
+            transform: scale(0.97);
+        }
+        .form-row .btn-secondary {
+            background: transparent;
+            border: 1px solid #d6b9a6;
+            padding: 10px 18px;
+            border-radius: 40px;
+            color: #5f4d40;
+            cursor: pointer;
+        }
+        .form-row .btn-secondary:hover {
+            background: #e5d3c6;
+        }
+        @media (max-width: 500px) {
+            .app-wrapper { padding: 12px; }
+            .card-left { flex: 1 0 100%; }
+            .card-actions { margin-left: 0; width: 100%; justify-content: flex-end; }
+            .form-row input, .form-row select { flex: 1 0 100%; }
+            #captureArea { padding: 12px; }
+        }
+        .footer-note {
+            text-align: right;
+            font-size: 13px;
+            color: #b99a85;
+            margin-top: 12px;
+            padding-right: 6px;
+            letter-spacing: 0.2px;
+        }
+        .example-hint {
+            font-size: 13px;
+            color: #a38674;
+            padding: 4px 0 2px 8px;
+            opacity: 0.8;
+        }
+        /* 截图时保证背景完整 */
+        #captureArea {
+            background: rgba(255, 248, 242, 0.7);
+            backdrop-filter: blur(6px);
+        }
+    </style>
+</head>
+<body>
+<div class="app-wrapper">
+    <!-- 截图区域：包含所有内容，但排除外部按钮（如保存按钮本身） -->
+    <div id="captureArea">
+        <div class="header">
+            <h1><i class="fas fa-pen-fancy"></i> 练舞手帐</h1>
+            <div class="header-actions">
+                <!-- 保存按钮放在这里，但截图时会自动忽略按钮本身 (html2canvas 会捕获) 但我们可以在截图中隐藏它？为了美观，将保存按钮放在外部 -->
+            </div>
+        </div>
+
+        <div class="week-selector" id="weekSelector"></div>
+        <div class="schedule-list" id="scheduleList"></div>
+
+        <div class="add-form" id="addForm">
+            <div class="form-row">
+                <label><i class="far fa-calendar-alt"></i> 星期</label>
+                <select id="daySelect">
+                    <option value="周一">周一</option>
+                    <option value="周二">周二</option>
+                    <option value="周三">周三</option>
+                    <option value="周四">周四</option>
+                    <option value="周五">周五</option>
+                    <option value="周六">周六</option>
+                    <option value="周日">周日</option>
+                </select>
+                <label><i class="far fa-clock"></i> 时间</label>
+                <input type="text" id="timeInput" placeholder="如 19:40-20:40" value="19:00-20:00">
+            </div>
+            <div class="form-row">
+                <label><i class="fas fa-building"></i> 舞室</label>
+                <input type="text" id="studioInput" placeholder="idolx96店 / GH5" value="GH5">
+                <label><i class="fas fa-tag"></i> 课程</label>
+                <input type="text" id="classInput" placeholder="《男团》" value="《新课程》">
+            </div>
+            <div class="form-row" style="justify-content: flex-end;">
+                <button class="btn-primary" id="addBtn"><i class="fas fa-plus-circle"></i> 添加课程</button>
+                <button class="btn-secondary" id="cancelBtn" type="button">清空</button>
+            </div>
+        </div>
+        <div class="footer-note">✅ 点击 ✓ 打勾 · 自由增删 · 星期可切换</div>
+    </div>
+
+    <!-- 保存按钮放在截图区域外部 -->
+    <div style="display: flex; justify-content: flex-end; margin-top: 16px; gap: 12px;">
+        <button id="saveImageBtn" class="save-btn"><i class="fas fa-image"></i> 保存为图片</button>
+        <button id="resetBtn" style="background: transparent; border: 1px solid #d6c0b2; padding: 6px 16px; border-radius: 40px; color: #5f4d40; cursor: pointer; font-size: 16px;"><i class="fas fa-undo-alt"></i> 重置</button>
+    </div>
+</div>
+
+<script>
+    (function() {
+        // ---------- 示例数据 (基于“本周行程”样例) ----------
+        const defaultItems = [
+            { id: 'd1', day: '周四', time: '19:40-20:40', studio: 'idolx96店', class: '三星hot body (代课)', done: false },
+            { id: 'd2', day: '周五', time: '20:10-21:10', studio: 'GH5', class: '男团 82major首班车 like fire (试课)', done: false },
+            { id: 'd3', day: '周六', time: '19:25-21:40', studio: '小班课', class: '小班课', done: false },
+            { id: 'd4', day: '周日', time: '13:00-15:00', studio: 'T5浦东', class: '入门➕成舞 (基础弱)', done: false },
+            { id: 'd5', day: '周日', time: '16:20-17:20', studio: 'GH5', class: '男团 (On My mind)', done: false },
+            { id: 'd6', day: '周日', time: '19:00-21:00', studio: '小班课', class: '小班课', done: false }
+        ];
+
+        const weekDays = ['周一', '周二', '周三', '周四', '周五', '周六', '周日'];
+
+        let items = [];
+        let activeDays = new Set();
+
+        const weekSelectorEl = document.getElementById('weekSelector');
+        const scheduleListEl = document.getElementById('scheduleList');
+        const daySelect = document.getElementById('daySelect');
+        const timeInput = document.getElementById('timeInput');
+        const studioInput = document.getElementById('studioInput');
+        const classInput = document.getElementById('classInput');
+        const addBtn = document.getElementById('addBtn');
+        const cancelBtn = document.getElementById('cancelBtn');
+        const resetBtn = document.getElementById('resetBtn');
+        const saveImageBtn = document.getElementById('saveImageBtn');
+
+        function genId() { return Date.now() + '-' + Math.random().toString(36).slice(2, 8); }
+
+        function resetToDefault() {
+            items = defaultItems.map(item => ({ ...item, id: genId() }));
+            const days = new Set(items.map(item => item.day));
+            activeDays = new Set(weekDays.filter(d => days.has(d)));
+            if (activeDays.size === 0) activeDays.add('周一');
+            renderAll();
+        }
+
+        function renderWeekSelector() {
+            let html = '';
+            weekDays.forEach(day => {
+                const active = activeDays.has(day) ? 'active' : '';
+                const icon = active ? 'fa-check-circle' : 'fa-circle';
+                html += `<button class="day-btn ${active}" data-day="${day}"><i class="far ${icon}"></i> ${day}</button>`;
+            });
+            html += `<button class="day-btn add-day" id="addDayBtn"><i class="fas fa-plus"></i> 添加星期</button>`;
+            weekSelectorEl.innerHTML = html;
+
+            document.querySelectorAll('.day-btn:not(.add-day)').forEach(btn => {
+                btn.addEventListener('click', function(e) {
+                    const day = this.dataset.day;
+                    toggleDay(day);
+                });
+            });
+
+            const addDayBtn = document.getElementById('addDayBtn');
+            if (addDayBtn) {
+                addDayBtn.addEventListener('click', function() {
+                    const available = weekDays.find(d => !activeDays.has(d));
+                    if (available) {
+                        activeDays.add(available);
+                        renderAll();
+                    } else {
+                        alert('所有星期都已添加啦 ✨');
+                    }
+                });
+            }
+        }
+
+        function toggleDay(day) {
+            if (activeDays.has(day)) {
+                if (activeDays.size <= 1) {
+                    alert('至少保留一个星期吧～');
+                    return;
+                }
+                activeDays.delete(day);
+            } else {
+                activeDays.add(day);
+            }
+            renderAll();
+        }
+
+        function getFilteredItems() {
+            const order = weekDays;
+            const filtered = items.filter(item => activeDays.has(item.day));
+            filtered.sort((a, b) => order.indexOf(a.day) - order.indexOf(b.day));
+            return filtered;
+        }
+
+        function renderSchedule() {
+            const filtered = getFilteredItems();
+            if (filtered.length === 0) {
+                scheduleListEl.innerHTML = `
+                    <div class="empty-state">
+                        <i class="fas fa-calendar-plus"></i>
+                        <p>还没有课程，添加一些吧！</p>
+                    </div>
+                `;
+                return;
+            }
+
+            let html = '';
+            filtered.forEach(item => {
+                const doneClass = item.done ? 'done' : '';
+                const checkIcon = item.done ? 'fa-check-circle' : 'fa-circle';
+                html += `
+                    <div class="schedule-card" data-id="${item.id}">
+                        <div class="card-left">
+                            <div class="card-check ${doneClass}" data-id="${item.id}">
+                                <i class="far ${checkIcon}"></i>
+                            </div>
+                            <div class="card-info">
+                                <div class="card-title">
+                                    <span class="day-tag">${item.day}</span>
+                                    <span>${item.class}</span>
+                                </div>
+                                <div class="card-detail">
+                                    <i class="far fa-clock"></i> <span>${item.time || '--:--'}</span>
+                                    <i class="fas fa-map-pin"></i> <span>${item.studio || '舞室'}</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-actions">
+                            <button class="delete-btn" data-id="${item.id}"><i class="fas fa-trash-alt"></i></button>
+                        </div>
+                    </div>
+                `;
+            });
+            scheduleListEl.innerHTML = html;
+
+            document.querySelectorAll('.card-check').forEach(el => {
+                el.addEventListener('click', function() {
+                    const id = this.dataset.id;
+                    toggleDone(id);
+                });
+            });
+
+            document.querySelectorAll('.delete-btn').forEach(el => {
+                el.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    const id = this.dataset.id;
+                    deleteItem(id);
+                });
+            });
+        }
+
+        function toggleDone(id) {
+            const item = items.find(it => it.id === id);
+            if (item) {
+                item.done = !item.done;
+                renderAll();
+            }
+        }
+
+        function deleteItem(id) {
+            items = items.filter(it => it.id !== id);
+            renderAll();
+        }
+
+        function addNewItem() {
+            const day = daySelect.value;
+            const time = timeInput.value.trim() || '19:00-20:00';
+            const studio = studioInput.value.trim() || '舞室';
+            const className = classInput.value.trim() || '《课程》';
+
+            if (!day) { alert('请选择星期'); return; }
+
+            const newItem = {
+                id: genId(),
+                day: day,
+                time: time,
+                studio: studio,
+                class: className,
+                done: false,
+            };
+            items.push(newItem);
+            if (!activeDays.has(day)) {
+                activeDays.add(day);
+            }
+            timeInput.value = '';
+            studioInput.value = '';
+            classInput.value = '';
+            renderAll();
+        }
+
+        function clearForm() {
+            timeInput.value = '';
+            studioInput.value = '';
+            classInput.value = '';
+            daySelect.value = '周一';
+        }
+
+        function renderAll() {
+            renderWeekSelector();
+            renderSchedule();
+        }
+
+        function resetPlan() {
+            if (confirm('重置为示例行程（本周行程）？')) {
+                resetToDefault();
+            }
+        }
+
+        // ---------- 保存为图片 ----------
+        function saveAsImage() {
+            const captureElement = document.getElementById('captureArea');
+            // 临时去除可能影响截图的 backdrop 模糊 (有些浏览器截图模糊)
+            html2canvas(captureElement, {
+                scale: 2,               // 高清
+                useCORS: true,
+                backgroundColor: '#f7efe8', // 背景色
+                allowTaint: false,
+                logging: false,
+                // 针对圆角保留
+                onclone: function(doc) {
+                    // 确保背景
+                }
+            }).then(canvas => {
+                const link = document.createElement('a');
+                link.download = '练舞计划.png';
+                link.href = canvas.toDataURL('image/png');
+                link.click();
+            }).catch(err => {
+                alert('生成图片失败，可尝试刷新后重试。');
+                console.error(err);
+            });
+        }
+
+        // 事件绑定
+        addBtn.addEventListener('click', addNewItem);
+        cancelBtn.addEventListener('click', clearForm);
+        resetBtn.addEventListener('click', resetPlan);
+        saveImageBtn.addEventListener('click', saveAsImage);
+
+        document.querySelectorAll('#timeInput, #studioInput, #classInput').forEach(input => {
+            input.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    e.preventDefault();
+                    addNewItem();
+                }
+            });
+        });
+
+        resetToDefault();
+    })();
+</script>
+</body>
+</html>
