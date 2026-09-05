@@ -755,7 +755,6 @@
                 // 点击卡片 → 打开编辑弹窗
                 document.querySelectorAll('.card').forEach(el => {
                     el.addEventListener('click', function(e) {
-                        // 如果点的是删除或打勾按钮，不触发编辑
                         if (e.target.closest('.del-btn') || e.target.closest('.check')) return;
                         const id = this.dataset.id;
                         openEditModal(id);
@@ -791,7 +790,6 @@
                 const cls = editClass.value.trim() || '未命名课程';
                 const studio = editStudio.value.trim() || '舞室';
 
-                // 如果改了星期，确保该星期在 activeDays 中
                 if (!activeDays.has(day)) activeDays.add(day);
 
                 item.day = day;
@@ -809,7 +807,6 @@
             editModal.addEventListener('click', function(e) {
                 if (e.target === this) closeEditModal();
             });
-            // 回车保存
             document.querySelectorAll('#editTime, #editType, #editClass, #editStudio').forEach(inp => {
                 inp.addEventListener('keypress', function(e) {
                     if (e.key === 'Enter') saveEdit();
@@ -860,7 +857,7 @@
                 const weekRowEl = el.querySelector('.week-row');
                 checks.forEach(c => c.style.display = 'none');
                 dels.forEach(d => d.style.display = 'none');
-                if (weekRowEl) weekRowEl.style.display = 'none');
+                if (weekRowEl) weekRowEl.style.display = 'none';
 
                 el.style.overflow = 'visible';
                 el.style.height = 'auto';
