@@ -18,7 +18,7 @@
         body {
             background: #1a1620;
             min-height: 100vh;
-            padding: 16px;
+            padding: 12px;
             display: flex;
             justify-content: center;
             font-family: 'Segoe UI', system-ui, sans-serif;
@@ -28,9 +28,9 @@
             width: 100%;
             background: linear-gradient(160deg, #282230, #1e1a26);
             border-radius: 28px;
-            padding: 20px 18px 24px;
+            padding: 16px 14px 20px;
             border: 1px solid rgba(255, 200, 255, 0.08);
-            box-shadow: 0 8px 40px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.04);
+            box-shadow: 0 8px 40px rgba(0, 0, 0, 0.5);
             position: relative;
         }
         #capture {
@@ -46,23 +46,23 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding-bottom: 14px;
+            padding-bottom: 12px;
             border-bottom: 1px solid rgba(255, 200, 255, 0.06);
-            margin-bottom: 16px;
+            margin-bottom: 14px;
             flex-wrap: wrap;
-            gap: 8px;
+            gap: 6px;
         }
         .header-left {
             display: flex;
             align-items: center;
-            gap: 14px;
+            gap: 10px;
             flex-wrap: wrap;
         }
         .header h1 {
             font-family: 'Orbitron', monospace;
             font-weight: 900;
-            font-size: 22px;
-            letter-spacing: 3px;
+            font-size: 18px;
+            letter-spacing: 2px;
             background: linear-gradient(135deg, #f0a0e0, #ff88aa, #f0a0e0);
             background-size: 200% 200%;
             -webkit-background-clip: text;
@@ -70,13 +70,12 @@
             animation: gradShift 4s ease-in-out infinite;
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 8px;
         }
         .header h1 i {
             -webkit-text-fill-color: initial;
             color: #f0a0e0;
-            font-size: 22px;
-            filter: drop-shadow(0 0 12px rgba(240, 160, 224, 0.2));
+            font-size: 18px;
         }
         @keyframes gradShift {
             0%,
@@ -88,185 +87,167 @@
             }
         }
         .header .teacher-tag {
-            font-size: 14px;
+            font-size: 13px;
             font-weight: 600;
             color: rgba(255, 255, 255, 0.7);
             background: rgba(240, 160, 224, 0.08);
             border: 1px solid rgba(240, 160, 224, 0.1);
-            padding: 4px 16px;
+            padding: 3px 14px;
             border-radius: 20px;
-            letter-spacing: 0.5px;
             display: flex;
             align-items: center;
-            gap: 6px;
+            gap: 4px;
         }
         .header .teacher-tag i {
             color: #f0a0e0;
-            font-size: 13px;
-        }
-        .header .badge {
-            font-size: 10px;
-            color: rgba(255, 255, 255, 0.12);
-            font-family: 'Orbitron', monospace;
-            letter-spacing: 2px;
-            border: 1px solid rgba(255, 255, 255, 0.04);
-            padding: 4px 12px;
-            border-radius: 20px;
-            background: rgba(255, 255, 255, 0.02);
+            font-size: 12px;
         }
 
         /* ===== 星期按钮 ===== */
         .week-row {
             display: flex;
             flex-wrap: wrap;
-            gap: 6px;
-            margin-bottom: 16px;
+            gap: 5px;
+            margin-bottom: 14px;
             justify-content: center;
         }
         .week-btn {
             background: rgba(255, 255, 255, 0.04);
             border: 1px solid rgba(255, 255, 255, 0.06);
-            padding: 6px 14px;
-            border-radius: 20px;
-            font-size: 13px;
+            padding: 5px 12px;
+            border-radius: 16px;
+            font-size: 12px;
             font-weight: 600;
-            color: rgba(255, 255, 255, 0.35);
+            color: rgba(255, 255, 255, 0.3);
             cursor: pointer;
-            transition: all 0.25s ease;
+            transition: all 0.2s ease;
             font-family: 'Orbitron', monospace;
             letter-spacing: 0.5px;
             text-transform: uppercase;
+            -webkit-tap-highlight-color: transparent;
+            touch-action: manipulation;
         }
-        .week-btn:hover {
-            border-color: rgba(240, 160, 224, 0.25);
-            color: rgba(255, 255, 255, 0.6);
+        .week-btn:active {
+            transform: scale(0.95);
         }
         .week-btn.active {
-            background: rgba(240, 160, 224, 0.08);
+            background: rgba(240, 160, 224, 0.1);
             border-color: #d48ab8;
             color: #f0c0e0;
-            box-shadow: 0 0 30px rgba(240, 160, 224, 0.04);
-        }
-        .week-btn.add-btn {
-            border: 1px dashed rgba(255, 255, 255, 0.06);
-            color: rgba(255, 255, 255, 0.15);
-        }
-        .week-btn.add-btn:hover {
-            border-color: rgba(240, 160, 224, 0.2);
-            color: rgba(255, 255, 255, 0.3);
         }
 
         /* ===== 课程列表 ===== */
         .list {
             display: flex;
             flex-direction: column;
-            gap: 10px;
-            margin: 12px 0 16px;
-            min-height: 80px;
+            gap: 8px;
+            margin: 10px 0 14px;
+            min-height: 60px;
         }
         .card {
             background: rgba(255, 255, 255, 0.04);
-            border-radius: 16px;
-            padding: 14px 16px;
+            border-radius: 14px;
+            padding: 12px 14px;
             border: 1px solid rgba(255, 255, 255, 0.05);
             display: flex;
             flex-wrap: wrap;
             align-items: center;
-            gap: 10px;
-            transition: all 0.25s ease;
-        }
-        .card:hover {
-            border-color: rgba(240, 160, 224, 0.1);
-            background: rgba(255, 255, 255, 0.06);
+            gap: 8px;
         }
         .card-left {
             display: flex;
             align-items: center;
-            gap: 12px;
-            flex: 2 1 200px;
+            gap: 10px;
+            flex: 2 1 180px;
         }
         .check {
-            font-size: 22px;
+            font-size: 20px;
             color: rgba(255, 255, 255, 0.12);
             cursor: pointer;
-            width: 32px;
+            width: 28px;
             text-align: center;
             user-select: none;
             transition: all 0.2s;
+            -webkit-tap-highlight-color: transparent;
+            touch-action: manipulation;
         }
-        .check:hover {
-            color: rgba(255, 255, 255, 0.3);
+        .check:active {
+            transform: scale(0.85);
         }
         .check.done {
             color: #66e0a0;
-            text-shadow: 0 0 24px rgba(102, 224, 160, 0.15);
+            text-shadow: 0 0 20px rgba(102, 224, 160, 0.1);
         }
         .info {
             flex: 1;
+            min-width: 100px;
         }
         .info .title {
             font-weight: 600;
-            font-size: 15px;
+            font-size: 14px;
             color: rgba(255, 255, 255, 0.85);
             display: flex;
             flex-wrap: wrap;
             align-items: center;
-            gap: 6px 10px;
+            gap: 4px 8px;
         }
         .info .title .day-tag {
             background: rgba(240, 160, 224, 0.08);
             border: 1px solid rgba(240, 160, 224, 0.06);
-            padding: 0 10px;
-            border-radius: 12px;
-            font-size: 10px;
+            padding: 0 8px;
+            border-radius: 10px;
+            font-size: 9px;
             font-weight: 700;
             color: #d48ab8;
             font-family: 'Orbitron', monospace;
-            letter-spacing: 0.5px;
+            letter-spacing: 0.3px;
             text-transform: uppercase;
         }
         .info .title .type-badge {
             background: rgba(100, 200, 255, 0.06);
             border: 1px solid rgba(100, 200, 255, 0.06);
-            padding: 0 10px;
-            border-radius: 12px;
-            font-size: 11px;
+            padding: 0 8px;
+            border-radius: 10px;
+            font-size: 10px;
             font-weight: 600;
             color: #80c8e8;
         }
         .info .title .done-mark {
             font-size: 12px;
             color: #66e0a0;
-            margin-left: 4px;
-            display: inline-block;
         }
         .info .meta {
-            font-size: 13px;
-            color: rgba(255, 255, 255, 0.3);
+            font-size: 12px;
+            color: rgba(255, 255, 255, 0.25);
             display: flex;
             flex-wrap: wrap;
-            gap: 4px 14px;
+            gap: 4px 10px;
             margin-top: 2px;
         }
         .info .meta span {
             background: rgba(255, 255, 255, 0.02);
-            padding: 1px 12px 1px 8px;
-            border-radius: 12px;
+            padding: 1px 10px 1px 6px;
+            border-radius: 10px;
             border: 1px solid rgba(255, 255, 255, 0.03);
         }
         .info .meta i {
-            color: rgba(240, 160, 224, 0.2);
-            width: 14px;
+            color: rgba(240, 160, 224, 0.15);
+            width: 12px;
         }
         .card-actions button {
             background: transparent;
             border: none;
-            color: rgba(255, 255, 255, 0.08);
-            font-size: 15px;
-            padding: 4px 8px;
-            border-radius: 12px;
+            color: rgba(255, 255, 255, 0.06);
+            font-size: 14px;
+            padding: 4px 6px;
+            border-radius: 10px;
             cursor: pointer;
             transition: all 0.2s;
+            -webkit-tap-highlight-color: transparent;
+            touch-action: manipulation;
+        }
+        .card-actions button:active {
+            transform: scale(0.9);
         }
         .card-actions button:hover {
             background: rgba(255, 0, 0, 0.08);
@@ -275,18 +256,18 @@
 
         .empty {
             text-align: center;
-            padding: 40px 10px;
-            color: rgba(255, 255, 255, 0.06);
+            padding: 30px 10px;
+            color: rgba(255, 255, 255, 0.05);
         }
         .empty i {
-            font-size: 32px;
+            font-size: 28px;
             display: block;
-            margin-bottom: 10px;
-            color: rgba(240, 160, 224, 0.08);
+            margin-bottom: 8px;
+            color: rgba(240, 160, 224, 0.06);
         }
         .empty p {
             font-family: 'Orbitron', monospace;
-            font-size: 11px;
+            font-size: 10px;
             letter-spacing: 1px;
             text-transform: uppercase;
         }
@@ -294,47 +275,47 @@
         /* ===== 表单 ===== */
         .form {
             background: rgba(255, 255, 255, 0.02);
-            border-radius: 20px;
-            padding: 16px 16px 18px;
+            border-radius: 16px;
+            padding: 14px 14px 16px;
             border: 1px solid rgba(255, 255, 255, 0.04);
-            margin: 6px 0 10px;
+            margin: 4px 0 8px;
         }
         .form-row {
             display: flex;
             flex-wrap: wrap;
-            gap: 8px;
-            margin-bottom: 10px;
+            gap: 6px;
+            margin-bottom: 8px;
             align-items: center;
         }
         .form-row label {
             font-weight: 600;
-            color: rgba(255, 255, 255, 0.15);
-            font-size: 11px;
-            min-width: 32px;
+            color: rgba(255, 255, 255, 0.12);
+            font-size: 10px;
+            min-width: 28px;
             font-family: 'Orbitron', monospace;
-            letter-spacing: 0.5px;
+            letter-spacing: 0.3px;
             text-transform: uppercase;
         }
         .form-row input,
         .form-row select {
             background: rgba(255, 255, 255, 0.04);
             border: 1px solid rgba(255, 255, 255, 0.06);
-            border-radius: 16px;
-            padding: 8px 14px;
-            font-size: 14px;
-            flex: 1 0 80px;
+            border-radius: 14px;
+            padding: 7px 12px;
+            font-size: 13px;
+            flex: 1 0 70px;
             outline: none;
             color: rgba(255, 255, 255, 0.7);
             transition: all 0.25s;
+            -webkit-appearance: none;
+            appearance: none;
         }
         .form-row input::placeholder {
-            color: rgba(255, 255, 255, 0.08);
+            color: rgba(255, 255, 255, 0.06);
         }
-        .form-row input:focus,
-        .form-row select:focus {
+        .form-row input:focus {
             border-color: rgba(240, 160, 224, 0.2);
             background: rgba(255, 255, 255, 0.06);
-            box-shadow: 0 0 24px rgba(240, 160, 224, 0.02);
         }
         .form-row select option {
             background: #1e1a26;
@@ -342,65 +323,68 @@
         }
         .form-actions {
             display: flex;
-            gap: 10px;
+            gap: 8px;
             justify-content: flex-end;
             flex-wrap: wrap;
+            margin-top: 4px;
         }
         .btn-primary {
             background: linear-gradient(135deg, #d48ab8, #b070a0);
             border: none;
             color: #fff;
-            padding: 8px 22px;
-            border-radius: 20px;
+            padding: 7px 20px;
+            border-radius: 16px;
             font-weight: 700;
             cursor: pointer;
-            font-size: 13px;
+            font-size: 12px;
             font-family: 'Orbitron', monospace;
-            letter-spacing: 1px;
+            letter-spacing: 0.5px;
             text-transform: uppercase;
             display: flex;
             align-items: center;
-            gap: 6px;
-            transition: all 0.25s ease;
-            box-shadow: 0 0 30px rgba(200, 120, 180, 0.05);
+            gap: 4px;
+            transition: all 0.2s ease;
+            -webkit-tap-highlight-color: transparent;
+            touch-action: manipulation;
         }
-        .btn-primary:hover {
-            transform: translateY(-1px);
-            box-shadow: 0 0 50px rgba(200, 120, 180, 0.1);
+        .btn-primary:active {
+            transform: scale(0.95);
         }
         .btn-secondary {
             background: transparent;
             border: 1px solid rgba(255, 255, 255, 0.04);
-            padding: 8px 18px;
-            border-radius: 20px;
-            color: rgba(255, 255, 255, 0.15);
+            padding: 7px 16px;
+            border-radius: 16px;
+            color: rgba(255, 255, 255, 0.12);
             cursor: pointer;
-            font-size: 12px;
+            font-size: 11px;
             transition: all 0.2s;
+            -webkit-tap-highlight-color: transparent;
+            touch-action: manipulation;
         }
-        .btn-secondary:hover {
-            border-color: rgba(255, 255, 255, 0.08);
-            color: rgba(255, 255, 255, 0.3);
+        .btn-secondary:active {
+            transform: scale(0.95);
         }
 
         /* ===== 底部 ===== */
         .toolbar {
             display: flex;
             justify-content: flex-end;
-            gap: 10px;
-            margin-top: 14px;
-            padding-top: 14px;
+            gap: 8px;
+            margin-top: 12px;
+            padding-top: 12px;
             border-top: 1px solid rgba(255, 255, 255, 0.04);
             position: relative;
             z-index: 1;
+            flex-wrap: wrap;
         }
         .btn-save {
-            background: rgba(200, 120, 180, 0.06);
+            background: rgba(200, 120, 180, 0.08);
             color: #d48ab8;
             border: 1px solid rgba(200, 120, 180, 0.08);
-            padding: 8px 22px;
-            border-radius: 20px;
-            font-size: 13px;
+            padding: 8px 20px;
+            border-radius: 18px;
+            font-size: 12px;
             font-weight: 700;
             font-family: 'Orbitron', monospace;
             letter-spacing: 0.5px;
@@ -409,45 +393,52 @@
             align-items: center;
             gap: 6px;
             transition: all 0.25s ease;
+            -webkit-tap-highlight-color: transparent;
+            touch-action: manipulation;
         }
-        .btn-save:hover {
-            background: rgba(200, 120, 180, 0.1);
-            border-color: rgba(200, 120, 180, 0.15);
+        .btn-save:active {
+            transform: scale(0.95);
+        }
+        .btn-save:disabled {
+            opacity: 0.5;
+            transform: none;
         }
         .btn-reset {
             background: transparent;
             border: 1px solid rgba(255, 255, 255, 0.03);
-            padding: 8px 18px;
-            border-radius: 20px;
-            color: rgba(255, 255, 255, 0.08);
+            padding: 8px 16px;
+            border-radius: 18px;
+            color: rgba(255, 255, 255, 0.06);
             cursor: pointer;
-            font-size: 12px;
+            font-size: 11px;
             transition: all 0.2s;
+            -webkit-tap-highlight-color: transparent;
+            touch-action: manipulation;
         }
-        .btn-reset:hover {
-            border-color: rgba(255, 255, 255, 0.06);
-            color: rgba(255, 255, 255, 0.2);
+        .btn-reset:active {
+            transform: scale(0.95);
         }
         .footer-note {
             text-align: right;
-            font-size: 10px;
+            font-size: 9px;
             color: rgba(255, 255, 255, 0.03);
-            margin-top: 6px;
+            margin-top: 4px;
             font-family: 'Orbitron', monospace;
-            letter-spacing: 1px;
+            letter-spacing: 0.5px;
         }
 
         @media (max-width: 480px) {
             .app {
-                padding: 12px 10px;
+                padding: 10px 8px 16px;
+                border-radius: 20px;
             }
             .header h1 {
-                font-size: 17px;
-                letter-spacing: 1.5px;
+                font-size: 16px;
+                letter-spacing: 1px;
             }
             .header .teacher-tag {
-                font-size: 12px;
-                padding: 3px 12px;
+                font-size: 11px;
+                padding: 2px 10px;
             }
             .card-left {
                 flex: 1 0 100%;
@@ -455,17 +446,22 @@
             .card-actions {
                 margin-left: auto;
             }
-            .form-row input,
-            .form-row select {
+            .form-row input {
                 flex: 1 0 100%;
             }
             .week-btn {
-                font-size: 11px;
-                padding: 4px 10px;
-            }
-            .info .title .type-badge {
                 font-size: 10px;
-                padding: 0 8px;
+                padding: 4px 8px;
+            }
+            .info .title {
+                font-size: 13px;
+            }
+            .info .meta {
+                font-size: 11px;
+            }
+            .btn-save {
+                font-size: 11px;
+                padding: 6px 16px;
             }
         }
     </style>
@@ -480,10 +476,9 @@
                     <h1><i class="fas fa-bolt"></i> DANCE PLANNER</h1>
                     <span class="teacher-tag"><i class="fas fa-star"></i> @Thia西亚</span>
                 </div>
-                <span class="badge">v2.0</span>
             </div>
 
-            <!-- 星期 -->
+            <!-- 星期 - 点击切换显示 -->
             <div class="week-row" id="weekRow"></div>
 
             <!-- 列表 -->
@@ -492,7 +487,7 @@
             <!-- 表单 -->
             <div class="form">
                 <div class="form-row">
-                    <label>DAY</label>
+                    <label>星期</label>
                     <select id="daySelect">
                         <option value="周一">周一</option>
                         <option value="周二">周二</option>
@@ -502,26 +497,17 @@
                         <option value="周六">周六</option>
                         <option value="周日">周日</option>
                     </select>
-                    <label>TIME</label>
+                    <label>时间</label>
                     <input type="text" id="timeInput" placeholder="19:40-20:40" value="19:00-20:00">
                 </div>
                 <div class="form-row">
-                    <label>TYPE</label>
-                    <select id="typeSelect">
-                        <option value="Kpop">Kpop</option>
-                        <option value="编舞">编舞</option>
-                        <option value="入门">入门</option>
-                        <option value="男团">男团</option>
-                        <option value="女团">女团</option>
-                        <option value="成舞">成舞</option>
-                        <option value="综合">综合</option>
-                        <option value="其他">其他</option>
-                    </select>
-                    <label>CLASS</label>
+                    <label>类型</label>
+                    <input type="text" id="typeInput" placeholder="Kpop / 编舞 / 男团" value="Kpop">
+                    <label>课程</label>
                     <input type="text" id="classInput" placeholder="hot body / like fire" value="新课程">
                 </div>
                 <div class="form-row">
-                    <label>STUDIO</label>
+                    <label>舞室</label>
                     <input type="text" id="studioInput" placeholder="舞室名称" value="GH5">
                 </div>
                 <div class="form-actions">
@@ -529,7 +515,7 @@
                     <button class="btn-primary" id="addBtn"><i class="fas fa-plus"></i> 添加</button>
                 </div>
             </div>
-            <div class="footer-note">◆ 点击 ○ 打卡 · 自由增删 · 星期筛选</div>
+            <div class="footer-note">◆ 点击 ○ 打卡 · 星期切换 · 保存到相册</div>
         </div>
 
         <!-- 底部 -->
@@ -561,7 +547,7 @@
             const daySelect = document.getElementById('daySelect');
             const timeInput = document.getElementById('timeInput');
             const studioInput = document.getElementById('studioInput');
-            const typeSelect = document.getElementById('typeSelect');
+            const typeInput = document.getElementById('typeInput');
             const classInput = document.getElementById('classInput');
             const addBtn = document.getElementById('addBtn');
             const cancelBtn = document.getElementById('cancelBtn');
@@ -575,31 +561,29 @@
                 renderList();
             }
 
+            // ===== 星期行：点击切换显示 =====
             function renderWeekRow() {
                 let html = '';
                 ALL_DAYS.forEach(day => {
                     const active = activeDays.has(day) ? 'active' : '';
                     html += `<button class="week-btn ${active}" data-day="${day}">${day}</button>`;
                 });
-                html += `<button class="week-btn add-btn" id="addDayBtn"><i class="fas fa-plus"></i> 添加</button>`;
                 weekRow.innerHTML = html;
 
-                document.querySelectorAll('.week-btn:not(.add-btn)').forEach(btn => {
-                    btn.addEventListener('click', function() {
+                document.querySelectorAll('.week-btn').forEach(btn => {
+                    btn.addEventListener('click', function(e) {
                         const day = this.dataset.day;
                         toggleDay(day);
                     });
-                });
-                document.getElementById('addDayBtn').addEventListener('click', function() {
-                    const avail = ALL_DAYS.find(d => !activeDays.has(d));
-                    if (avail) { activeDays.add(avail);
-                        render(); } else { alert('所有星期都已添加 ✨'); }
                 });
             }
 
             function toggleDay(day) {
                 if (activeDays.has(day)) {
-                    if (activeDays.size <= 1) { alert('至少保留一个星期'); return; }
+                    if (activeDays.size <= 1) {
+                        // 至少保留一个，可以提示但不强制
+                        return;
+                    }
                     activeDays.delete(day);
                 } else {
                     activeDays.add(day);
@@ -607,13 +591,14 @@
                 render();
             }
 
+            // ===== 渲染列表 =====
             function renderList() {
                 const filtered = items.filter(item => activeDays.has(item.day));
                 filtered.sort((a, b) => ALL_DAYS.indexOf(a.day) - ALL_DAYS.indexOf(b.day));
 
                 if (filtered.length === 0) {
                     listEl.innerHTML =
-                        `<div class="empty"><i class="fas fa-disc"></i><p>no sessions scheduled</p></div>`;
+                        `<div class="empty"><i class="fas fa-disc"></i><p>还没有课程</p></div>`;
                     return;
                 }
 
@@ -622,7 +607,6 @@
                     const doneClass = item.done ? 'done' : '';
                     const icon = item.done ? 'fa-check-circle' : 'fa-circle';
                     const typeDisplay = item.type || '综合';
-                    const doneMark = item.done ? ' ✅' : '';
                     html += `
                         <div class="card" data-id="${item.id}">
                             <div class="card-left">
@@ -650,6 +634,7 @@
                 });
                 listEl.innerHTML = html;
 
+                // 打勾
                 document.querySelectorAll('.check').forEach(el => {
                     el.addEventListener('click', function() {
                         const id = this.dataset.id;
@@ -658,6 +643,8 @@
                             render(); }
                     });
                 });
+
+                // 删除
                 document.querySelectorAll('.del-btn').forEach(el => {
                     el.addEventListener('click', function(e) {
                         e.stopPropagation();
@@ -668,11 +655,12 @@
                 });
             }
 
+            // ===== 添加 =====
             function addItem() {
                 const day = daySelect.value;
                 const time = timeInput.value.trim() || '19:00-20:00';
                 const studio = studioInput.value.trim() || '舞室';
-                const type = typeSelect.value;
+                const type = typeInput.value.trim() || '综合';
                 const cls = classInput.value.trim() || '新课程';
 
                 const newItem = { id: genId(), day, time, studio, type, class: cls, done: false };
@@ -680,6 +668,7 @@
                 if (!activeDays.has(day)) activeDays.add(day);
                 timeInput.value = '';
                 studioInput.value = '';
+                typeInput.value = '';
                 classInput.value = '';
                 render();
             }
@@ -687,9 +676,9 @@
             function clearForm() {
                 timeInput.value = '';
                 studioInput.value = '';
+                typeInput.value = '';
                 classInput.value = '';
                 daySelect.value = '周一';
-                typeSelect.value = 'Kpop';
             }
 
             function resetAll() {
@@ -702,10 +691,10 @@
                 }
             }
 
+            // ===== 保存图片 - 手机相册 =====
             function saveImage() {
                 const el = document.getElementById('capture');
 
-                // 显示加载提示
                 saveBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> 生成中...';
                 saveBtn.disabled = true;
 
@@ -719,39 +708,76 @@
                     height: el.scrollHeight,
                     windowWidth: el.scrollWidth,
                     windowHeight: el.scrollHeight,
+                    onclone: function(doc) {
+                        // 确保所有内容完整
+                    }
                 }).then(canvas => {
+                    // 尝试使用系统保存（手机相册）
+                    const dataUrl = canvas.toDataURL('image/png');
+
+                    // 方法1：通过 a 标签下载（通用）
                     const link = document.createElement('a');
                     link.download = 'DANCE_PLANNER.png';
-                    link.href = canvas.toDataURL('image/png');
+                    link.href = dataUrl;
                     link.click();
+
+                    // 方法2：如果是 iOS，尝试通过 Web Share API 保存到相册
+                    if (navigator.share && /iPhone|iPad|iPod/i.test(navigator.userAgent)) {
+                        canvas.toBlob(function(blob) {
+                            const file = new File([blob], 'DANCE_PLANNER.png', { type: 'image/png' });
+                            navigator.share({
+                                files: [file],
+                                title: 'DANCE PLANNER'
+                            }).catch(() => {});
+                        });
+                    }
+
                     saveBtn.innerHTML = '<i class="fas fa-image"></i> 保存图片';
                     saveBtn.disabled = false;
+
+                    // 额外：如果是安卓，尝试使用 Android 分享
+                    if (navigator.share && /Android/i.test(navigator.userAgent)) {
+                        canvas.toBlob(function(blob) {
+                            const file = new File([blob], 'DANCE_PLANNER.png', { type: 'image/png' });
+                            navigator.share({
+                                files: [file],
+                                title: 'DANCE PLANNER'
+                            }).catch(() => {});
+                        });
+                    }
+
                 }).catch(err => {
                     console.error('保存失败:', err);
-                    alert('保存失败，请重试。如果多次失败，请检查网络后刷新页面。');
+                    alert('保存失败，请尝试截图保存。\n' + err.message);
                     saveBtn.innerHTML = '<i class="fas fa-image"></i> 保存图片';
                     saveBtn.disabled = false;
                 });
             }
 
+            // ===== 事件 =====
             addBtn.addEventListener('click', addItem);
             cancelBtn.addEventListener('click', clearForm);
             resetBtn.addEventListener('click', resetAll);
             saveBtn.addEventListener('click', saveImage);
 
-            [timeInput, studioInput, classInput].forEach(inp => {
+            [timeInput, studioInput, typeInput, classInput].forEach(inp => {
                 inp.addEventListener('keypress', function(e) {
                     if (e.key === 'Enter') { e.preventDefault();
                         addItem(); }
                 });
             });
 
-            // 启动
+            // ===== 启动 =====
             items = defaultItems.map(item => ({ ...item, id: genId() }));
             const days = new Set(items.map(item => item.day));
             activeDays = new Set(ALL_DAYS.filter(d => days.has(d)));
             if (activeDays.size === 0) activeDays.add('周一');
             render();
+
+            // 修复手机上点击 input 放大
+            document.querySelectorAll('input, select').forEach(el => {
+                el.style.fontSize = '16px';
+            });
         })();
     </script>
 
