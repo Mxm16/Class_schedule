@@ -3,59 +3,107 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
-    <title>练舞手帐</title>
+    <title>DANCE PLANNER</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js">
     </script>
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&display=swap');
+
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
         }
         body {
-            background: #f5ede7;
+            background: #0b0a0c;
             min-height: 100vh;
             padding: 16px;
             display: flex;
             justify-content: center;
+            font-family: 'Segoe UI', system-ui, sans-serif;
         }
         .app {
             max-width: 780px;
             width: 100%;
-            background: #fffaf5;
-            border-radius: 32px;
+            background: linear-gradient(145deg, #121016, #1a1620);
+            border-radius: 28px;
             padding: 20px 18px 24px;
-            box-shadow: 0 8px 30px rgba(80, 60, 45, 0.12);
-            border: 1px solid #ede0d6;
+            border: 1px solid rgba(255, 70, 200, 0.15);
+            box-shadow: 0 0 60px rgba(255, 0, 200, 0.06), inset 0 0 60px rgba(255, 0, 200, 0.02);
+            position: relative;
+            overflow: hidden;
         }
-        /* 截图区域 */
+        .app::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(ellipse at 30% 20%, rgba(255, 0, 200, 0.04) 0%, transparent 60%),
+                radial-gradient(ellipse at 70% 80%, rgba(0, 200, 255, 0.04) 0%, transparent 60%);
+            pointer-events: none;
+        }
         #capture {
-            border-radius: 24px;
+            position: relative;
+            z-index: 1;
+            border-radius: 20px;
             padding: 4px 2px 12px;
-            background: #fffaf5;
+            background: transparent;
         }
+
+        /* ===== HEADER ===== */
         .header {
             display: flex;
             justify-content: space-between;
             align-items: center;
             padding-bottom: 14px;
-            border-bottom: 2px dashed #dccfc4;
-            margin-bottom: 14px;
+            border-bottom: 1px solid rgba(255, 70, 200, 0.15);
+            margin-bottom: 16px;
         }
         .header h1 {
-            font-size: 26px;
-            color: #4d3a2e;
+            font-family: 'Orbitron', monospace;
+            font-weight: 900;
+            font-size: 22px;
+            letter-spacing: 3px;
+            background: linear-gradient(135deg, #ff44cc, #ff8800, #ff44cc);
+            background-size: 200% 200%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: gradShift 3s ease-in-out infinite;
+            text-shadow: none;
             display: flex;
             align-items: center;
-            gap: 8px;
+            gap: 10px;
         }
         .header h1 i {
-            color: #b87c5b;
+            -webkit-text-fill-color: initial;
+            color: #ff44cc;
+            font-size: 22px;
+            filter: drop-shadow(0 0 8px rgba(255, 68, 204, 0.3));
+        }
+        @keyframes gradShift {
+            0%,
+            100% {
+                background-position: 0% 50%;
+            }
+            50% {
+                background-position: 100% 50%;
+            }
+        }
+        .header .badge {
+            font-size: 11px;
+            color: rgba(255, 255, 255, 0.25);
+            font-family: 'Orbitron', monospace;
+            letter-spacing: 2px;
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            padding: 4px 12px;
+            border-radius: 20px;
+            background: rgba(255, 255, 255, 0.02);
         }
 
-        /* 星期按钮 */
+        /* ===== 星期按钮 ===== */
         .week-row {
             display: flex;
             flex-wrap: wrap;
@@ -64,48 +112,61 @@
             justify-content: center;
         }
         .week-btn {
-            background: #ede3da;
-            border: none;
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.06);
             padding: 6px 14px;
-            border-radius: 30px;
-            font-size: 14px;
-            font-weight: 500;
-            color: #4d3a2e;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: 600;
+            color: rgba(255, 255, 255, 0.4);
             cursor: pointer;
-            transition: 0.15s;
-            border: 1px solid transparent;
+            transition: all 0.25s ease;
+            font-family: 'Orbitron', monospace;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+        }
+        .week-btn:hover {
+            border-color: rgba(255, 68, 204, 0.3);
+            color: rgba(255, 255, 255, 0.7);
         }
         .week-btn.active {
-            background: #b87c5b;
-            color: #fff;
-            box-shadow: 0 4px 10px rgba(184, 124, 91, 0.25);
+            background: rgba(255, 68, 204, 0.15);
+            border-color: #ff44cc;
+            color: #ff66d0;
+            box-shadow: 0 0 20px rgba(255, 68, 204, 0.08), inset 0 0 20px rgba(255, 68, 204, 0.04);
         }
         .week-btn.add-btn {
-            background: transparent;
-            border: 1px dashed #b99a85;
-            color: #7f6858;
+            border: 1px dashed rgba(255, 255, 255, 0.1);
+            color: rgba(255, 255, 255, 0.25);
         }
         .week-btn.add-btn:hover {
-            background: #ede3da;
+            border-color: rgba(255, 68, 204, 0.3);
+            color: rgba(255, 255, 255, 0.5);
         }
 
-        /* 课程列表 */
+        /* ===== 课程列表 ===== */
         .list {
             display: flex;
             flex-direction: column;
-            gap: 12px;
+            gap: 10px;
             margin: 12px 0 16px;
-            min-height: 100px;
+            min-height: 80px;
         }
         .card {
-            background: #fcf6f0;
-            border-radius: 20px;
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 16px;
             padding: 14px 16px;
-            border: 1px solid #ede0d6;
+            border: 1px solid rgba(255, 255, 255, 0.05);
             display: flex;
             flex-wrap: wrap;
             align-items: center;
             gap: 10px;
+            transition: all 0.25s ease;
+            backdrop-filter: blur(4px);
+        }
+        .card:hover {
+            border-color: rgba(255, 68, 204, 0.15);
+            background: rgba(255, 255, 255, 0.05);
         }
         .card-left {
             display: flex;
@@ -114,80 +175,102 @@
             flex: 2 1 200px;
         }
         .check {
-            font-size: 24px;
-            color: #bfa18b;
+            font-size: 22px;
+            color: rgba(255, 255, 255, 0.15);
             cursor: pointer;
-            width: 34px;
+            width: 32px;
             text-align: center;
             user-select: none;
+            transition: all 0.2s;
+        }
+        .check:hover {
+            color: rgba(255, 255, 255, 0.4);
         }
         .check.done {
-            color: #5d8c6b;
+            color: #00ff88;
+            text-shadow: 0 0 20px rgba(0, 255, 136, 0.2);
         }
         .info {
             flex: 1;
         }
         .info .title {
             font-weight: 600;
-            font-size: 16px;
-            color: #3a2e27;
+            font-size: 15px;
+            color: rgba(255, 255, 255, 0.85);
             display: flex;
             flex-wrap: wrap;
             align-items: center;
             gap: 6px 10px;
         }
         .info .title .day-tag {
-            background: #dccfc4;
-            padding: 0 12px;
-            border-radius: 30px;
-            font-size: 12px;
-            font-weight: 500;
+            background: rgba(255, 68, 204, 0.12);
+            border: 1px solid rgba(255, 68, 204, 0.1);
+            padding: 0 10px;
+            border-radius: 12px;
+            font-size: 10px;
+            font-weight: 700;
+            color: #ff66d0;
+            font-family: 'Orbitron', monospace;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
         }
         .info .meta {
-            font-size: 14px;
-            color: #7a6456;
+            font-size: 13px;
+            color: rgba(255, 255, 255, 0.3);
             display: flex;
             flex-wrap: wrap;
-            gap: 4px 16px;
+            gap: 4px 14px;
             margin-top: 2px;
         }
         .info .meta span {
-            background: #f0e6de;
+            background: rgba(255, 255, 255, 0.03);
             padding: 1px 12px 1px 8px;
-            border-radius: 30px;
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.03);
+        }
+        .info .meta i {
+            color: rgba(255, 68, 204, 0.3);
+            width: 14px;
         }
         .card-actions button {
             background: transparent;
             border: none;
-            color: #a38674;
-            font-size: 16px;
+            color: rgba(255, 255, 255, 0.1);
+            font-size: 15px;
             padding: 4px 8px;
-            border-radius: 30px;
+            border-radius: 12px;
             cursor: pointer;
+            transition: all 0.2s;
         }
         .card-actions button:hover {
-            background: #ede0d6;
-            color: #b5533a;
+            background: rgba(255, 0, 0, 0.1);
+            color: #ff4466;
         }
 
         .empty {
             text-align: center;
             padding: 40px 10px;
-            color: #b09786;
+            color: rgba(255, 255, 255, 0.08);
         }
         .empty i {
-            font-size: 36px;
-            opacity: 0.4;
+            font-size: 32px;
             display: block;
             margin-bottom: 10px;
+            color: rgba(255, 68, 204, 0.1);
+        }
+        .empty p {
+            font-family: 'Orbitron', monospace;
+            font-size: 11px;
+            letter-spacing: 1px;
+            text-transform: uppercase;
         }
 
-        /* 表单 */
+        /* ===== 表单 ===== */
         .form {
-            background: #f5ede7;
-            border-radius: 28px;
+            background: rgba(255, 255, 255, 0.02);
+            border-radius: 20px;
             padding: 16px 16px 18px;
-            border: 1px solid #e2d0c2;
+            border: 1px solid rgba(255, 255, 255, 0.04);
             margin: 6px 0 10px;
         }
         .form-row {
@@ -198,24 +281,38 @@
             align-items: center;
         }
         .form-row label {
-            font-weight: 500;
-            color: #4d3a2e;
-            font-size: 14px;
-            min-width: 40px;
+            font-weight: 600;
+            color: rgba(255, 255, 255, 0.2);
+            font-size: 12px;
+            min-width: 36px;
+            font-family: 'Orbitron', monospace;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
         }
         .form-row input,
         .form-row select {
-            background: #fff;
-            border: 1px solid #dccfc4;
-            border-radius: 30px;
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            border-radius: 16px;
             padding: 8px 14px;
             font-size: 14px;
             flex: 1 0 100px;
             outline: none;
+            color: rgba(255, 255, 255, 0.7);
+            transition: all 0.25s;
+        }
+        .form-row input::placeholder {
+            color: rgba(255, 255, 255, 0.1);
         }
         .form-row input:focus,
         .form-row select:focus {
-            border-color: #b87c5b;
+            border-color: rgba(255, 68, 204, 0.3);
+            background: rgba(255, 255, 255, 0.06);
+            box-shadow: 0 0 20px rgba(255, 68, 204, 0.04);
+        }
+        .form-row select option {
+            background: #1a1620;
+            color: #fff;
         }
         .form-actions {
             display: flex;
@@ -224,79 +321,116 @@
             flex-wrap: wrap;
         }
         .btn-primary {
-            background: #b87c5b;
+            background: linear-gradient(135deg, #ff44cc, #cc33aa);
             border: none;
             color: #fff;
             padding: 8px 22px;
-            border-radius: 30px;
-            font-weight: 500;
+            border-radius: 20px;
+            font-weight: 700;
             cursor: pointer;
-            font-size: 15px;
+            font-size: 13px;
+            font-family: 'Orbitron', monospace;
+            letter-spacing: 1px;
+            text-transform: uppercase;
             display: flex;
             align-items: center;
             gap: 6px;
+            transition: all 0.25s ease;
+            box-shadow: 0 0 30px rgba(255, 68, 204, 0.1);
         }
         .btn-primary:hover {
-            background: #a56e4f;
+            transform: translateY(-1px);
+            box-shadow: 0 0 50px rgba(255, 68, 204, 0.2);
         }
         .btn-secondary {
             background: transparent;
-            border: 1px solid #d6b9a6;
+            border: 1px solid rgba(255, 255, 255, 0.06);
             padding: 8px 18px;
-            border-radius: 30px;
-            color: #5f4d40;
+            border-radius: 20px;
+            color: rgba(255, 255, 255, 0.2);
             cursor: pointer;
+            font-size: 12px;
+            transition: all 0.2s;
         }
         .btn-secondary:hover {
-            background: #ede0d6;
+            border-color: rgba(255, 255, 255, 0.1);
+            color: rgba(255, 255, 255, 0.4);
         }
 
-        /* 底部工具栏 */
+        /* ===== 底部 ===== */
         .toolbar {
             display: flex;
             justify-content: flex-end;
             gap: 10px;
             margin-top: 14px;
             padding-top: 14px;
-            border-top: 1px solid #ede0d6;
+            border-top: 1px solid rgba(255, 255, 255, 0.04);
+            position: relative;
+            z-index: 1;
         }
         .btn-save {
-            background: #b87c5b;
-            color: #fff;
-            border: none;
+            background: rgba(255, 68, 204, 0.1);
+            color: #ff66d0;
+            border: 1px solid rgba(255, 68, 204, 0.15);
             padding: 8px 22px;
-            border-radius: 30px;
-            font-size: 15px;
-            font-weight: 500;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: 700;
+            font-family: 'Orbitron', monospace;
+            letter-spacing: 0.5px;
             cursor: pointer;
             display: flex;
             align-items: center;
             gap: 6px;
+            transition: all 0.25s ease;
         }
         .btn-save:hover {
-            background: #a56e4f;
+            background: rgba(255, 68, 204, 0.2);
+            border-color: rgba(255, 68, 204, 0.3);
+            box-shadow: 0 0 30px rgba(255, 68, 204, 0.05);
         }
         .btn-reset {
             background: transparent;
-            border: 1px solid #d6b9a6;
+            border: 1px solid rgba(255, 255, 255, 0.04);
             padding: 8px 18px;
-            border-radius: 30px;
-            color: #5f4d40;
+            border-radius: 20px;
+            color: rgba(255, 255, 255, 0.1);
             cursor: pointer;
+            font-size: 12px;
+            transition: all 0.2s;
         }
         .btn-reset:hover {
-            background: #ede0d6;
+            border-color: rgba(255, 255, 255, 0.08);
+            color: rgba(255, 255, 255, 0.25);
         }
         .footer-note {
             text-align: right;
-            font-size: 12px;
-            color: #b99a85;
+            font-size: 10px;
+            color: rgba(255, 255, 255, 0.04);
             margin-top: 6px;
+            font-family: 'Orbitron', monospace;
+            letter-spacing: 1px;
+        }
+
+        /* 滚动条 */
+        ::-webkit-scrollbar {
+            width: 4px;
+        }
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: rgba(255, 68, 204, 0.15);
+            border-radius: 10px;
         }
 
         @media (max-width: 480px) {
             .app {
                 padding: 12px 10px;
+            }
+            .header h1 {
+                font-size: 18px;
+                letter-spacing: 2px;
             }
             .card-left {
                 flex: 1 0 100%;
@@ -308,24 +442,33 @@
             .form-row select {
                 flex: 1 0 100%;
             }
+            .week-btn {
+                font-size: 11px;
+                padding: 4px 10px;
+            }
         }
     </style>
 </head>
 <body>
 
     <div class="app">
-        <!-- 截图区域 -->
         <div id="capture">
+            <!-- HEADER -->
             <div class="header">
-                <h1><i class="fas fa-pen-fancy"></i> 练舞手帐</h1>
+                <h1><i class="fas fa-bolt"></i> DANCE PLANNER</h1>
+                <span class="badge">v2.0</span>
             </div>
 
+            <!-- 星期 -->
             <div class="week-row" id="weekRow"></div>
+
+            <!-- 列表 -->
             <div class="list" id="list"></div>
 
+            <!-- 表单 -->
             <div class="form">
                 <div class="form-row">
-                    <label>星期</label>
+                    <label>DAY</label>
                     <select id="daySelect">
                         <option value="周一">周一</option>
                         <option value="周二">周二</option>
@@ -335,24 +478,24 @@
                         <option value="周六">周六</option>
                         <option value="周日">周日</option>
                     </select>
-                    <label>时间</label>
-                    <input type="text" id="timeInput" placeholder="如 19:40-20:40" value="19:00-20:00">
+                    <label>TIME</label>
+                    <input type="text" id="timeInput" placeholder="19:40-20:40" value="19:00-20:00">
                 </div>
                 <div class="form-row">
-                    <label>舞室</label>
-                    <input type="text" id="studioInput" placeholder="舞室名称" value="GH5">
-                    <label>课程</label>
+                    <label>STUDIO</label>
+                    <input type="text" id="studioInput" placeholder="舞室" value="GH5">
+                    <label>CLASS</label>
                     <input type="text" id="classInput" placeholder="课程名称" value="《新课程》">
                 </div>
                 <div class="form-actions">
-                    <button class="btn-secondary" id="cancelBtn">清空</button>
+                    <button class="btn-secondary" id="cancelBtn">✕ 清空</button>
                     <button class="btn-primary" id="addBtn"><i class="fas fa-plus"></i> 添加</button>
                 </div>
             </div>
-            <div class="footer-note">✅ 点击 ○ 打勾 · 自由增删 · 星期可切换</div>
+            <div class="footer-note">◆ 点击 ○ 打卡 · 自由增删 · 星期筛选</div>
         </div>
 
-        <!-- 底部工具栏 -->
+        <!-- 底部 -->
         <div class="toolbar">
             <button class="btn-reset" id="resetBtn"><i class="fas fa-undo"></i> 重置</button>
             <button class="btn-save" id="saveBtn"><i class="fas fa-image"></i> 保存图片</button>
@@ -361,7 +504,6 @@
 
     <script>
         (function() {
-            // ===== 示例数据 =====
             const defaultItems = [
                 { id: 'd1', day: '周四', time: '19:40-20:40', studio: 'idolx96店', class: '三星hot body (代课)', done: false },
                 { id: 'd2', day: '周五', time: '20:10-21:10', studio: 'GH5', class: '男团 82major首班车 like fire (试课)',
@@ -376,7 +518,6 @@
             let items = [];
             let activeDays = new Set();
 
-            // DOM
             const weekRow = document.getElementById('weekRow');
             const listEl = document.getElementById('list');
             const daySelect = document.getElementById('daySelect');
@@ -390,7 +531,6 @@
 
             function genId() { return Date.now() + '-' + Math.random().toString(36).slice(2, 6); }
 
-            // ===== 渲染 =====
             function render() {
                 renderWeekRow();
                 renderList();
@@ -402,17 +542,15 @@
                     const active = activeDays.has(day) ? 'active' : '';
                     html += `<button class="week-btn ${active}" data-day="${day}">${day}</button>`;
                 });
-                html += `<button class="week-btn add-btn" id="addDayBtn"><i class="fas fa-plus"></i> 添加星期</button>`;
+                html += `<button class="week-btn add-btn" id="addDayBtn"><i class="fas fa-plus"></i> 添加</button>`;
                 weekRow.innerHTML = html;
 
-                // 点击切换
                 document.querySelectorAll('.week-btn:not(.add-btn)').forEach(btn => {
                     btn.addEventListener('click', function() {
                         const day = this.dataset.day;
                         toggleDay(day);
                     });
                 });
-
                 document.getElementById('addDayBtn').addEventListener('click', function() {
                     const avail = ALL_DAYS.find(d => !activeDays.has(d));
                     if (avail) { activeDays.add(avail);
@@ -432,11 +570,11 @@
 
             function renderList() {
                 const filtered = items.filter(item => activeDays.has(item.day));
-                // 按星期排序
                 filtered.sort((a, b) => ALL_DAYS.indexOf(a.day) - ALL_DAYS.indexOf(b.day));
 
                 if (filtered.length === 0) {
-                    listEl.innerHTML = `<div class="empty"><i class="fas fa-calendar-plus"></i> 还没有课程，添加一些吧</div>`;
+                    listEl.innerHTML =
+                        `<div class="empty"><i class="fas fa-disc"></i><p>no sessions scheduled</p></div>`;
                     return;
                 }
 
@@ -469,7 +607,6 @@
                 });
                 listEl.innerHTML = html;
 
-                // 打勾
                 document.querySelectorAll('.check').forEach(el => {
                     el.addEventListener('click', function() {
                         const id = this.dataset.id;
@@ -478,8 +615,6 @@
                             render(); }
                     });
                 });
-
-                // 删除
                 document.querySelectorAll('.del-btn').forEach(el => {
                     el.addEventListener('click', function(e) {
                         e.stopPropagation();
@@ -490,17 +625,14 @@
                 });
             }
 
-            // ===== 操作 =====
             function addItem() {
                 const day = daySelect.value;
                 const time = timeInput.value.trim() || '19:00-20:00';
                 const studio = studioInput.value.trim() || '舞室';
                 const cls = classInput.value.trim() || '《课程》';
-
                 const newItem = { id: genId(), day, time, studio, class: cls, done: false };
                 items.push(newItem);
                 if (!activeDays.has(day)) activeDays.add(day);
-                // 清空部分字段
                 timeInput.value = '';
                 studioInput.value = '';
                 classInput.value = '';
@@ -524,29 +656,25 @@
                 }
             }
 
-            // ===== 保存图片 =====
             function saveImage() {
                 const el = document.getElementById('capture');
                 html2canvas(el, {
                     scale: 2,
-                    backgroundColor: '#fffaf5',
+                    backgroundColor: '#121016',
                     useCORS: true,
                     logging: false,
                 }).then(canvas => {
                     const link = document.createElement('a');
-                    link.download = '练舞计划.png';
+                    link.download = 'DANCE_PLANNER.png';
                     link.href = canvas.toDataURL('image/png');
                     link.click();
                 }).catch(() => { alert('保存失败，请重试'); });
             }
 
-            // ===== 事件绑定 =====
             addBtn.addEventListener('click', addItem);
             cancelBtn.addEventListener('click', clearForm);
             resetBtn.addEventListener('click', resetAll);
             saveBtn.addEventListener('click', saveImage);
-
-            // 回车添加
             [timeInput, studioInput, classInput].forEach(inp => {
                 inp.addEventListener('keypress', function(e) {
                     if (e.key === 'Enter') { e.preventDefault();
@@ -554,8 +682,7 @@
                 });
             });
 
-            // ===== 启动 =====
-            // 初始化数据
+            // 启动
             items = defaultItems.map(item => ({ ...item, id: genId() }));
             const days = new Set(items.map(item => item.day));
             activeDays = new Set(ALL_DAYS.filter(d => days.has(d)));
