@@ -46,6 +46,8 @@
             overflow: visible;
             width: 100%;
             font-size: 18px;
+            margin: 0 auto;
+            display: block;
         }
 
         .timetable-header {
@@ -97,12 +99,11 @@
             margin-right: 8px;
         }
 
-        /* 日期 - 紧凑无空白 */
         .date-range-wrap {
             display: flex;
             justify-content: center;
             align-items: center;
-            gap: 8px;
+            gap: 10px;
             margin-top: 14px;
             font-family: 'Orbitron', monospace;
             font-size: 16px;
@@ -113,7 +114,7 @@
             background: rgba(255, 255, 255, 0.04);
             border: 1px solid rgba(255, 255, 255, 0.06);
             border-radius: 10px;
-            padding: 6px 12px;
+            padding: 6px 14px;
             color: rgba(255, 255, 255, 0.85);
             font-size: 16px;
             font-family: 'Orbitron', monospace;
@@ -742,25 +743,35 @@
                 }
             }
 
-            // ===== 导出 JPG =====
+            // ===== 导出 JPG - 修复偏左问题 =====
             function exportJPG() {
                 const el = document.getElementById('capture');
 
-                // 隐藏交互元素
+                // 保存交互元素
                 const checks = el.querySelectorAll('.check');
                 const dels = el.querySelectorAll('.del-btn');
                 const weekRowEl = el.querySelector('.week-row');
+
+                // 隐藏交互
                 checks.forEach(c => c.style.display = 'none');
                 dels.forEach(d => d.style.display = 'none');
-                if (weekRowEl) weekRowEl.style.display = 'none';
+                if (weekRowEl) weekRowEl.style.display = 'none');
 
+                // 确保居中
                 el.style.overflow = 'visible';
                 el.style.height = 'auto';
                 el.style.width = '100%';
+                el.style.margin = '0 auto';
+                el.style.display = 'block';
+                el.style.position = 'relative';
+                el.style.left = 'auto';
+                el.style.right = 'auto';
 
                 saveBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> 生成中...';
                 saveBtn.disabled = true;
 
+                // 获取实际尺寸
+                const rect = el.getBoundingClientRect();
                 const targetWidth = el.scrollWidth;
                 const targetHeight = el.scrollHeight;
 
@@ -774,20 +785,35 @@
                     height: targetHeight,
                     windowWidth: targetWidth,
                     windowHeight: targetHeight,
+                    x: 0,
+                    y: 0,
+                    useCORS: true,
                     onclone: function(doc, elem) {
                         elem.style.overflow = 'visible';
                         elem.style.height = 'auto';
                         elem.style.width = '100%';
+                        elem.style.margin = '0 auto';
+                        elem.style.display = 'block';
+                        elem.style.position = 'relative';
+                        elem.style.left = 'auto';
+                        elem.style.right = 'auto';
+                        // 确保所有卡片可见
                         const cards = elem.querySelectorAll('.card');
                         cards.forEach(c => c.style.display = 'flex');
                     }
                 }).then(canvas => {
+                    // 恢复显示
                     checks.forEach(c => c.style.display = '');
                     dels.forEach(d => d.style.display = '');
                     if (weekRowEl) weekRowEl.style.display = '';
                     el.style.overflow = '';
                     el.style.height = '';
                     el.style.width = '';
+                    el.style.margin = '';
+                    el.style.display = '';
+                    el.style.position = '';
+                    el.style.left = '';
+                    el.style.right = '';
 
                     const link = document.createElement('a');
                     link.download = 'DANCE_PLANNER.jpg';
@@ -810,6 +836,11 @@
                     el.style.overflow = '';
                     el.style.height = '';
                     el.style.width = '';
+                    el.style.margin = '';
+                    el.style.display = '';
+                    el.style.position = '';
+                    el.style.left = '';
+                    el.style.right = '';
                     alert('导出失败，请尝试截图保存。');
                     saveBtn.innerHTML = '<i class="fas fa-image"></i> 导出 JPG';
                     saveBtn.disabled = false;
