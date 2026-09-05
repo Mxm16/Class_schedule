@@ -144,6 +144,10 @@
             border: 1px solid #eee8e0;
             border-left-width: 5px;
             text-align: left;
+            cursor: pointer;
+        }
+        .card:hover {
+            background: #f5f0ea;
         }
         .card.done-card {
             border-left-color: #66bb88;
@@ -157,12 +161,14 @@
             min-width: 50px;
             letter-spacing: 0.5px;
             text-transform: uppercase;
+            pointer-events: none;
         }
         .card .card-time {
             font-size: 16px;
             color: #999;
             min-width: 100px;
             font-weight: 500;
+            pointer-events: none;
         }
         .card .card-type {
             font-size: 14px;
@@ -172,6 +178,7 @@
             border: 1px solid #dde8ee;
             padding: 3px 14px;
             border-radius: 12px;
+            pointer-events: none;
         }
         .card .card-class {
             font-size: 17px;
@@ -179,20 +186,24 @@
             color: #2a1a2a;
             flex: 1;
             min-width: 80px;
+            pointer-events: none;
         }
         .card .card-studio {
             font-size: 15px;
             color: #aaa;
+            pointer-events: none;
         }
         .card .card-studio i {
             color: #d48ab8;
             margin-right: 4px;
+            pointer-events: none;
         }
         .card .card-status {
             font-size: 18px;
             color: #ddd;
             min-width: 28px;
             text-align: center;
+            pointer-events: none;
         }
         .card .card-status.done {
             color: #66bb88;
@@ -208,6 +219,8 @@
             transition: all 0.2s;
             -webkit-tap-highlight-color: transparent;
             touch-action: manipulation;
+            pointer-events: auto;
+            z-index: 2;
         }
         .card .check:active {
             transform: scale(0.85);
@@ -226,6 +239,8 @@
             transition: all 0.2s;
             -webkit-tap-highlight-color: transparent;
             touch-action: manipulation;
+            pointer-events: auto;
+            z-index: 2;
         }
         .card .del-btn:active {
             transform: scale(0.9);
@@ -406,6 +421,72 @@
             letter-spacing: 0.5px;
         }
 
+        /* ===== 编辑弹窗 ===== */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.4);
+            backdrop-filter: blur(4px);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 999;
+            padding: 20px;
+        }
+        .modal-overlay.show {
+            display: flex;
+        }
+        .modal-box {
+            background: #ffffff;
+            border-radius: 24px;
+            padding: 28px 30px 24px;
+            max-width: 460px;
+            width: 100%;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
+            animation: modalIn 0.25s ease;
+        }
+        @keyframes modalIn {
+            from {
+                opacity: 0;
+                transform: scale(0.92) translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1) translateY(0);
+            }
+        }
+        .modal-box h3 {
+            font-family: 'Orbitron', monospace;
+            font-size: 18px;
+            color: #2a1a2a;
+            margin-bottom: 16px;
+            letter-spacing: 1px;
+            text-align: center;
+        }
+        .modal-box .form-row {
+            margin-bottom: 10px;
+        }
+        .modal-box .form-row label {
+            min-width: 50px;
+            color: #888;
+        }
+        .modal-box .form-actions {
+            margin-top: 16px;
+            gap: 10px;
+        }
+        .modal-box .btn-primary {
+            background: #d48ab8;
+        }
+        .modal-box .btn-primary:hover {
+            background: #c07aa8;
+        }
+        .modal-box .btn-secondary {
+            border-color: #ddd;
+        }
+
         @media (max-width: 480px) {
             .app {
                 padding: 10px 8px 16px;
@@ -451,6 +532,10 @@
                 font-size: 12px;
                 padding: 8px 16px;
             }
+            .modal-box {
+                padding: 20px 16px;
+                margin: 10px;
+            }
         }
     </style>
 </head>
@@ -461,12 +546,12 @@
             <div class="timetable-header">
                 <div class="main-title">✦ DANCE PLANNER ✦</div>
                 <div class="sub-title">— 本周课程表 —</div>
-                <div class="teacher-name"><i class="fas fa-star"></i> @Thia西亚</div>
+                <div class="teacher-name"><i class="fas fa-butterfly"></i> @Thia西亚</div>
             </div>
 
             <div class="week-row" id="weekRow"></div>
             <div class="list" id="list"></div>
-            <div class="footer-note">◆ 点击 ○ 打卡 · 星期切换</div>
+            <div class="footer-note">◆ 点击卡片编辑 · 点击 ○ 打卡 · 星期切换</div>
         </div>
 
         <div class="toolbar">
@@ -506,6 +591,45 @@
         </div>
     </div>
 
+    <!-- 编辑弹窗 -->
+    <div class="modal-overlay" id="editModal">
+        <div class="modal-box">
+            <h3>✎ 编辑课程</h3>
+            <div class="form-row">
+                <label>星期</label>
+                <select id="editDay">
+                    <option value="周一">周一</option>
+                    <option value="周二">周二</option>
+                    <option value="周三">周三</option>
+                    <option value="周四">周四</option>
+                    <option value="周五">周五</option>
+                    <option value="周六">周六</option>
+                    <option value="周日">周日</option>
+                </select>
+            </div>
+            <div class="form-row">
+                <label>时间</label>
+                <input type="text" id="editTime" placeholder="19:40-20:40">
+            </div>
+            <div class="form-row">
+                <label>类型</label>
+                <input type="text" id="editType" placeholder="Kpop / 编舞">
+            </div>
+            <div class="form-row">
+                <label>课程</label>
+                <input type="text" id="editClass" placeholder="课程名称">
+            </div>
+            <div class="form-row">
+                <label>舞室</label>
+                <input type="text" id="editStudio" placeholder="舞室名称">
+            </div>
+            <div class="form-actions">
+                <button class="btn-secondary" id="editCancelBtn">取消</button>
+                <button class="btn-primary" id="editSaveBtn">保存修改</button>
+            </div>
+        </div>
+    </div>
+
     <script>
         (function() {
             const defaultItems = [
@@ -522,7 +646,9 @@
             const ALL_DAYS = ['周一', '周二', '周三', '周四', '周五', '周六', '周日'];
             let items = [];
             let activeDays = new Set();
+            let editingId = null;
 
+            // DOM
             const weekRow = document.getElementById('weekRow');
             const listEl = document.getElementById('list');
             const daySelect = document.getElementById('daySelect');
@@ -534,6 +660,16 @@
             const cancelBtn = document.getElementById('cancelBtn');
             const resetBtn = document.getElementById('resetBtn');
             const saveBtn = document.getElementById('saveBtn');
+
+            // 编辑弹窗
+            const editModal = document.getElementById('editModal');
+            const editDay = document.getElementById('editDay');
+            const editTime = document.getElementById('editTime');
+            const editType = document.getElementById('editType');
+            const editClass = document.getElementById('editClass');
+            const editStudio = document.getElementById('editStudio');
+            const editSaveBtn = document.getElementById('editSaveBtn');
+            const editCancelBtn = document.getElementById('editCancelBtn');
 
             function genId() { return Date.now() + '-' + Math.random().toString(36).slice(2, 6); }
 
@@ -595,14 +731,18 @@
                 });
                 listEl.innerHTML = html;
 
+                // 打勾
                 document.querySelectorAll('.check').forEach(el => {
-                    el.addEventListener('click', function() {
+                    el.addEventListener('click', function(e) {
+                        e.stopPropagation();
                         const id = this.dataset.id;
                         const item = items.find(it => it.id === id);
                         if (item) { item.done = !item.done;
                             render(); }
                     });
                 });
+
+                // 删除
                 document.querySelectorAll('.del-btn').forEach(el => {
                     el.addEventListener('click', function(e) {
                         e.stopPropagation();
@@ -611,8 +751,72 @@
                         render();
                     });
                 });
+
+                // 点击卡片 → 打开编辑弹窗
+                document.querySelectorAll('.card').forEach(el => {
+                    el.addEventListener('click', function(e) {
+                        // 如果点的是删除或打勾按钮，不触发编辑
+                        if (e.target.closest('.del-btn') || e.target.closest('.check')) return;
+                        const id = this.dataset.id;
+                        openEditModal(id);
+                    });
+                });
             }
 
+            // ===== 编辑弹窗 =====
+            function openEditModal(id) {
+                const item = items.find(it => it.id === id);
+                if (!item) return;
+                editingId = id;
+                editDay.value = item.day || '周一';
+                editTime.value = item.time || '';
+                editType.value = item.type || '';
+                editClass.value = item.class || '';
+                editStudio.value = item.studio || '';
+                editModal.classList.add('show');
+            }
+
+            function closeEditModal() {
+                editModal.classList.remove('show');
+                editingId = null;
+            }
+
+            function saveEdit() {
+                if (!editingId) return;
+                const item = items.find(it => it.id === editingId);
+                if (!item) return;
+                const day = editDay.value;
+                const time = editTime.value.trim() || '--:--';
+                const type = editType.value.trim() || '综合';
+                const cls = editClass.value.trim() || '未命名课程';
+                const studio = editStudio.value.trim() || '舞室';
+
+                // 如果改了星期，确保该星期在 activeDays 中
+                if (!activeDays.has(day)) activeDays.add(day);
+
+                item.day = day;
+                item.time = time;
+                item.type = type;
+                item.class = cls;
+                item.studio = studio;
+
+                closeEditModal();
+                render();
+            }
+
+            editSaveBtn.addEventListener('click', saveEdit);
+            editCancelBtn.addEventListener('click', closeEditModal);
+            editModal.addEventListener('click', function(e) {
+                if (e.target === this) closeEditModal();
+            });
+            // 回车保存
+            document.querySelectorAll('#editTime, #editType, #editClass, #editStudio').forEach(inp => {
+                inp.addEventListener('keypress', function(e) {
+                    if (e.key === 'Enter') saveEdit();
+                });
+            });
+
+            // ===== 添加 =====
             function addItem() {
                 const day = daySelect.value;
                 const time = timeInput.value.trim() || '19:00-20:00';
@@ -647,19 +851,17 @@
                 }
             }
 
-            // ===== 导出 JPG - 彻底修复偏左 =====
+            // ===== 导出 JPG =====
             function exportJPG() {
                 const el = document.getElementById('capture');
 
-                // 隐藏交互元素
                 const checks = el.querySelectorAll('.check');
                 const dels = el.querySelectorAll('.del-btn');
                 const weekRowEl = el.querySelector('.week-row');
                 checks.forEach(c => c.style.display = 'none');
                 dels.forEach(d => d.style.display = 'none');
-                if (weekRowEl) weekRowEl.style.display = 'none';
+                if (weekRowEl) weekRowEl.style.display = 'none');
 
-                // 强制容器居中
                 el.style.overflow = 'visible';
                 el.style.height = 'auto';
                 el.style.width = '100%';
@@ -672,8 +874,6 @@
                 saveBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> 生成中...';
                 saveBtn.disabled = true;
 
-                // 用 getBoundingClientRect 获取精确位置
-                const rect = el.getBoundingClientRect();
                 const targetWidth = el.scrollWidth;
                 const targetHeight = el.scrollHeight;
 
@@ -702,7 +902,6 @@
                         cards.forEach(c => c.style.display = 'flex');
                     }
                 }).then(canvas => {
-                    // 恢复显示
                     checks.forEach(c => c.style.display = '');
                     dels.forEach(d => d.style.display = '');
                     if (weekRowEl) weekRowEl.style.display = '';
