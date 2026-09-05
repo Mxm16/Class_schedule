@@ -22,6 +22,7 @@
             padding: 12px;
             display: flex;
             justify-content: center;
+            align-items: center;
             font-family: 'Segoe UI', system-ui, sans-serif;
         }
 
@@ -33,6 +34,7 @@
             padding: 16px 14px 20px;
             box-shadow: 0 8px 40px rgba(0, 0, 0, 0.08);
             border: 1px solid #e8e0d8;
+            margin: 0 auto;
         }
 
         #capture {
@@ -48,10 +50,10 @@
             font-size: 18px;
             margin: 0 auto;
             display: block;
+            text-align: center;
         }
 
         .timetable-header {
-            text-align: center;
             padding-bottom: 22px;
             border-bottom: 2px solid #e8e0d8;
             margin-bottom: 24px;
@@ -86,34 +88,42 @@
             margin-right: 8px;
         }
 
-        /* 日期 - 纯文本，稳如磐石 */
+        /* 日期 - 输入框居中，无图标 */
         .date-range-wrap {
             display: flex;
             justify-content: center;
             align-items: center;
-            gap: 12px;
+            gap: 10px;
             margin-top: 14px;
             font-family: 'Orbitron', monospace;
             font-size: 18px;
             color: #888;
             letter-spacing: 1px;
         }
-        .date-range-wrap .date-text {
+        .date-range-wrap .date-input {
+            background: #f5f0ea;
+            border: 1px solid #e0d8d0;
+            border-radius: 10px;
+            padding: 6px 14px;
             color: #2a1a2a;
             font-size: 18px;
             font-family: 'Orbitron', monospace;
             letter-spacing: 0.5px;
-            padding: 4px 0;
-            min-width: 80px;
+            width: 110px;
             text-align: center;
-            font-weight: 500;
+            outline: none;
+            transition: all 0.25s;
+        }
+        .date-range-wrap .date-input:focus {
+            border-color: #d48ab8;
+            box-shadow: 0 0 0 3px rgba(212, 138, 184, 0.08);
+        }
+        .date-range-wrap .date-input::placeholder {
+            color: #bbb;
+            font-size: 14px;
         }
         .date-range-wrap .date-sep {
             color: #ccc;
-            font-size: 18px;
-        }
-        .date-range-wrap .date-icon {
-            color: #d48ab8;
             font-size: 18px;
         }
 
@@ -172,6 +182,7 @@
             min-height: 60px;
             border: 1px solid #eee8e0;
             border-left-width: 5px;
+            text-align: left;
         }
         .card.done-card {
             border-left-color: #66bb88;
@@ -479,9 +490,10 @@
                 font-size: 12px;
                 padding: 8px 16px;
             }
-            .date-range-wrap .date-text {
+            .date-range-wrap .date-input {
                 font-size: 15px;
-                min-width: 60px;
+                width: 80px;
+                padding: 4px 10px;
             }
             .date-range-wrap {
                 font-size: 15px;
@@ -502,10 +514,9 @@
                 <div class="sub-title">— 本周课程表 —</div>
                 <div class="teacher-name"><i class="fas fa-star"></i> @Thia西亚</div>
                 <div class="date-range-wrap">
-                    <span class="date-icon">📅</span>
-                    <span class="date-text" id="startDate">9月1日</span>
+                    <input class="date-input" id="startDate" type="text" placeholder="9月1日" value="">
                     <span class="date-sep">—</span>
-                    <span class="date-text" id="endDate">9月7日</span>
+                    <input class="date-input" id="endDate" type="text" placeholder="9月7日" value="">
                 </div>
             </div>
 
@@ -579,8 +590,8 @@
             const cancelBtn = document.getElementById('cancelBtn');
             const resetBtn = document.getElementById('resetBtn');
             const saveBtn = document.getElementById('saveBtn');
-            const startDateEl = document.getElementById('startDate');
-            const endDateEl = document.getElementById('endDate');
+            const startDateInput = document.getElementById('startDate');
+            const endDateInput = document.getElementById('endDate');
 
             function genId() { return Date.now() + '-' + Math.random().toString(36).slice(2, 6); }
 
@@ -595,16 +606,16 @@
                 return { start: f(monday), end: f(sunday) };
             }
 
-            function updateDates() {
+            function setDefaultDates() {
                 const range = getThisWeekRange();
-                startDateEl.textContent = range.start;
-                endDateEl.textContent = range.end;
+                if (!startDateInput.value) startDateInput.value = range.start;
+                if (!endDateInput.value) endDateInput.value = range.end;
             }
 
             function render() {
                 renderWeekRow();
                 renderList();
-                updateDates();
+                setDefaultDates();
             }
 
             function renderWeekRow() {
@@ -708,6 +719,9 @@
                     const days = new Set(items.map(item => item.day));
                     activeDays = new Set(ALL_DAYS.filter(d => days.has(d)));
                     if (activeDays.size === 0) activeDays.add('周一');
+                    const range = getThisWeekRange();
+                    startDateInput.value = range.start;
+                    endDateInput.value = range.end;
                     render();
                 }
             }
@@ -732,8 +746,10 @@
                 saveBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> 生成中...';
                 saveBtn.disabled = true;
 
-                const targetWidth = el.scrollWidth;
-                const targetHeight = el.scrollHeight;
+                // 强制获取实际内容宽高，避免偏左
+                const rect = el.getBoundingClientRect();
+                const targetWidth = el.scrollWidth || rect.width;
+                const targetHeight = el.scrollHeight || rect.height;
 
                 html2canvas(el, {
                     scale: 3,
@@ -753,6 +769,9 @@
                         elem.style.width = '100%';
                         elem.style.margin = '0 auto';
                         elem.style.display = 'block';
+                        elem.style.position = 'relative';
+                        elem.style.left = '0';
+                        elem.style.right = '0';
                         const cards = elem.querySelectorAll('.card');
                         cards.forEach(c => c.style.display = 'flex');
                     }
@@ -765,6 +784,9 @@
                     el.style.width = '';
                     el.style.margin = '';
                     el.style.display = '';
+                    el.style.position = '';
+                    el.style.left = '';
+                    el.style.right = '';
 
                     const link = document.createElement('a');
                     link.download = 'DANCE_PLANNER.jpg';
@@ -789,6 +811,9 @@
                     el.style.width = '';
                     el.style.margin = '';
                     el.style.display = '';
+                    el.style.position = '';
+                    el.style.left = '';
+                    el.style.right = '';
                     alert('导出失败，请尝试截图保存。');
                     saveBtn.innerHTML = '<i class="fas fa-image"></i> 导出 JPG';
                     saveBtn.disabled = false;
@@ -799,6 +824,15 @@
             cancelBtn.addEventListener('click', clearForm);
             resetBtn.addEventListener('click', resetAll);
             saveBtn.addEventListener('click', exportJPG);
+
+            startDateInput.addEventListener('focus', function() {
+                if (!this.value) { const r = getThisWeekRange();
+                    this.value = r.start; }
+            });
+            endDateInput.addEventListener('focus', function() {
+                if (!this.value) { const r = getThisWeekRange();
+                    this.value = r.end; }
+            });
 
             [timeInput, studioInput, typeInput, classInput].forEach(inp => {
                 inp.addEventListener('keypress', function(e) {
