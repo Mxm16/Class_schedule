@@ -17,7 +17,7 @@
         }
 
         body {
-            background: #1a1620;
+            background: #0f0a14;
             min-height: 100vh;
             padding: 12px;
             display: flex;
@@ -29,11 +29,11 @@
         .app {
             max-width: 800px;
             width: 100%;
-            background: linear-gradient(160deg, #282230, #1e1a26);
+            background: linear-gradient(160deg, #1a1025, #120d1a);
             border-radius: 28px;
             padding: 16px 14px 20px;
-            border: 1px solid rgba(255, 200, 255, 0.08);
-            box-shadow: 0 8px 40px rgba(0, 0, 0, 0.5);
+            border: 1px solid rgba(255, 100, 200, 0.15);
+            box-shadow: 0 8px 50px rgba(200, 50, 180, 0.08), inset 0 1px 0 rgba(255, 150, 220, 0.05);
         }
 
         #capture {
@@ -41,8 +41,8 @@
             z-index: 1;
             border-radius: 20px;
             padding: 30px 28px 36px;
-            background: linear-gradient(160deg, #282230, #1e1a26);
-            border: 1px solid rgba(255, 200, 255, 0.06);
+            background: linear-gradient(160deg, #1a1025, #120d1a);
+            border: 1px solid rgba(255, 100, 200, 0.08);
             min-height: 500px;
             overflow: visible;
             width: 100%;
@@ -51,10 +51,42 @@
             display: block;
         }
 
+        #capture::before {
+            content: '';
+            position: absolute;
+            top: -80px;
+            right: -80px;
+            width: 300px;
+            height: 300px;
+            background: radial-gradient(circle, rgba(255, 50, 200, 0.06) 0%, transparent 70%);
+            pointer-events: none;
+            border-radius: 50%;
+            z-index: 0;
+        }
+        #capture::after {
+            content: '';
+            position: absolute;
+            bottom: -60px;
+            left: -60px;
+            width: 250px;
+            height: 250px;
+            background: radial-gradient(circle, rgba(0, 200, 255, 0.05) 0%, transparent 70%);
+            pointer-events: none;
+            border-radius: 50%;
+            z-index: 0;
+        }
+        .timetable-header,
+        .week-row,
+        .list,
+        .footer-note {
+            position: relative;
+            z-index: 1;
+        }
+
         .timetable-header {
             text-align: center;
             padding-bottom: 22px;
-            border-bottom: 2px solid rgba(240, 160, 224, 0.12);
+            border-bottom: 2px solid rgba(255, 100, 200, 0.12);
             margin-bottom: 24px;
         }
         .timetable-header .main-title {
@@ -62,11 +94,12 @@
             font-weight: 900;
             font-size: 38px;
             letter-spacing: 6px;
-            background: linear-gradient(135deg, #f0a0e0, #ff88aa, #f0a0e0);
-            background-size: 200% 200%;
+            background: linear-gradient(135deg, #ff66d0, #ff44aa, #ff66d0, #ff8844);
+            background-size: 300% 300%;
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            animation: gradShift 4s ease-in-out infinite;
+            animation: gradShift 3s ease-in-out infinite;
+            filter: drop-shadow(0 0 30px rgba(255, 68, 170, 0.08));
         }
         @keyframes gradShift {
             0%,
@@ -79,7 +112,7 @@
         }
         .timetable-header .sub-title {
             font-size: 20px;
-            color: rgba(255, 255, 255, 0.4);
+            color: rgba(255, 200, 240, 0.35);
             margin-top: 8px;
             font-weight: 300;
             letter-spacing: 4px;
@@ -89,45 +122,60 @@
             margin-top: 10px;
             font-size: 20px;
             font-weight: 600;
-            color: rgba(255, 255, 255, 0.7);
-            background: rgba(240, 160, 224, 0.06);
-            border: 1px solid rgba(240, 160, 224, 0.08);
+            color: rgba(255, 200, 240, 0.7);
+            background: rgba(255, 68, 170, 0.06);
+            border: 1px solid rgba(255, 68, 170, 0.1);
             padding: 6px 32px;
             border-radius: 24px;
         }
         .timetable-header .teacher-name i {
-            color: #f0a0e0;
+            color: #ff66d0;
             margin-right: 8px;
         }
 
-        /* 日期 - 纯文本，居中，不跑偏 */
+        /* 日期 - 可编辑输入框，居中不跑偏 */
         .date-range-wrap {
             display: flex;
             justify-content: center;
             align-items: center;
-            gap: 14px;
+            gap: 12px;
             margin-top: 14px;
             font-family: 'Orbitron', monospace;
             font-size: 20px;
-            color: rgba(255, 255, 255, 0.5);
+            color: rgba(255, 200, 240, 0.35);
             letter-spacing: 1px;
         }
-        .date-range-wrap .date-text {
-            color: rgba(255, 255, 255, 0.8);
+        .date-range-wrap .date-input {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 68, 170, 0.06);
+            border-radius: 10px;
+            padding: 6px 14px;
+            color: rgba(255, 220, 250, 0.8);
             font-size: 20px;
             font-family: 'Orbitron', monospace;
             letter-spacing: 0.5px;
-            min-width: 130px;
+            width: 140px;
             text-align: center;
-            padding: 6px 0;
+            outline: none;
+            transition: all 0.25s;
+            min-width: 0;
+        }
+        .date-range-wrap .date-input:focus {
+            border-color: rgba(255, 68, 170, 0.15);
+            background: rgba(255, 255, 255, 0.05);
+        }
+        .date-range-wrap .date-input::placeholder {
+            color: rgba(255, 255, 255, 0.08);
         }
         .date-range-wrap .date-sep {
-            color: rgba(255, 255, 255, 0.15);
+            color: rgba(255, 200, 240, 0.15);
             font-size: 22px;
+            flex-shrink: 0;
         }
         .date-range-wrap .date-icon {
-            color: rgba(240, 160, 224, 0.25);
+            color: rgba(255, 68, 170, 0.3);
             font-size: 20px;
+            flex-shrink: 0;
         }
 
         .week-row {
@@ -138,15 +186,15 @@
             justify-content: center;
         }
         .week-btn {
-            background: rgba(255, 255, 255, 0.04);
-            border: 1px solid rgba(255, 255, 255, 0.06);
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.05);
             padding: 8px 18px;
             border-radius: 20px;
             font-size: 16px;
             font-weight: 600;
-            color: rgba(255, 255, 255, 0.3);
+            color: rgba(255, 255, 255, 0.25);
             cursor: pointer;
-            transition: all 0.2s ease;
+            transition: all 0.25s ease;
             font-family: 'Orbitron', monospace;
             letter-spacing: 0.5px;
             text-transform: uppercase;
@@ -157,9 +205,10 @@
             transform: scale(0.95);
         }
         .week-btn.active {
-            background: rgba(240, 160, 224, 0.1);
-            border-color: #d48ab8;
-            color: #f0c0e0;
+            background: rgba(255, 68, 170, 0.08);
+            border-color: #ff44aa;
+            color: #ff88dd;
+            box-shadow: 0 0 30px rgba(255, 68, 170, 0.04);
         }
 
         .list {
@@ -172,79 +221,97 @@
         }
 
         .card {
-            background: rgba(255, 255, 255, 0.03);
+            background: rgba(255, 255, 255, 0.02);
             border-radius: 18px;
             padding: 18px 24px;
-            border-left: 5px solid rgba(240, 160, 224, 0.2);
+            border-left: 5px solid rgba(255, 68, 170, 0.2);
             display: flex;
             flex-wrap: wrap;
             align-items: center;
             gap: 12px 18px;
-            transition: all 0.2s;
+            transition: all 0.3s ease;
             width: 100%;
             min-height: 70px;
+            border: 1px solid rgba(255, 255, 255, 0.03);
+            border-left-width: 5px;
+            position: relative;
+            overflow: hidden;
+        }
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 100px;
+            height: 100px;
+            background: radial-gradient(circle, rgba(255, 68, 170, 0.02) 0%, transparent 70%);
+            pointer-events: none;
         }
         .card.done-card {
-            border-left-color: #66e0a0;
-            background: rgba(102, 224, 160, 0.04);
+            border-left-color: #66ffaa;
+            background: rgba(102, 255, 170, 0.03);
+            border-color: rgba(102, 255, 170, 0.04);
         }
         .card .card-day {
             font-family: 'Orbitron', monospace;
             font-size: 18px;
             font-weight: 700;
-            color: #d48ab8;
+            color: #ff66d0;
             min-width: 56px;
             letter-spacing: 0.5px;
             text-transform: uppercase;
+            text-shadow: 0 0 20px rgba(255, 68, 170, 0.05);
         }
         .card .card-time {
             font-size: 18px;
-            color: rgba(255, 255, 255, 0.4);
+            color: rgba(255, 200, 240, 0.35);
             min-width: 110px;
             font-weight: 500;
         }
         .card .card-type {
             font-size: 16px;
             font-weight: 600;
-            color: #80c8e8;
-            background: rgba(100, 200, 255, 0.06);
-            border: 1px solid rgba(100, 200, 255, 0.06);
+            color: #66ddff;
+            background: rgba(0, 200, 255, 0.04);
+            border: 1px solid rgba(0, 200, 255, 0.06);
             padding: 4px 16px;
             border-radius: 14px;
+            text-shadow: 0 0 20px rgba(0, 200, 255, 0.02);
         }
         .card .card-class {
             font-size: 19px;
             font-weight: 600;
-            color: rgba(255, 255, 255, 0.92);
+            color: rgba(255, 240, 250, 0.9);
             flex: 1;
             min-width: 90px;
         }
         .card .card-studio {
             font-size: 17px;
-            color: rgba(255, 255, 255, 0.35);
+            color: rgba(255, 200, 240, 0.3);
         }
         .card .card-studio i {
-            color: rgba(240, 160, 224, 0.15);
+            color: rgba(255, 68, 170, 0.15);
             margin-right: 6px;
         }
         .card .card-status {
             font-size: 20px;
-            color: rgba(255, 255, 255, 0.08);
+            color: rgba(255, 255, 255, 0.05);
             min-width: 32px;
             text-align: center;
         }
         .card .card-status.done {
-            color: #66e0a0;
+            color: #66ffaa;
+            text-shadow: 0 0 20px rgba(102, 255, 170, 0.1);
         }
 
         .card .check {
             font-size: 24px;
-            color: rgba(255, 255, 255, 0.1);
+            color: rgba(255, 255, 255, 0.08);
             cursor: pointer;
             width: 34px;
             text-align: center;
             user-select: none;
-            transition: all 0.2s;
+            transition: all 0.25s ease;
             -webkit-tap-highlight-color: transparent;
             touch-action: manipulation;
         }
@@ -252,17 +319,18 @@
             transform: scale(0.85);
         }
         .card .check.done {
-            color: #66e0a0;
+            color: #66ffaa;
+            text-shadow: 0 0 30px rgba(102, 255, 170, 0.08);
         }
         .card .del-btn {
             background: transparent;
             border: none;
-            color: rgba(255, 255, 255, 0.05);
+            color: rgba(255, 255, 255, 0.04);
             font-size: 18px;
             padding: 4px 8px;
             border-radius: 12px;
             cursor: pointer;
-            transition: all 0.2s;
+            transition: all 0.25s ease;
             -webkit-tap-highlight-color: transparent;
             touch-action: manipulation;
         }
@@ -270,19 +338,19 @@
             transform: scale(0.9);
         }
         .card .del-btn:hover {
-            color: #ff6688;
+            color: #ff4466;
         }
 
         .empty {
             text-align: center;
             padding: 40px 10px;
-            color: rgba(255, 255, 255, 0.05);
+            color: rgba(255, 255, 255, 0.04);
         }
         .empty i {
             font-size: 36px;
             display: block;
             margin-bottom: 10px;
-            color: rgba(240, 160, 224, 0.06);
+            color: rgba(255, 68, 170, 0.06);
         }
         .empty p {
             font-family: 'Orbitron', monospace;
@@ -295,7 +363,7 @@
             background: rgba(255, 255, 255, 0.02);
             border-radius: 16px;
             padding: 14px 14px 16px;
-            border: 1px solid rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.03);
             margin: 4px 0 8px;
         }
         .form-row {
@@ -307,7 +375,7 @@
         }
         .form-row label {
             font-weight: 600;
-            color: rgba(255, 255, 255, 0.12);
+            color: rgba(255, 200, 240, 0.12);
             font-size: 12px;
             min-width: 32px;
             font-family: 'Orbitron', monospace;
@@ -316,27 +384,29 @@
         }
         .form-row input,
         .form-row select {
-            background: rgba(255, 255, 255, 0.04);
-            border: 1px solid rgba(255, 255, 255, 0.06);
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.05);
             border-radius: 14px;
             padding: 8px 14px;
             font-size: 15px;
             flex: 1 0 70px;
             outline: none;
-            color: rgba(255, 255, 255, 0.7);
+            color: rgba(255, 240, 250, 0.7);
             transition: all 0.25s;
             -webkit-appearance: none;
             appearance: none;
         }
         .form-row input::placeholder {
-            color: rgba(255, 255, 255, 0.06);
+            color: rgba(255, 255, 255, 0.04);
         }
-        .form-row input:focus {
-            border-color: rgba(240, 160, 224, 0.2);
-            background: rgba(255, 255, 255, 0.06);
+        .form-row input:focus,
+        .form-row select:focus {
+            border-color: rgba(255, 68, 170, 0.15);
+            background: rgba(255, 255, 255, 0.05);
+            box-shadow: 0 0 30px rgba(255, 68, 170, 0.02);
         }
         .form-row select option {
-            background: #1e1a26;
+            background: #120d1a;
             color: #ddd;
         }
         .form-actions {
@@ -347,7 +417,7 @@
             margin-top: 4px;
         }
         .btn-primary {
-            background: linear-gradient(135deg, #d48ab8, #b070a0);
+            background: linear-gradient(135deg, #ff44aa, #dd33aa);
             border: none;
             color: #fff;
             padding: 8px 24px;
@@ -361,19 +431,23 @@
             display: flex;
             align-items: center;
             gap: 6px;
-            transition: all 0.2s ease;
+            transition: all 0.25s ease;
+            box-shadow: 0 0 40px rgba(255, 68, 170, 0.04);
             -webkit-tap-highlight-color: transparent;
             touch-action: manipulation;
         }
         .btn-primary:active {
             transform: scale(0.95);
         }
+        .btn-primary:hover {
+            box-shadow: 0 0 60px rgba(255, 68, 170, 0.08);
+        }
         .btn-secondary {
             background: transparent;
             border: 1px solid rgba(255, 255, 255, 0.04);
             padding: 8px 18px;
             border-radius: 18px;
-            color: rgba(255, 255, 255, 0.12);
+            color: rgba(255, 255, 255, 0.1);
             cursor: pointer;
             font-size: 13px;
             transition: all 0.2s;
@@ -383,6 +457,9 @@
         .btn-secondary:active {
             transform: scale(0.95);
         }
+        .btn-secondary:hover {
+            border-color: rgba(255, 255, 255, 0.08);
+        }
 
         .toolbar {
             display: flex;
@@ -390,13 +467,13 @@
             gap: 10px;
             margin-top: 14px;
             padding-top: 14px;
-            border-top: 1px solid rgba(255, 255, 255, 0.04);
+            border-top: 1px solid rgba(255, 255, 255, 0.03);
             flex-wrap: wrap;
         }
         .btn-save {
-            background: rgba(200, 120, 180, 0.08);
-            color: #d48ab8;
-            border: 1px solid rgba(200, 120, 180, 0.08);
+            background: rgba(255, 68, 170, 0.04);
+            color: #ff66d0;
+            border: 1px solid rgba(255, 68, 170, 0.06);
             padding: 10px 24px;
             border-radius: 20px;
             font-size: 14px;
@@ -415,15 +492,19 @@
             transform: scale(0.95);
         }
         .btn-save:disabled {
-            opacity: 0.5;
+            opacity: 0.4;
             transform: none;
+        }
+        .btn-save:hover {
+            background: rgba(255, 68, 170, 0.08);
+            border-color: rgba(255, 68, 170, 0.1);
         }
         .btn-reset {
             background: transparent;
             border: 1px solid rgba(255, 255, 255, 0.03);
             padding: 10px 18px;
             border-radius: 20px;
-            color: rgba(255, 255, 255, 0.06);
+            color: rgba(255, 255, 255, 0.05);
             cursor: pointer;
             font-size: 13px;
             transition: all 0.2s;
@@ -433,11 +514,15 @@
         .btn-reset:active {
             transform: scale(0.95);
         }
+        .btn-reset:hover {
+            border-color: rgba(255, 255, 255, 0.06);
+            color: rgba(255, 255, 255, 0.1);
+        }
 
         .footer-note {
             text-align: right;
             font-size: 11px;
-            color: rgba(255, 255, 255, 0.03);
+            color: rgba(255, 255, 255, 0.02);
             margin-top: 6px;
             font-family: 'Orbitron', monospace;
             letter-spacing: 0.5px;
@@ -488,16 +573,17 @@
                 font-size: 12px;
                 padding: 8px 16px;
             }
-            .date-range-wrap .date-text {
+            .date-range-wrap .date-input {
                 font-size: 14px;
-                min-width: 80px;
+                width: 90px;
+                padding: 4px 8px;
             }
             .date-range-wrap {
                 font-size: 14px;
-                gap: 8px;
+                gap: 6px;
             }
             .date-range-wrap .date-sep {
-                font-size: 16px;
+                font-size: 14px;
             }
         }
     </style>
@@ -512,9 +598,9 @@
                 <div class="teacher-name"><i class="fas fa-star"></i> @Thia西亚</div>
                 <div class="date-range-wrap">
                     <span class="date-icon">📅</span>
-                    <span class="date-text" id="startDate">2025.09.01</span>
+                    <input class="date-input" id="startDate" type="text" placeholder="2025.09.01" value="">
                     <span class="date-sep">—</span>
-                    <span class="date-text" id="endDate">2025.09.07</span>
+                    <input class="date-input" id="endDate" type="text" placeholder="2025.09.07" value="">
                 </div>
             </div>
 
@@ -588,8 +674,8 @@
             const cancelBtn = document.getElementById('cancelBtn');
             const resetBtn = document.getElementById('resetBtn');
             const saveBtn = document.getElementById('saveBtn');
-            const startDateEl = document.getElementById('startDate');
-            const endDateEl = document.getElementById('endDate');
+            const startDateInput = document.getElementById('startDate');
+            const endDateInput = document.getElementById('endDate');
 
             function genId() { return Date.now() + '-' + Math.random().toString(36).slice(2, 6); }
 
@@ -605,16 +691,16 @@
                 return { start: f(monday), end: f(sunday) };
             }
 
-            function updateDates() {
+            function setDefaultDates() {
                 const range = getThisWeekRange();
-                startDateEl.textContent = range.start;
-                endDateEl.textContent = range.end;
+                if (!startDateInput.value) startDateInput.value = range.start;
+                if (!endDateInput.value) endDateInput.value = range.end;
             }
 
             function render() {
                 renderWeekRow();
                 renderList();
-                updateDates();
+                setDefaultDates();
             }
 
             function renderWeekRow() {
@@ -718,11 +804,14 @@
                     const days = new Set(items.map(item => item.day));
                     activeDays = new Set(ALL_DAYS.filter(d => days.has(d)));
                     if (activeDays.size === 0) activeDays.add('周一');
+                    const range = getThisWeekRange();
+                    startDateInput.value = range.start;
+                    endDateInput.value = range.end;
                     render();
                 }
             }
 
-            // ===== 导出 JPG - 居中完整 =====
+            // ===== 导出 JPG =====
             function exportJPG() {
                 const el = document.getElementById('capture');
 
@@ -732,7 +821,7 @@
                 const weekRowEl = el.querySelector('.week-row');
                 checks.forEach(c => c.style.display = 'none');
                 dels.forEach(d => d.style.display = 'none');
-                if (weekRowEl) weekRowEl.style.display = 'none');
+                if (weekRowEl) weekRowEl.style.display = 'none';
 
                 el.style.overflow = 'visible';
                 el.style.height = 'auto';
@@ -748,7 +837,7 @@
 
                 html2canvas(el, {
                     scale: 4,
-                    backgroundColor: '#282230',
+                    backgroundColor: '#1a1025',
                     useCORS: true,
                     logging: false,
                     allowTaint: true,
@@ -809,26 +898,4 @@
             addBtn.addEventListener('click', addItem);
             cancelBtn.addEventListener('click', clearForm);
             resetBtn.addEventListener('click', resetAll);
-            saveBtn.addEventListener('click', exportJPG);
-
-            [timeInput, studioInput, typeInput, classInput].forEach(inp => {
-                inp.addEventListener('keypress', function(e) {
-                    if (e.key === 'Enter') { e.preventDefault();
-                        addItem(); }
-                });
-            });
-
-            items = defaultItems.map(item => ({ ...item, id: genId() }));
-            const days = new Set(items.map(item => item.day));
-            activeDays = new Set(ALL_DAYS.filter(d => days.has(d)));
-            if (activeDays.size === 0) activeDays.add('周一');
-            render();
-
-            document.querySelectorAll('input, select').forEach(el => {
-                el.style.fontSize = '16px';
-            });
-        })();
-    </script>
-
-</body>
-</html>
+            saveBtn.addEventListener('click', exportJPG
