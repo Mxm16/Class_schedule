@@ -17,7 +17,7 @@
         }
 
         body {
-            background: #1a1620;
+            background: #f0ece8;
             min-height: 100vh;
             padding: 12px;
             display: flex;
@@ -28,11 +28,11 @@
         .app {
             max-width: 800px;
             width: 100%;
-            background: linear-gradient(160deg, #282230, #1e1a26);
+            background: #ffffff;
             border-radius: 28px;
             padding: 16px 14px 20px;
-            border: 1px solid rgba(255, 200, 255, 0.08);
-            box-shadow: 0 8px 40px rgba(0, 0, 0, 0.5);
+            box-shadow: 0 8px 40px rgba(0, 0, 0, 0.08);
+            border: 1px solid #e8e0d8;
         }
 
         #capture {
@@ -40,8 +40,8 @@
             z-index: 1;
             border-radius: 20px;
             padding: 30px 28px 36px;
-            background: linear-gradient(160deg, #282230, #1e1a26);
-            border: 1px solid rgba(255, 200, 255, 0.06);
+            background: #ffffff;
+            border: 1px solid #eee8e0;
             min-height: 500px;
             overflow: visible;
             width: 100%;
@@ -53,7 +53,7 @@
         .timetable-header {
             text-align: center;
             padding-bottom: 22px;
-            border-bottom: 2px solid rgba(240, 160, 224, 0.12);
+            border-bottom: 2px solid #e8e0d8;
             margin-bottom: 24px;
         }
         .timetable-header .main-title {
@@ -61,24 +61,11 @@
             font-weight: 900;
             font-size: 38px;
             letter-spacing: 6px;
-            background: linear-gradient(135deg, #f0a0e0, #ff88aa, #f0a0e0);
-            background-size: 200% 200%;
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            animation: gradShift 4s ease-in-out infinite;
-        }
-        @keyframes gradShift {
-            0%,
-            100% {
-                background-position: 0% 50%;
-            }
-            50% {
-                background-position: 100% 50%;
-            }
+            color: #2a1a2a;
         }
         .timetable-header .sub-title {
             font-size: 20px;
-            color: rgba(255, 255, 255, 0.4);
+            color: #888;
             margin-top: 8px;
             font-weight: 300;
             letter-spacing: 4px;
@@ -88,60 +75,46 @@
             margin-top: 10px;
             font-size: 20px;
             font-weight: 600;
-            color: rgba(255, 255, 255, 0.7);
-            background: rgba(240, 160, 224, 0.06);
-            border: 1px solid rgba(240, 160, 224, 0.08);
+            color: #444;
+            background: #f5f0ea;
+            border: 1px solid #e0d8d0;
             padding: 6px 32px;
             border-radius: 24px;
         }
         .timetable-header .teacher-name i {
-            color: #f0a0e0;
+            color: #d48ab8;
             margin-right: 8px;
         }
 
+        /* 日期 - 纯文本，稳如磐石 */
         .date-range-wrap {
             display: flex;
             justify-content: center;
             align-items: center;
-            gap: 10px;
+            gap: 12px;
             margin-top: 14px;
             font-family: 'Orbitron', monospace;
-            font-size: 16px;
-            color: rgba(255, 255, 255, 0.5);
+            font-size: 18px;
+            color: #888;
             letter-spacing: 1px;
         }
-        .date-range-wrap .date-num {
-            background: rgba(255, 255, 255, 0.04);
-            border: 1px solid rgba(255, 255, 255, 0.06);
-            border-radius: 10px;
-            padding: 6px 14px;
-            color: rgba(255, 255, 255, 0.85);
-            font-size: 16px;
+        .date-range-wrap .date-text {
+            color: #2a1a2a;
+            font-size: 18px;
             font-family: 'Orbitron', monospace;
             letter-spacing: 0.5px;
-            width: auto;
-            min-width: 70px;
-            max-width: 110px;
+            padding: 4px 0;
+            min-width: 80px;
             text-align: center;
-            background: transparent;
-            outline: none;
-        }
-        .date-range-wrap .date-num:focus {
-            border-color: rgba(240, 160, 224, 0.2);
-        }
-        .date-range-wrap .date-num::placeholder {
-            color: rgba(255, 255, 255, 0.15);
-            font-size: 13px;
+            font-weight: 500;
         }
         .date-range-wrap .date-sep {
-            color: rgba(255, 255, 255, 0.15);
-            font-size: 16px;
-            flex-shrink: 0;
+            color: #ccc;
+            font-size: 18px;
         }
         .date-range-wrap .date-icon {
-            color: rgba(240, 160, 224, 0.25);
-            font-size: 16px;
-            flex-shrink: 0;
+            color: #d48ab8;
+            font-size: 18px;
         }
 
         .week-row {
@@ -152,13 +125,13 @@
             justify-content: center;
         }
         .week-btn {
-            background: rgba(255, 255, 255, 0.04);
-            border: 1px solid rgba(255, 255, 255, 0.06);
+            background: #f5f0ea;
+            border: 1px solid #e0d8d0;
             padding: 8px 18px;
             border-radius: 20px;
             font-size: 16px;
             font-weight: 600;
-            color: rgba(255, 255, 255, 0.3);
+            color: #888;
             cursor: pointer;
             transition: all 0.2s ease;
             font-family: 'Orbitron', monospace;
@@ -171,91 +144,93 @@
             transform: scale(0.95);
         }
         .week-btn.active {
-            background: rgba(240, 160, 224, 0.1);
-            border-color: #d48ab8;
-            color: #f0c0e0;
+            background: #2a1a2a;
+            border-color: #2a1a2a;
+            color: #fff;
         }
 
         .list {
             display: flex;
             flex-direction: column;
-            gap: 14px;
+            gap: 12px;
             margin: 16px 0 12px;
             min-height: 80px;
             width: 100%;
         }
 
         .card {
-            background: rgba(255, 255, 255, 0.03);
-            border-radius: 18px;
-            padding: 18px 24px;
-            border-left: 5px solid rgba(240, 160, 224, 0.2);
+            background: #faf8f5;
+            border-radius: 16px;
+            padding: 16px 22px;
+            border-left: 5px solid #d48ab8;
             display: flex;
             flex-wrap: wrap;
             align-items: center;
-            gap: 12px 18px;
+            gap: 10px 16px;
             transition: all 0.2s;
             width: 100%;
-            min-height: 70px;
+            min-height: 60px;
+            border: 1px solid #eee8e0;
+            border-left-width: 5px;
         }
         .card.done-card {
-            border-left-color: #66e0a0;
-            background: rgba(102, 224, 160, 0.04);
+            border-left-color: #66bb88;
+            background: #f6faf8;
         }
         .card .card-day {
             font-family: 'Orbitron', monospace;
-            font-size: 18px;
+            font-size: 16px;
             font-weight: 700;
             color: #d48ab8;
-            min-width: 56px;
+            min-width: 50px;
             letter-spacing: 0.5px;
             text-transform: uppercase;
         }
         .card .card-time {
-            font-size: 18px;
-            color: rgba(255, 255, 255, 0.4);
-            min-width: 110px;
+            font-size: 16px;
+            color: #999;
+            min-width: 100px;
             font-weight: 500;
         }
         .card .card-type {
-            font-size: 16px;
+            font-size: 14px;
             font-weight: 600;
-            color: #80c8e8;
-            background: rgba(100, 200, 255, 0.06);
-            border: 1px solid rgba(100, 200, 255, 0.06);
-            padding: 4px 16px;
-            border-radius: 14px;
+            color: #66aacc;
+            background: #eef4f8;
+            border: 1px solid #dde8ee;
+            padding: 3px 14px;
+            border-radius: 12px;
         }
         .card .card-class {
-            font-size: 19px;
+            font-size: 17px;
             font-weight: 600;
-            color: rgba(255, 255, 255, 0.92);
+            color: #2a1a2a;
             flex: 1;
-            min-width: 90px;
+            min-width: 80px;
         }
         .card .card-studio {
-            font-size: 17px;
-            color: rgba(255, 255, 255, 0.35);
+            font-size: 15px;
+            color: #aaa;
         }
         .card .card-studio i {
-            color: rgba(240, 160, 224, 0.15);
-            margin-right: 6px;
+            color: #d48ab8;
+            margin-right: 4px;
         }
         .card .card-status {
-            font-size: 20px;
-            color: rgba(255, 255, 255, 0.08);
-            min-width: 32px;
+            font-size: 18px;
+            color: #ddd;
+            min-width: 28px;
             text-align: center;
         }
         .card .card-status.done {
-            color: #66e0a0;
+            color: #66bb88;
         }
 
         .card .check {
-            font-size: 24px;
-            color: rgba(255, 255, 255, 0.1);
+            font-size: 22px;
+            color: #ddd;
             cursor: pointer;
-            width: 34px;
+            width: 30px;
             text-align: center;
             user-select: none;
             transition: all 0.2s;
@@ -266,15 +241,15 @@
             transform: scale(0.85);
         }
         .card .check.done {
-            color: #66e0a0;
+            color: #66bb88;
         }
         .card .del-btn {
             background: transparent;
             border: none;
-            color: rgba(255, 255, 255, 0.05);
-            font-size: 18px;
-            padding: 4px 8px;
-            border-radius: 12px;
+            color: #ddd;
+            font-size: 16px;
+            padding: 4px 6px;
+            border-radius: 10px;
             cursor: pointer;
             transition: all 0.2s;
             -webkit-tap-highlight-color: transparent;
@@ -284,32 +259,33 @@
             transform: scale(0.9);
         }
         .card .del-btn:hover {
-            color: #ff6688;
+            color: #cc6666;
         }
 
         .empty {
             text-align: center;
             padding: 40px 10px;
-            color: rgba(255, 255, 255, 0.05);
+            color: #ccc;
         }
         .empty i {
-            font-size: 36px;
+            font-size: 32px;
             display: block;
             margin-bottom: 10px;
-            color: rgba(240, 160, 224, 0.06);
+            color: #e0d8d0;
         }
         .empty p {
             font-family: 'Orbitron', monospace;
-            font-size: 14px;
+            font-size: 13px;
             letter-spacing: 1px;
             text-transform: uppercase;
+            color: #ccc;
         }
 
         .form {
-            background: rgba(255, 255, 255, 0.02);
+            background: #faf8f5;
             border-radius: 16px;
             padding: 14px 14px 16px;
-            border: 1px solid rgba(255, 255, 255, 0.04);
+            border: 1px solid #eee8e0;
             margin: 4px 0 8px;
         }
         .form-row {
@@ -321,37 +297,38 @@
         }
         .form-row label {
             font-weight: 600;
-            color: rgba(255, 255, 255, 0.12);
-            font-size: 12px;
-            min-width: 32px;
+            color: #aaa;
+            font-size: 11px;
+            min-width: 28px;
             font-family: 'Orbitron', monospace;
             letter-spacing: 0.3px;
             text-transform: uppercase;
         }
         .form-row input,
         .form-row select {
-            background: rgba(255, 255, 255, 0.04);
-            border: 1px solid rgba(255, 255, 255, 0.06);
+            background: #fff;
+            border: 1px solid #e0d8d0;
             border-radius: 14px;
             padding: 8px 14px;
             font-size: 15px;
             flex: 1 0 70px;
             outline: none;
-            color: rgba(255, 255, 255, 0.7);
+            color: #333;
             transition: all 0.25s;
             -webkit-appearance: none;
             appearance: none;
         }
         .form-row input::placeholder {
-            color: rgba(255, 255, 255, 0.06);
+            color: #ccc;
         }
-        .form-row input:focus {
-            border-color: rgba(240, 160, 224, 0.2);
-            background: rgba(255, 255, 255, 0.06);
+        .form-row input:focus,
+        .form-row select:focus {
+            border-color: #d48ab8;
+            box-shadow: 0 0 0 3px rgba(212, 138, 184, 0.08);
         }
         .form-row select option {
-            background: #1e1a26;
-            color: #ddd;
+            background: #fff;
+            color: #333;
         }
         .form-actions {
             display: flex;
@@ -361,7 +338,7 @@
             margin-top: 4px;
         }
         .btn-primary {
-            background: linear-gradient(135deg, #d48ab8, #b070a0);
+            background: #2a1a2a;
             border: none;
             color: #fff;
             padding: 8px 24px;
@@ -384,10 +361,10 @@
         }
         .btn-secondary {
             background: transparent;
-            border: 1px solid rgba(255, 255, 255, 0.04);
+            border: 1px solid #e0d8d0;
             padding: 8px 18px;
             border-radius: 18px;
-            color: rgba(255, 255, 255, 0.12);
+            color: #aaa;
             cursor: pointer;
             font-size: 13px;
             transition: all 0.2s;
@@ -404,13 +381,13 @@
             gap: 10px;
             margin-top: 14px;
             padding-top: 14px;
-            border-top: 1px solid rgba(255, 255, 255, 0.04);
+            border-top: 1px solid #eee8e0;
             flex-wrap: wrap;
         }
         .btn-save {
-            background: rgba(200, 120, 180, 0.08);
-            color: #d48ab8;
-            border: 1px solid rgba(200, 120, 180, 0.08);
+            background: #2a1a2a;
+            color: #fff;
+            border: none;
             padding: 10px 24px;
             border-radius: 20px;
             font-size: 14px;
@@ -434,10 +411,10 @@
         }
         .btn-reset {
             background: transparent;
-            border: 1px solid rgba(255, 255, 255, 0.03);
+            border: 1px solid #e0d8d0;
             padding: 10px 18px;
             border-radius: 20px;
-            color: rgba(255, 255, 255, 0.06);
+            color: #aaa;
             cursor: pointer;
             font-size: 13px;
             transition: all 0.2s;
@@ -451,7 +428,7 @@
         .footer-note {
             text-align: right;
             font-size: 11px;
-            color: rgba(255, 255, 255, 0.03);
+            color: #ddd;
             margin-top: 6px;
             font-family: 'Orbitron', monospace;
             letter-spacing: 0.5px;
@@ -502,21 +479,16 @@
                 font-size: 12px;
                 padding: 8px 16px;
             }
-            .date-range-wrap .date-num {
-                font-size: 14px;
-                min-width: 55px;
-                max-width: 80px;
-                padding: 4px 8px;
+            .date-range-wrap .date-text {
+                font-size: 15px;
+                min-width: 60px;
             }
             .date-range-wrap {
-                font-size: 14px;
-                gap: 5px;
+                font-size: 15px;
+                gap: 6px;
             }
             .date-range-wrap .date-sep {
-                font-size: 14px;
-            }
-            .date-range-wrap .date-num::placeholder {
-                font-size: 11px;
+                font-size: 15px;
             }
         }
     </style>
@@ -531,9 +503,9 @@
                 <div class="teacher-name"><i class="fas fa-star"></i> @Thia西亚</div>
                 <div class="date-range-wrap">
                     <span class="date-icon">📅</span>
-                    <input class="date-num" id="startDate" type="text" placeholder="9月1日" value="">
+                    <span class="date-text" id="startDate">9月1日</span>
                     <span class="date-sep">—</span>
-                    <input class="date-num" id="endDate" type="text" placeholder="9月7日" value="">
+                    <span class="date-text" id="endDate">9月7日</span>
                 </div>
             </div>
 
@@ -607,8 +579,8 @@
             const cancelBtn = document.getElementById('cancelBtn');
             const resetBtn = document.getElementById('resetBtn');
             const saveBtn = document.getElementById('saveBtn');
-            const startDateInput = document.getElementById('startDate');
-            const endDateInput = document.getElementById('endDate');
+            const startDateEl = document.getElementById('startDate');
+            const endDateEl = document.getElementById('endDate');
 
             function genId() { return Date.now() + '-' + Math.random().toString(36).slice(2, 6); }
 
@@ -623,16 +595,16 @@
                 return { start: f(monday), end: f(sunday) };
             }
 
-            function setDefaultDates() {
+            function updateDates() {
                 const range = getThisWeekRange();
-                if (!startDateInput.value) startDateInput.value = range.start;
-                if (!endDateInput.value) endDateInput.value = range.end;
+                startDateEl.textContent = range.start;
+                endDateEl.textContent = range.end;
             }
 
             function render() {
                 renderWeekRow();
                 renderList();
-                setDefaultDates();
+                updateDates();
             }
 
             function renderWeekRow() {
@@ -736,36 +708,26 @@
                     const days = new Set(items.map(item => item.day));
                     activeDays = new Set(ALL_DAYS.filter(d => days.has(d)));
                     if (activeDays.size === 0) activeDays.add('周一');
-                    const range = getThisWeekRange();
-                    startDateInput.value = range.start;
-                    endDateInput.value = range.end;
                     render();
                 }
             }
 
-            // ===== 导出 JPG - 修复偏左 =====
+            // ===== 导出 JPG =====
             function exportJPG() {
                 const el = document.getElementById('capture');
 
-                // 保存交互元素
                 const checks = el.querySelectorAll('.check');
                 const dels = el.querySelectorAll('.del-btn');
                 const weekRowEl = el.querySelector('.week-row');
-
-                // 隐藏交互
                 checks.forEach(c => c.style.display = 'none');
                 dels.forEach(d => d.style.display = 'none');
                 if (weekRowEl) weekRowEl.style.display = 'none';
 
-                // 确保居中
                 el.style.overflow = 'visible';
                 el.style.height = 'auto';
                 el.style.width = '100%';
                 el.style.margin = '0 auto';
                 el.style.display = 'block';
-                el.style.position = 'relative';
-                el.style.left = 'auto';
-                el.style.right = 'auto';
 
                 saveBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> 生成中...';
                 saveBtn.disabled = true;
@@ -774,8 +736,8 @@
                 const targetHeight = el.scrollHeight;
 
                 html2canvas(el, {
-                    scale: 4,
-                    backgroundColor: '#282230',
+                    scale: 3,
+                    backgroundColor: '#ffffff',
                     useCORS: true,
                     logging: false,
                     allowTaint: true,
@@ -791,14 +753,10 @@
                         elem.style.width = '100%';
                         elem.style.margin = '0 auto';
                         elem.style.display = 'block';
-                        elem.style.position = 'relative';
-                        elem.style.left = 'auto';
-                        elem.style.right = 'auto';
                         const cards = elem.querySelectorAll('.card');
                         cards.forEach(c => c.style.display = 'flex');
                     }
                 }).then(canvas => {
-                    // 恢复显示
                     checks.forEach(c => c.style.display = '');
                     dels.forEach(d => d.style.display = '');
                     if (weekRowEl) weekRowEl.style.display = '';
@@ -807,13 +765,10 @@
                     el.style.width = '';
                     el.style.margin = '';
                     el.style.display = '';
-                    el.style.position = '';
-                    el.style.left = '';
-                    el.style.right = '';
 
                     const link = document.createElement('a');
                     link.download = 'DANCE_PLANNER.jpg';
-                    link.href = canvas.toDataURL('image/jpeg', 1.0);
+                    link.href = canvas.toDataURL('image/jpeg', 0.95);
                     link.click();
 
                     saveBtn.innerHTML = '<i class="fas fa-image"></i> 导出 JPG';
@@ -834,9 +789,6 @@
                     el.style.width = '';
                     el.style.margin = '';
                     el.style.display = '';
-                    el.style.position = '';
-                    el.style.left = '';
-                    el.style.right = '';
                     alert('导出失败，请尝试截图保存。');
                     saveBtn.innerHTML = '<i class="fas fa-image"></i> 导出 JPG';
                     saveBtn.disabled = false;
@@ -847,15 +799,6 @@
             cancelBtn.addEventListener('click', clearForm);
             resetBtn.addEventListener('click', resetAll);
             saveBtn.addEventListener('click', exportJPG);
-
-            startDateInput.addEventListener('focus', function() {
-                if (!this.value) { const r = getThisWeekRange();
-                    this.value = r.start; }
-            });
-            endDateInput.addEventListener('focus', function() {
-                if (!this.value) { const r = getThisWeekRange();
-                    this.value = r.end; }
-            });
 
             [timeInput, studioInput, typeInput, classInput].forEach(inp => {
                 inp.addEventListener('keypress', function(e) {
