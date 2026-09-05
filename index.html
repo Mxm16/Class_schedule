@@ -16,7 +16,7 @@
             box-sizing: border-box;
         }
         body {
-            background: #0b0a0c;
+            background: #1a1620;
             min-height: 100vh;
             padding: 16px;
             display: flex;
@@ -26,24 +26,12 @@
         .app {
             max-width: 780px;
             width: 100%;
-            background: linear-gradient(145deg, #121016, #1a1620);
+            background: linear-gradient(160deg, #282230, #1e1a26);
             border-radius: 28px;
             padding: 20px 18px 24px;
-            border: 1px solid rgba(255, 70, 200, 0.15);
-            box-shadow: 0 0 60px rgba(255, 0, 200, 0.06), inset 0 0 60px rgba(255, 0, 200, 0.02);
+            border: 1px solid rgba(255, 200, 255, 0.08);
+            box-shadow: 0 8px 40px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.04);
             position: relative;
-            overflow: hidden;
-        }
-        .app::before {
-            content: '';
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: radial-gradient(ellipse at 30% 20%, rgba(255, 0, 200, 0.04) 0%, transparent 60%),
-                radial-gradient(ellipse at 70% 80%, rgba(0, 200, 255, 0.04) 0%, transparent 60%);
-            pointer-events: none;
         }
         #capture {
             position: relative;
@@ -59,29 +47,36 @@
             justify-content: space-between;
             align-items: center;
             padding-bottom: 14px;
-            border-bottom: 1px solid rgba(255, 70, 200, 0.15);
+            border-bottom: 1px solid rgba(255, 200, 255, 0.06);
             margin-bottom: 16px;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            flex-wrap: wrap;
         }
         .header h1 {
             font-family: 'Orbitron', monospace;
             font-weight: 900;
             font-size: 22px;
             letter-spacing: 3px;
-            background: linear-gradient(135deg, #ff44cc, #ff8800, #ff44cc);
+            background: linear-gradient(135deg, #f0a0e0, #ff88aa, #f0a0e0);
             background-size: 200% 200%;
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            animation: gradShift 3s ease-in-out infinite;
-            text-shadow: none;
+            animation: gradShift 4s ease-in-out infinite;
             display: flex;
             align-items: center;
             gap: 10px;
         }
         .header h1 i {
             -webkit-text-fill-color: initial;
-            color: #ff44cc;
+            color: #f0a0e0;
             font-size: 22px;
-            filter: drop-shadow(0 0 8px rgba(255, 68, 204, 0.3));
+            filter: drop-shadow(0 0 12px rgba(240, 160, 224, 0.2));
         }
         @keyframes gradShift {
             0%,
@@ -92,12 +87,29 @@
                 background-position: 100% 50%;
             }
         }
+        .header .teacher-tag {
+            font-size: 14px;
+            font-weight: 600;
+            color: rgba(255, 255, 255, 0.7);
+            background: rgba(240, 160, 224, 0.08);
+            border: 1px solid rgba(240, 160, 224, 0.1);
+            padding: 4px 16px;
+            border-radius: 20px;
+            letter-spacing: 0.5px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .header .teacher-tag i {
+            color: #f0a0e0;
+            font-size: 13px;
+        }
         .header .badge {
-            font-size: 11px;
-            color: rgba(255, 255, 255, 0.25);
+            font-size: 10px;
+            color: rgba(255, 255, 255, 0.12);
             font-family: 'Orbitron', monospace;
             letter-spacing: 2px;
-            border: 1px solid rgba(255, 255, 255, 0.06);
+            border: 1px solid rgba(255, 255, 255, 0.04);
             padding: 4px 12px;
             border-radius: 20px;
             background: rgba(255, 255, 255, 0.02);
@@ -118,7 +130,7 @@
             border-radius: 20px;
             font-size: 13px;
             font-weight: 600;
-            color: rgba(255, 255, 255, 0.4);
+            color: rgba(255, 255, 255, 0.35);
             cursor: pointer;
             transition: all 0.25s ease;
             font-family: 'Orbitron', monospace;
@@ -126,22 +138,22 @@
             text-transform: uppercase;
         }
         .week-btn:hover {
-            border-color: rgba(255, 68, 204, 0.3);
-            color: rgba(255, 255, 255, 0.7);
+            border-color: rgba(240, 160, 224, 0.25);
+            color: rgba(255, 255, 255, 0.6);
         }
         .week-btn.active {
-            background: rgba(255, 68, 204, 0.15);
-            border-color: #ff44cc;
-            color: #ff66d0;
-            box-shadow: 0 0 20px rgba(255, 68, 204, 0.08), inset 0 0 20px rgba(255, 68, 204, 0.04);
+            background: rgba(240, 160, 224, 0.08);
+            border-color: #d48ab8;
+            color: #f0c0e0;
+            box-shadow: 0 0 30px rgba(240, 160, 224, 0.04);
         }
         .week-btn.add-btn {
-            border: 1px dashed rgba(255, 255, 255, 0.1);
-            color: rgba(255, 255, 255, 0.25);
+            border: 1px dashed rgba(255, 255, 255, 0.06);
+            color: rgba(255, 255, 255, 0.15);
         }
         .week-btn.add-btn:hover {
-            border-color: rgba(255, 68, 204, 0.3);
-            color: rgba(255, 255, 255, 0.5);
+            border-color: rgba(240, 160, 224, 0.2);
+            color: rgba(255, 255, 255, 0.3);
         }
 
         /* ===== 课程列表 ===== */
@@ -153,7 +165,7 @@
             min-height: 80px;
         }
         .card {
-            background: rgba(255, 255, 255, 0.03);
+            background: rgba(255, 255, 255, 0.04);
             border-radius: 16px;
             padding: 14px 16px;
             border: 1px solid rgba(255, 255, 255, 0.05);
@@ -162,11 +174,10 @@
             align-items: center;
             gap: 10px;
             transition: all 0.25s ease;
-            backdrop-filter: blur(4px);
         }
         .card:hover {
-            border-color: rgba(255, 68, 204, 0.15);
-            background: rgba(255, 255, 255, 0.05);
+            border-color: rgba(240, 160, 224, 0.1);
+            background: rgba(255, 255, 255, 0.06);
         }
         .card-left {
             display: flex;
@@ -176,7 +187,7 @@
         }
         .check {
             font-size: 22px;
-            color: rgba(255, 255, 255, 0.15);
+            color: rgba(255, 255, 255, 0.12);
             cursor: pointer;
             width: 32px;
             text-align: center;
@@ -184,11 +195,11 @@
             transition: all 0.2s;
         }
         .check:hover {
-            color: rgba(255, 255, 255, 0.4);
+            color: rgba(255, 255, 255, 0.3);
         }
         .check.done {
-            color: #00ff88;
-            text-shadow: 0 0 20px rgba(0, 255, 136, 0.2);
+            color: #66e0a0;
+            text-shadow: 0 0 24px rgba(102, 224, 160, 0.15);
         }
         .info {
             flex: 1;
@@ -203,16 +214,31 @@
             gap: 6px 10px;
         }
         .info .title .day-tag {
-            background: rgba(255, 68, 204, 0.12);
-            border: 1px solid rgba(255, 68, 204, 0.1);
+            background: rgba(240, 160, 224, 0.08);
+            border: 1px solid rgba(240, 160, 224, 0.06);
             padding: 0 10px;
             border-radius: 12px;
             font-size: 10px;
             font-weight: 700;
-            color: #ff66d0;
+            color: #d48ab8;
             font-family: 'Orbitron', monospace;
             letter-spacing: 0.5px;
             text-transform: uppercase;
+        }
+        .info .title .type-badge {
+            background: rgba(100, 200, 255, 0.06);
+            border: 1px solid rgba(100, 200, 255, 0.06);
+            padding: 0 10px;
+            border-radius: 12px;
+            font-size: 11px;
+            font-weight: 600;
+            color: #80c8e8;
+        }
+        .info .title .done-mark {
+            font-size: 12px;
+            color: #66e0a0;
+            margin-left: 4px;
+            display: inline-block;
         }
         .info .meta {
             font-size: 13px;
@@ -223,19 +249,19 @@
             margin-top: 2px;
         }
         .info .meta span {
-            background: rgba(255, 255, 255, 0.03);
+            background: rgba(255, 255, 255, 0.02);
             padding: 1px 12px 1px 8px;
             border-radius: 12px;
             border: 1px solid rgba(255, 255, 255, 0.03);
         }
         .info .meta i {
-            color: rgba(255, 68, 204, 0.3);
+            color: rgba(240, 160, 224, 0.2);
             width: 14px;
         }
         .card-actions button {
             background: transparent;
             border: none;
-            color: rgba(255, 255, 255, 0.1);
+            color: rgba(255, 255, 255, 0.08);
             font-size: 15px;
             padding: 4px 8px;
             border-radius: 12px;
@@ -243,20 +269,20 @@
             transition: all 0.2s;
         }
         .card-actions button:hover {
-            background: rgba(255, 0, 0, 0.1);
-            color: #ff4466;
+            background: rgba(255, 0, 0, 0.08);
+            color: #ff6688;
         }
 
         .empty {
             text-align: center;
             padding: 40px 10px;
-            color: rgba(255, 255, 255, 0.08);
+            color: rgba(255, 255, 255, 0.06);
         }
         .empty i {
             font-size: 32px;
             display: block;
             margin-bottom: 10px;
-            color: rgba(255, 68, 204, 0.1);
+            color: rgba(240, 160, 224, 0.08);
         }
         .empty p {
             font-family: 'Orbitron', monospace;
@@ -282,9 +308,9 @@
         }
         .form-row label {
             font-weight: 600;
-            color: rgba(255, 255, 255, 0.2);
-            font-size: 12px;
-            min-width: 36px;
+            color: rgba(255, 255, 255, 0.15);
+            font-size: 11px;
+            min-width: 32px;
             font-family: 'Orbitron', monospace;
             letter-spacing: 0.5px;
             text-transform: uppercase;
@@ -296,23 +322,23 @@
             border-radius: 16px;
             padding: 8px 14px;
             font-size: 14px;
-            flex: 1 0 100px;
+            flex: 1 0 80px;
             outline: none;
             color: rgba(255, 255, 255, 0.7);
             transition: all 0.25s;
         }
         .form-row input::placeholder {
-            color: rgba(255, 255, 255, 0.1);
+            color: rgba(255, 255, 255, 0.08);
         }
         .form-row input:focus,
         .form-row select:focus {
-            border-color: rgba(255, 68, 204, 0.3);
+            border-color: rgba(240, 160, 224, 0.2);
             background: rgba(255, 255, 255, 0.06);
-            box-shadow: 0 0 20px rgba(255, 68, 204, 0.04);
+            box-shadow: 0 0 24px rgba(240, 160, 224, 0.02);
         }
         .form-row select option {
-            background: #1a1620;
-            color: #fff;
+            background: #1e1a26;
+            color: #ddd;
         }
         .form-actions {
             display: flex;
@@ -321,7 +347,7 @@
             flex-wrap: wrap;
         }
         .btn-primary {
-            background: linear-gradient(135deg, #ff44cc, #cc33aa);
+            background: linear-gradient(135deg, #d48ab8, #b070a0);
             border: none;
             color: #fff;
             padding: 8px 22px;
@@ -336,25 +362,25 @@
             align-items: center;
             gap: 6px;
             transition: all 0.25s ease;
-            box-shadow: 0 0 30px rgba(255, 68, 204, 0.1);
+            box-shadow: 0 0 30px rgba(200, 120, 180, 0.05);
         }
         .btn-primary:hover {
             transform: translateY(-1px);
-            box-shadow: 0 0 50px rgba(255, 68, 204, 0.2);
+            box-shadow: 0 0 50px rgba(200, 120, 180, 0.1);
         }
         .btn-secondary {
             background: transparent;
-            border: 1px solid rgba(255, 255, 255, 0.06);
+            border: 1px solid rgba(255, 255, 255, 0.04);
             padding: 8px 18px;
             border-radius: 20px;
-            color: rgba(255, 255, 255, 0.2);
+            color: rgba(255, 255, 255, 0.15);
             cursor: pointer;
             font-size: 12px;
             transition: all 0.2s;
         }
         .btn-secondary:hover {
-            border-color: rgba(255, 255, 255, 0.1);
-            color: rgba(255, 255, 255, 0.4);
+            border-color: rgba(255, 255, 255, 0.08);
+            color: rgba(255, 255, 255, 0.3);
         }
 
         /* ===== 底部 ===== */
@@ -369,9 +395,9 @@
             z-index: 1;
         }
         .btn-save {
-            background: rgba(255, 68, 204, 0.1);
-            color: #ff66d0;
-            border: 1px solid rgba(255, 68, 204, 0.15);
+            background: rgba(200, 120, 180, 0.06);
+            color: #d48ab8;
+            border: 1px solid rgba(200, 120, 180, 0.08);
             padding: 8px 22px;
             border-radius: 20px;
             font-size: 13px;
@@ -385,43 +411,30 @@
             transition: all 0.25s ease;
         }
         .btn-save:hover {
-            background: rgba(255, 68, 204, 0.2);
-            border-color: rgba(255, 68, 204, 0.3);
-            box-shadow: 0 0 30px rgba(255, 68, 204, 0.05);
+            background: rgba(200, 120, 180, 0.1);
+            border-color: rgba(200, 120, 180, 0.15);
         }
         .btn-reset {
             background: transparent;
-            border: 1px solid rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.03);
             padding: 8px 18px;
             border-radius: 20px;
-            color: rgba(255, 255, 255, 0.1);
+            color: rgba(255, 255, 255, 0.08);
             cursor: pointer;
             font-size: 12px;
             transition: all 0.2s;
         }
         .btn-reset:hover {
-            border-color: rgba(255, 255, 255, 0.08);
-            color: rgba(255, 255, 255, 0.25);
+            border-color: rgba(255, 255, 255, 0.06);
+            color: rgba(255, 255, 255, 0.2);
         }
         .footer-note {
             text-align: right;
             font-size: 10px;
-            color: rgba(255, 255, 255, 0.04);
+            color: rgba(255, 255, 255, 0.03);
             margin-top: 6px;
             font-family: 'Orbitron', monospace;
             letter-spacing: 1px;
-        }
-
-        /* 滚动条 */
-        ::-webkit-scrollbar {
-            width: 4px;
-        }
-        ::-webkit-scrollbar-track {
-            background: transparent;
-        }
-        ::-webkit-scrollbar-thumb {
-            background: rgba(255, 68, 204, 0.15);
-            border-radius: 10px;
         }
 
         @media (max-width: 480px) {
@@ -429,8 +442,12 @@
                 padding: 12px 10px;
             }
             .header h1 {
-                font-size: 18px;
-                letter-spacing: 2px;
+                font-size: 17px;
+                letter-spacing: 1.5px;
+            }
+            .header .teacher-tag {
+                font-size: 12px;
+                padding: 3px 12px;
             }
             .card-left {
                 flex: 1 0 100%;
@@ -446,6 +463,10 @@
                 font-size: 11px;
                 padding: 4px 10px;
             }
+            .info .title .type-badge {
+                font-size: 10px;
+                padding: 0 8px;
+            }
         }
     </style>
 </head>
@@ -455,7 +476,10 @@
         <div id="capture">
             <!-- HEADER -->
             <div class="header">
-                <h1><i class="fas fa-bolt"></i> DANCE PLANNER</h1>
+                <div class="header-left">
+                    <h1><i class="fas fa-bolt"></i> DANCE PLANNER</h1>
+                    <span class="teacher-tag"><i class="fas fa-star"></i> @Thia西亚</span>
+                </div>
                 <span class="badge">v2.0</span>
             </div>
 
@@ -482,10 +506,23 @@
                     <input type="text" id="timeInput" placeholder="19:40-20:40" value="19:00-20:00">
                 </div>
                 <div class="form-row">
-                    <label>STUDIO</label>
-                    <input type="text" id="studioInput" placeholder="舞室" value="GH5">
+                    <label>TYPE</label>
+                    <select id="typeSelect">
+                        <option value="Kpop">Kpop</option>
+                        <option value="编舞">编舞</option>
+                        <option value="入门">入门</option>
+                        <option value="男团">男团</option>
+                        <option value="女团">女团</option>
+                        <option value="成舞">成舞</option>
+                        <option value="综合">综合</option>
+                        <option value="其他">其他</option>
+                    </select>
                     <label>CLASS</label>
-                    <input type="text" id="classInput" placeholder="课程名称" value="《新课程》">
+                    <input type="text" id="classInput" placeholder="hot body / like fire" value="新课程">
+                </div>
+                <div class="form-row">
+                    <label>STUDIO</label>
+                    <input type="text" id="studioInput" placeholder="舞室名称" value="GH5">
                 </div>
                 <div class="form-actions">
                     <button class="btn-secondary" id="cancelBtn">✕ 清空</button>
@@ -505,13 +542,14 @@
     <script>
         (function() {
             const defaultItems = [
-                { id: 'd1', day: '周四', time: '19:40-20:40', studio: 'idolx96店', class: '三星hot body (代课)', done: false },
-                { id: 'd2', day: '周五', time: '20:10-21:10', studio: 'GH5', class: '男团 82major首班车 like fire (试课)',
+                { id: 'd1', day: '周四', time: '19:40-20:40', studio: 'idolx96店', type: '综合', class: 'hot body (三星代课)',
                     done: false },
-                { id: 'd3', day: '周六', time: '19:25-21:40', studio: '小班课', class: '小班课', done: false },
-                { id: 'd4', day: '周日', time: '13:00-15:00', studio: 'T5浦东', class: '入门➕成舞 (基础弱)', done: false },
-                { id: 'd5', day: '周日', time: '16:20-17:20', studio: 'GH5', class: '男团 (On My mind)', done: false },
-                { id: 'd6', day: '周日', time: '19:00-21:00', studio: '小班课', class: '小班课', done: false }
+                { id: 'd2', day: '周五', time: '20:10-21:10', studio: 'GH5', type: '男团', class: '82major首班车 like fire (试课)',
+                    done: false },
+                { id: 'd3', day: '周六', time: '19:25-21:40', studio: '小班课', type: '综合', class: '小班课', done: false },
+                { id: 'd4', day: '周日', time: '13:00-15:00', studio: 'T5浦东', type: '入门', class: '基础弱 入门➕成舞', done: false },
+                { id: 'd5', day: '周日', time: '16:20-17:20', studio: 'GH5', type: '男团', class: 'On My mind', done: false },
+                { id: 'd6', day: '周日', time: '19:00-21:00', studio: '小班课', type: '综合', class: '小班课', done: false }
             ];
 
             const ALL_DAYS = ['周一', '周二', '周三', '周四', '周五', '周六', '周日'];
@@ -523,6 +561,7 @@
             const daySelect = document.getElementById('daySelect');
             const timeInput = document.getElementById('timeInput');
             const studioInput = document.getElementById('studioInput');
+            const typeSelect = document.getElementById('typeSelect');
             const classInput = document.getElementById('classInput');
             const addBtn = document.getElementById('addBtn');
             const cancelBtn = document.getElementById('cancelBtn');
@@ -582,6 +621,8 @@
                 filtered.forEach(item => {
                     const doneClass = item.done ? 'done' : '';
                     const icon = item.done ? 'fa-check-circle' : 'fa-circle';
+                    const typeDisplay = item.type || '综合';
+                    const doneMark = item.done ? ' ✅' : '';
                     html += `
                         <div class="card" data-id="${item.id}">
                             <div class="card-left">
@@ -591,7 +632,9 @@
                                 <div class="info">
                                     <div class="title">
                                         <span class="day-tag">${item.day}</span>
+                                        <span class="type-badge">${typeDisplay}</span>
                                         ${item.class}
+                                        ${item.done ? '<span class="done-mark">✅</span>' : ''}
                                     </div>
                                     <div class="meta">
                                         <span><i class="far fa-clock"></i> ${item.time || '--:--'}</span>
@@ -629,8 +672,10 @@
                 const day = daySelect.value;
                 const time = timeInput.value.trim() || '19:00-20:00';
                 const studio = studioInput.value.trim() || '舞室';
-                const cls = classInput.value.trim() || '《课程》';
-                const newItem = { id: genId(), day, time, studio, class: cls, done: false };
+                const type = typeSelect.value;
+                const cls = classInput.value.trim() || '新课程';
+
+                const newItem = { id: genId(), day, time, studio, type, class: cls, done: false };
                 items.push(newItem);
                 if (!activeDays.has(day)) activeDays.add(day);
                 timeInput.value = '';
@@ -644,6 +689,7 @@
                 studioInput.value = '';
                 classInput.value = '';
                 daySelect.value = '周一';
+                typeSelect.value = 'Kpop';
             }
 
             function resetAll() {
@@ -658,23 +704,41 @@
 
             function saveImage() {
                 const el = document.getElementById('capture');
+
+                // 显示加载提示
+                saveBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> 生成中...';
+                saveBtn.disabled = true;
+
                 html2canvas(el, {
-                    scale: 2,
-                    backgroundColor: '#121016',
+                    scale: 2.5,
+                    backgroundColor: '#282230',
                     useCORS: true,
                     logging: false,
+                    allowTaint: true,
+                    width: el.scrollWidth,
+                    height: el.scrollHeight,
+                    windowWidth: el.scrollWidth,
+                    windowHeight: el.scrollHeight,
                 }).then(canvas => {
                     const link = document.createElement('a');
                     link.download = 'DANCE_PLANNER.png';
                     link.href = canvas.toDataURL('image/png');
                     link.click();
-                }).catch(() => { alert('保存失败，请重试'); });
+                    saveBtn.innerHTML = '<i class="fas fa-image"></i> 保存图片';
+                    saveBtn.disabled = false;
+                }).catch(err => {
+                    console.error('保存失败:', err);
+                    alert('保存失败，请重试。如果多次失败，请检查网络后刷新页面。');
+                    saveBtn.innerHTML = '<i class="fas fa-image"></i> 保存图片';
+                    saveBtn.disabled = false;
+                });
             }
 
             addBtn.addEventListener('click', addItem);
             cancelBtn.addEventListener('click', clearForm);
             resetBtn.addEventListener('click', resetAll);
             saveBtn.addEventListener('click', saveImage);
+
             [timeInput, studioInput, classInput].forEach(inp => {
                 inp.addEventListener('keypress', function(e) {
                     if (e.key === 'Enter') { e.preventDefault();
