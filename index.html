@@ -44,7 +44,7 @@
             padding: 30px 28px 36px;
             background: #ffffff;
             border: 1px solid #eee8e0;
-            min-height: 500px;
+            min-height: 400px;
             overflow: visible;
             width: 100%;
             font-size: 18px;
@@ -86,45 +86,6 @@
         .timetable-header .teacher-name i {
             color: #d48ab8;
             margin-right: 8px;
-        }
-
-        /* 日期 - 输入框居中，无图标 */
-        .date-range-wrap {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            gap: 10px;
-            margin-top: 14px;
-            font-family: 'Orbitron', monospace;
-            font-size: 18px;
-            color: #888;
-            letter-spacing: 1px;
-        }
-        .date-range-wrap .date-input {
-            background: #f5f0ea;
-            border: 1px solid #e0d8d0;
-            border-radius: 10px;
-            padding: 6px 14px;
-            color: #2a1a2a;
-            font-size: 18px;
-            font-family: 'Orbitron', monospace;
-            letter-spacing: 0.5px;
-            width: 110px;
-            text-align: center;
-            outline: none;
-            transition: all 0.25s;
-        }
-        .date-range-wrap .date-input:focus {
-            border-color: #d48ab8;
-            box-shadow: 0 0 0 3px rgba(212, 138, 184, 0.08);
-        }
-        .date-range-wrap .date-input::placeholder {
-            color: #bbb;
-            font-size: 14px;
-        }
-        .date-range-wrap .date-sep {
-            color: #ccc;
-            font-size: 18px;
         }
 
         .week-row {
@@ -490,18 +451,6 @@
                 font-size: 12px;
                 padding: 8px 16px;
             }
-            .date-range-wrap .date-input {
-                font-size: 15px;
-                width: 80px;
-                padding: 4px 10px;
-            }
-            .date-range-wrap {
-                font-size: 15px;
-                gap: 6px;
-            }
-            .date-range-wrap .date-sep {
-                font-size: 15px;
-            }
         }
     </style>
 </head>
@@ -513,11 +462,6 @@
                 <div class="main-title">✦ DANCE PLANNER ✦</div>
                 <div class="sub-title">— 本周课程表 —</div>
                 <div class="teacher-name"><i class="fas fa-star"></i> @Thia西亚</div>
-                <div class="date-range-wrap">
-                    <input class="date-input" id="startDate" type="text" placeholder="9月1日" value="">
-                    <span class="date-sep">—</span>
-                    <input class="date-input" id="endDate" type="text" placeholder="9月7日" value="">
-                </div>
             </div>
 
             <div class="week-row" id="weekRow"></div>
@@ -590,32 +534,12 @@
             const cancelBtn = document.getElementById('cancelBtn');
             const resetBtn = document.getElementById('resetBtn');
             const saveBtn = document.getElementById('saveBtn');
-            const startDateInput = document.getElementById('startDate');
-            const endDateInput = document.getElementById('endDate');
 
             function genId() { return Date.now() + '-' + Math.random().toString(36).slice(2, 6); }
-
-            function getThisWeekRange() {
-                const now = new Date();
-                const dayOfWeek = now.getDay() || 7;
-                const monday = new Date(now);
-                monday.setDate(now.getDate() - dayOfWeek + 1);
-                const sunday = new Date(monday);
-                sunday.setDate(monday.getDate() + 6);
-                const f = (d) => (d.getMonth() + 1) + '月' + d.getDate() + '日';
-                return { start: f(monday), end: f(sunday) };
-            }
-
-            function setDefaultDates() {
-                const range = getThisWeekRange();
-                if (!startDateInput.value) startDateInput.value = range.start;
-                if (!endDateInput.value) endDateInput.value = range.end;
-            }
 
             function render() {
                 renderWeekRow();
                 renderList();
-                setDefaultDates();
             }
 
             function renderWeekRow() {
@@ -719,17 +643,15 @@
                     const days = new Set(items.map(item => item.day));
                     activeDays = new Set(ALL_DAYS.filter(d => days.has(d)));
                     if (activeDays.size === 0) activeDays.add('周一');
-                    const range = getThisWeekRange();
-                    startDateInput.value = range.start;
-                    endDateInput.value = range.end;
                     render();
                 }
             }
 
-            // ===== 导出 JPG =====
+            // ===== 导出 JPG - 彻底修复偏左 =====
             function exportJPG() {
                 const el = document.getElementById('capture');
 
+                // 隐藏交互元素
                 const checks = el.querySelectorAll('.check');
                 const dels = el.querySelectorAll('.del-btn');
                 const weekRowEl = el.querySelector('.week-row');
@@ -737,19 +659,23 @@
                 dels.forEach(d => d.style.display = 'none');
                 if (weekRowEl) weekRowEl.style.display = 'none';
 
+                // 强制容器居中
                 el.style.overflow = 'visible';
                 el.style.height = 'auto';
                 el.style.width = '100%';
                 el.style.margin = '0 auto';
                 el.style.display = 'block';
+                el.style.position = 'relative';
+                el.style.left = '0';
+                el.style.right = '0';
 
                 saveBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> 生成中...';
                 saveBtn.disabled = true;
 
-                // 强制获取实际内容宽高，避免偏左
+                // 用 getBoundingClientRect 获取精确位置
                 const rect = el.getBoundingClientRect();
-                const targetWidth = el.scrollWidth || rect.width;
-                const targetHeight = el.scrollHeight || rect.height;
+                const targetWidth = el.scrollWidth;
+                const targetHeight = el.scrollHeight;
 
                 html2canvas(el, {
                     scale: 3,
@@ -776,6 +702,7 @@
                         cards.forEach(c => c.style.display = 'flex');
                     }
                 }).then(canvas => {
+                    // 恢复显示
                     checks.forEach(c => c.style.display = '');
                     dels.forEach(d => d.style.display = '');
                     if (weekRowEl) weekRowEl.style.display = '';
@@ -824,15 +751,6 @@
             cancelBtn.addEventListener('click', clearForm);
             resetBtn.addEventListener('click', resetAll);
             saveBtn.addEventListener('click', exportJPG);
-
-            startDateInput.addEventListener('focus', function() {
-                if (!this.value) { const r = getThisWeekRange();
-                    this.value = r.start; }
-            });
-            endDateInput.addEventListener('focus', function() {
-                if (!this.value) { const r = getThisWeekRange();
-                    this.value = r.end; }
-            });
 
             [timeInput, studioInput, typeInput, classInput].forEach(inp => {
                 inp.addEventListener('keypress', function(e) {
