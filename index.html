@@ -97,12 +97,12 @@
             margin-right: 8px;
         }
 
-        /* 日期 - 短格式：9月1日 - 9月7日 */
+        /* 日期 - 紧凑无空白 */
         .date-range-wrap {
             display: flex;
             justify-content: center;
             align-items: center;
-            gap: 10px;
+            gap: 8px;
             margin-top: 14px;
             font-family: 'Orbitron', monospace;
             font-size: 16px;
@@ -113,12 +113,14 @@
             background: rgba(255, 255, 255, 0.04);
             border: 1px solid rgba(255, 255, 255, 0.06);
             border-radius: 10px;
-            padding: 6px 14px;
+            padding: 6px 12px;
             color: rgba(255, 255, 255, 0.85);
             font-size: 16px;
             font-family: 'Orbitron', monospace;
             letter-spacing: 0.5px;
-            width: 100px;
+            width: auto;
+            min-width: 70px;
+            max-width: 110px;
             text-align: center;
             background: transparent;
             outline: none;
@@ -501,12 +503,13 @@
             }
             .date-range-wrap .date-num {
                 font-size: 14px;
-                width: 75px;
+                min-width: 55px;
+                max-width: 80px;
                 padding: 4px 8px;
             }
             .date-range-wrap {
                 font-size: 14px;
-                gap: 6px;
+                gap: 5px;
             }
             .date-range-wrap .date-sep {
                 font-size: 14px;
