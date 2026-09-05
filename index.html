@@ -743,7 +743,7 @@
                 }
             }
 
-            // ===== 导出 JPG - 修复偏左问题 =====
+            // ===== 导出 JPG - 修复偏左 =====
             function exportJPG() {
                 const el = document.getElementById('capture');
 
@@ -755,7 +755,7 @@
                 // 隐藏交互
                 checks.forEach(c => c.style.display = 'none');
                 dels.forEach(d => d.style.display = 'none');
-                if (weekRowEl) weekRowEl.style.display = 'none');
+                if (weekRowEl) weekRowEl.style.display = 'none';
 
                 // 确保居中
                 el.style.overflow = 'visible';
@@ -770,8 +770,6 @@
                 saveBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> 生成中...';
                 saveBtn.disabled = true;
 
-                // 获取实际尺寸
-                const rect = el.getBoundingClientRect();
                 const targetWidth = el.scrollWidth;
                 const targetHeight = el.scrollHeight;
 
@@ -787,7 +785,6 @@
                     windowHeight: targetHeight,
                     x: 0,
                     y: 0,
-                    useCORS: true,
                     onclone: function(doc, elem) {
                         elem.style.overflow = 'visible';
                         elem.style.height = 'auto';
@@ -797,7 +794,6 @@
                         elem.style.position = 'relative';
                         elem.style.left = 'auto';
                         elem.style.right = 'auto';
-                        // 确保所有卡片可见
                         const cards = elem.querySelectorAll('.card');
                         cards.forEach(c => c.style.display = 'flex');
                     }
