@@ -26,7 +26,7 @@
         }
 
         .app {
-            max-width: 780px;
+            max-width: 800px;
             width: 100%;
             background: linear-gradient(160deg, #282230, #1e1a26);
             border-radius: 28px;
@@ -35,31 +35,32 @@
             box-shadow: 0 8px 40px rgba(0, 0, 0, 0.5);
         }
 
-        /* ===== 导出区域 ===== */
+        /* ===== 导出区域 - 大尺寸 ===== */
         #capture {
             position: relative;
             z-index: 1;
             border-radius: 20px;
-            padding: 24px 20px 28px;
+            padding: 30px 28px 36px;
             background: linear-gradient(160deg, #282230, #1e1a26);
             border: 1px solid rgba(255, 200, 255, 0.06);
-            min-height: 400px;
+            min-height: 500px;
             overflow: visible;
             width: 100%;
+            font-size: 18px;
         }
 
         /* 课表头部 */
         .timetable-header {
             text-align: center;
-            padding-bottom: 16px;
+            padding-bottom: 22px;
             border-bottom: 2px solid rgba(240, 160, 224, 0.12);
-            margin-bottom: 18px;
+            margin-bottom: 24px;
         }
         .timetable-header .main-title {
             font-family: 'Orbitron', monospace;
             font-weight: 900;
-            font-size: 28px;
-            letter-spacing: 4px;
+            font-size: 38px;
+            letter-spacing: 6px;
             background: linear-gradient(135deg, #f0a0e0, #ff88aa, #f0a0e0);
             background-size: 200% 200%;
             -webkit-background-clip: text;
@@ -76,50 +77,50 @@
             }
         }
         .timetable-header .sub-title {
-            font-size: 14px;
+            font-size: 20px;
             color: rgba(255, 255, 255, 0.4);
-            margin-top: 4px;
+            margin-top: 8px;
             font-weight: 300;
-            letter-spacing: 2px;
+            letter-spacing: 4px;
         }
         .timetable-header .teacher-name {
             display: inline-block;
-            margin-top: 6px;
-            font-size: 14px;
+            margin-top: 10px;
+            font-size: 20px;
             font-weight: 600;
-            color: rgba(255, 255, 255, 0.6);
+            color: rgba(255, 255, 255, 0.7);
             background: rgba(240, 160, 224, 0.06);
             border: 1px solid rgba(240, 160, 224, 0.08);
-            padding: 4px 20px;
-            border-radius: 20px;
+            padding: 6px 32px;
+            border-radius: 24px;
         }
         .timetable-header .teacher-name i {
             color: #f0a0e0;
-            margin-right: 6px;
+            margin-right: 8px;
         }
 
-        /* 日期范围 - 好看格式 */
+        /* 日期范围 */
         .date-range-wrap {
             display: flex;
             justify-content: center;
             align-items: center;
-            gap: 10px;
-            margin-top: 8px;
+            gap: 16px;
+            margin-top: 14px;
             font-family: 'Orbitron', monospace;
-            font-size: 14px;
+            font-size: 20px;
             color: rgba(255, 255, 255, 0.5);
             letter-spacing: 1px;
         }
         .date-range-wrap .date-num {
             background: rgba(255, 255, 255, 0.04);
             border: 1px solid rgba(255, 255, 255, 0.06);
-            border-radius: 8px;
-            padding: 4px 14px;
-            color: rgba(255, 255, 255, 0.7);
-            font-size: 14px;
+            border-radius: 10px;
+            padding: 8px 22px;
+            color: rgba(255, 255, 255, 0.85);
+            font-size: 20px;
             font-family: 'Orbitron', monospace;
             letter-spacing: 0.5px;
-            min-width: 100px;
+            min-width: 150px;
             text-align: center;
             background: transparent;
             outline: none;
@@ -129,27 +130,27 @@
         }
         .date-range-wrap .date-sep {
             color: rgba(255, 255, 255, 0.15);
-            font-size: 16px;
+            font-size: 22px;
         }
         .date-range-wrap .date-icon {
-            color: rgba(240, 160, 224, 0.2);
-            font-size: 14px;
+            color: rgba(240, 160, 224, 0.25);
+            font-size: 20px;
         }
 
         /* ===== 星期选择 ===== */
         .week-row {
             display: flex;
             flex-wrap: wrap;
-            gap: 5px;
-            margin-bottom: 14px;
+            gap: 8px;
+            margin-bottom: 18px;
             justify-content: center;
         }
         .week-btn {
             background: rgba(255, 255, 255, 0.04);
             border: 1px solid rgba(255, 255, 255, 0.06);
-            padding: 5px 12px;
-            border-radius: 16px;
-            font-size: 12px;
+            padding: 8px 18px;
+            border-radius: 20px;
+            font-size: 16px;
             font-weight: 600;
             color: rgba(255, 255, 255, 0.3);
             cursor: pointer;
@@ -173,23 +174,24 @@
         .list {
             display: flex;
             flex-direction: column;
-            gap: 8px;
-            margin: 10px 0 8px;
-            min-height: 60px;
+            gap: 14px;
+            margin: 16px 0 12px;
+            min-height: 80px;
             width: 100%;
         }
 
         .card {
             background: rgba(255, 255, 255, 0.03);
-            border-radius: 12px;
-            padding: 12px 16px;
-            border-left: 3px solid rgba(240, 160, 224, 0.2);
+            border-radius: 18px;
+            padding: 18px 24px;
+            border-left: 5px solid rgba(240, 160, 224, 0.2);
             display: flex;
             flex-wrap: wrap;
             align-items: center;
-            gap: 8px 12px;
+            gap: 12px 18px;
             transition: all 0.2s;
             width: 100%;
+            min-height: 70px;
         }
         .card.done-card {
             border-left-color: #66e0a0;
@@ -197,47 +199,47 @@
         }
         .card .card-day {
             font-family: 'Orbitron', monospace;
-            font-size: 13px;
+            font-size: 18px;
             font-weight: 700;
             color: #d48ab8;
-            min-width: 44px;
+            min-width: 56px;
             letter-spacing: 0.5px;
             text-transform: uppercase;
         }
         .card .card-time {
-            font-size: 13px;
+            font-size: 18px;
             color: rgba(255, 255, 255, 0.4);
-            min-width: 80px;
+            min-width: 110px;
             font-weight: 500;
         }
         .card .card-type {
-            font-size: 11px;
+            font-size: 16px;
             font-weight: 600;
             color: #80c8e8;
             background: rgba(100, 200, 255, 0.06);
             border: 1px solid rgba(100, 200, 255, 0.06);
-            padding: 2px 10px;
-            border-radius: 10px;
+            padding: 4px 16px;
+            border-radius: 14px;
         }
         .card .card-class {
-            font-size: 14px;
+            font-size: 19px;
             font-weight: 600;
-            color: rgba(255, 255, 255, 0.85);
+            color: rgba(255, 255, 255, 0.92);
             flex: 1;
-            min-width: 60px;
+            min-width: 90px;
         }
         .card .card-studio {
-            font-size: 12px;
-            color: rgba(255, 255, 255, 0.3);
+            font-size: 17px;
+            color: rgba(255, 255, 255, 0.35);
         }
         .card .card-studio i {
             color: rgba(240, 160, 224, 0.15);
-            margin-right: 4px;
+            margin-right: 6px;
         }
         .card .card-status {
-            font-size: 14px;
+            font-size: 20px;
             color: rgba(255, 255, 255, 0.08);
-            min-width: 24px;
+            min-width: 32px;
             text-align: center;
         }
         .card .card-status.done {
@@ -245,10 +247,10 @@
         }
 
         .card .check {
-            font-size: 18px;
+            font-size: 24px;
             color: rgba(255, 255, 255, 0.1);
             cursor: pointer;
-            width: 26px;
+            width: 34px;
             text-align: center;
             user-select: none;
             transition: all 0.2s;
@@ -265,9 +267,9 @@
             background: transparent;
             border: none;
             color: rgba(255, 255, 255, 0.05);
-            font-size: 14px;
-            padding: 4px 6px;
-            border-radius: 10px;
+            font-size: 18px;
+            padding: 4px 8px;
+            border-radius: 12px;
             cursor: pointer;
             transition: all 0.2s;
             -webkit-tap-highlight-color: transparent;
@@ -282,18 +284,18 @@
 
         .empty {
             text-align: center;
-            padding: 30px 10px;
+            padding: 40px 10px;
             color: rgba(255, 255, 255, 0.05);
         }
         .empty i {
-            font-size: 28px;
+            font-size: 36px;
             display: block;
-            margin-bottom: 8px;
+            margin-bottom: 10px;
             color: rgba(240, 160, 224, 0.06);
         }
         .empty p {
             font-family: 'Orbitron', monospace;
-            font-size: 10px;
+            font-size: 14px;
             letter-spacing: 1px;
             text-transform: uppercase;
         }
@@ -316,8 +318,8 @@
         .form-row label {
             font-weight: 600;
             color: rgba(255, 255, 255, 0.12);
-            font-size: 10px;
-            min-width: 28px;
+            font-size: 12px;
+            min-width: 32px;
             font-family: 'Orbitron', monospace;
             letter-spacing: 0.3px;
             text-transform: uppercase;
@@ -327,8 +329,8 @@
             background: rgba(255, 255, 255, 0.04);
             border: 1px solid rgba(255, 255, 255, 0.06);
             border-radius: 14px;
-            padding: 7px 12px;
-            font-size: 13px;
+            padding: 8px 14px;
+            font-size: 15px;
             flex: 1 0 70px;
             outline: none;
             color: rgba(255, 255, 255, 0.7);
@@ -358,17 +360,17 @@
             background: linear-gradient(135deg, #d48ab8, #b070a0);
             border: none;
             color: #fff;
-            padding: 7px 20px;
-            border-radius: 16px;
+            padding: 8px 24px;
+            border-radius: 18px;
             font-weight: 700;
             cursor: pointer;
-            font-size: 12px;
+            font-size: 14px;
             font-family: 'Orbitron', monospace;
             letter-spacing: 0.5px;
             text-transform: uppercase;
             display: flex;
             align-items: center;
-            gap: 4px;
+            gap: 6px;
             transition: all 0.2s ease;
             -webkit-tap-highlight-color: transparent;
             touch-action: manipulation;
@@ -379,11 +381,11 @@
         .btn-secondary {
             background: transparent;
             border: 1px solid rgba(255, 255, 255, 0.04);
-            padding: 7px 16px;
-            border-radius: 16px;
+            padding: 8px 18px;
+            border-radius: 18px;
             color: rgba(255, 255, 255, 0.12);
             cursor: pointer;
-            font-size: 11px;
+            font-size: 13px;
             transition: all 0.2s;
             -webkit-tap-highlight-color: transparent;
             touch-action: manipulation;
@@ -396,9 +398,9 @@
         .toolbar {
             display: flex;
             justify-content: flex-end;
-            gap: 8px;
-            margin-top: 12px;
-            padding-top: 12px;
+            gap: 10px;
+            margin-top: 14px;
+            padding-top: 14px;
             border-top: 1px solid rgba(255, 255, 255, 0.04);
             flex-wrap: wrap;
         }
@@ -406,16 +408,16 @@
             background: rgba(200, 120, 180, 0.08);
             color: #d48ab8;
             border: 1px solid rgba(200, 120, 180, 0.08);
-            padding: 8px 20px;
-            border-radius: 18px;
-            font-size: 12px;
+            padding: 10px 24px;
+            border-radius: 20px;
+            font-size: 14px;
             font-weight: 700;
             font-family: 'Orbitron', monospace;
             letter-spacing: 0.5px;
             cursor: pointer;
             display: flex;
             align-items: center;
-            gap: 6px;
+            gap: 8px;
             transition: all 0.25s ease;
             -webkit-tap-highlight-color: transparent;
             touch-action: manipulation;
@@ -430,11 +432,11 @@
         .btn-reset {
             background: transparent;
             border: 1px solid rgba(255, 255, 255, 0.03);
-            padding: 8px 16px;
-            border-radius: 18px;
+            padding: 10px 18px;
+            border-radius: 20px;
             color: rgba(255, 255, 255, 0.06);
             cursor: pointer;
-            font-size: 11px;
+            font-size: 13px;
             transition: all 0.2s;
             -webkit-tap-highlight-color: transparent;
             touch-action: manipulation;
@@ -445,9 +447,9 @@
 
         .footer-note {
             text-align: right;
-            font-size: 9px;
+            font-size: 11px;
             color: rgba(255, 255, 255, 0.03);
-            margin-top: 4px;
+            margin-top: 6px;
             font-family: 'Orbitron', monospace;
             letter-spacing: 0.5px;
         }
@@ -458,45 +460,56 @@
                 border-radius: 20px;
             }
             #capture {
-                padding: 14px 10px 18px;
+                padding: 16px 12px 20px;
             }
             .timetable-header .main-title {
-                font-size: 20px;
+                font-size: 24px;
                 letter-spacing: 2px;
             }
+            .timetable-header .sub-title {
+                font-size: 15px;
+            }
+            .timetable-header .teacher-name {
+                font-size: 15px;
+                padding: 4px 18px;
+            }
             .card .card-class {
-                font-size: 13px;
+                font-size: 15px;
             }
             .card .card-time {
-                font-size: 12px;
-                min-width: 60px;
+                font-size: 14px;
+                min-width: 70px;
             }
             .card .card-day {
-                font-size: 11px;
-                min-width: 34px;
+                font-size: 14px;
+                min-width: 40px;
+            }
+            .card {
+                padding: 12px 14px;
+                gap: 6px 10px;
             }
             .form-row input {
                 flex: 1 0 100%;
             }
             .week-btn {
-                font-size: 10px;
-                padding: 4px 8px;
+                font-size: 11px;
+                padding: 4px 10px;
             }
             .btn-save {
-                font-size: 11px;
-                padding: 6px 16px;
-            }
-            .card {
-                padding: 10px 12px;
+                font-size: 12px;
+                padding: 8px 16px;
             }
             .date-range-wrap .date-num {
-                font-size: 12px;
-                min-width: 70px;
-                padding: 3px 10px;
+                font-size: 14px;
+                min-width: 80px;
+                padding: 4px 12px;
             }
             .date-range-wrap {
-                font-size: 12px;
-                gap: 6px;
+                font-size: 14px;
+                gap: 8px;
+            }
+            .date-range-wrap .date-sep {
+                font-size: 16px;
             }
         }
     </style>
@@ -519,7 +532,7 @@
                 </div>
             </div>
 
-            <!-- 星期选择（交互） -->
+            <!-- 星期选择 -->
             <div class="week-row" id="weekRow"></div>
 
             <!-- 课表列表 -->
@@ -569,7 +582,6 @@
 
     <script>
         (function() {
-            // ===== 示例数据 =====
             const defaultItems = [
                 { id: 'd1', day: '周四', time: '19:40-20:40', studio: 'idolx96店', type: '综合', class: 'hot body (三星代课)',
                     done: false },
@@ -585,7 +597,6 @@
             let items = [];
             let activeDays = new Set();
 
-            // DOM
             const weekRow = document.getElementById('weekRow');
             const listEl = document.getElementById('list');
             const daySelect = document.getElementById('daySelect');
@@ -602,7 +613,6 @@
 
             function genId() { return Date.now() + '-' + Math.random().toString(36).slice(2, 6); }
 
-            // ===== 获取本周日期（格式：2025.09.01） =====
             function getThisWeekRange() {
                 const now = new Date();
                 const dayOfWeek = now.getDay() || 7;
@@ -610,27 +620,17 @@
                 monday.setDate(now.getDate() - dayOfWeek + 1);
                 const sunday = new Date(monday);
                 sunday.setDate(monday.getDate() + 6);
-
-                const formatDate = (d) => {
-                    const year = d.getFullYear();
-                    const month = String(d.getMonth() + 1).padStart(2, '0');
-                    const day = String(d.getDate()).padStart(2, '0');
-                    return year + '.' + month + '.' + day;
-                };
-                return { start: formatDate(monday), end: formatDate(sunday) };
+                const f = (d) => d.getFullYear() + '.' + String(d.getMonth() + 1).padStart(2, '0') + '.' + String(d.getDate())
+                    .padStart(2, '0');
+                return { start: f(monday), end: f(sunday) };
             }
 
             function setDefaultDates() {
                 const range = getThisWeekRange();
-                if (!startDateInput.value || startDateInput.value === '') {
-                    startDateInput.value = range.start;
-                }
-                if (!endDateInput.value || endDateInput.value === '') {
-                    endDateInput.value = range.end;
-                }
+                if (!startDateInput.value) startDateInput.value = range.start;
+                if (!endDateInput.value) endDateInput.value = range.end;
             }
 
-            // ===== 渲染 =====
             function render() {
                 renderWeekRow();
                 renderList();
@@ -644,23 +644,18 @@
                     html += `<button class="week-btn ${active}" data-day="${day}">${day}</button>`;
                 });
                 weekRow.innerHTML = html;
-
                 document.querySelectorAll('.week-btn').forEach(btn => {
                     btn.addEventListener('click', function() {
                         const day = this.dataset.day;
-                        toggleDay(day);
+                        if (activeDays.has(day)) {
+                            if (activeDays.size <= 1) return;
+                            activeDays.delete(day);
+                        } else {
+                            activeDays.add(day);
+                        }
+                        render();
                     });
                 });
-            }
-
-            function toggleDay(day) {
-                if (activeDays.has(day)) {
-                    if (activeDays.size <= 1) return;
-                    activeDays.delete(day);
-                } else {
-                    activeDays.add(day);
-                }
-                render();
             }
 
             function renderList() {
@@ -676,13 +671,11 @@
                 let html = '';
                 filtered.forEach(item => {
                     const doneClass = item.done ? 'done' : '';
-                    const checkClass = item.done ? 'done' : '';
                     const icon = item.done ? 'fa-check-circle' : 'fa-circle';
                     const typeDisplay = item.type || '综合';
-
                     html += `
                         <div class="card ${item.done ? 'done-card' : ''}" data-id="${item.id}">
-                            <div class="check ${checkClass}" data-id="${item.id}">
+                            <div class="check ${doneClass}" data-id="${item.id}">
                                 <i class="far ${icon}"></i>
                             </div>
                             <span class="card-day">${item.day}</span>
@@ -705,7 +698,6 @@
                             render(); }
                     });
                 });
-
                 document.querySelectorAll('.del-btn').forEach(el => {
                     el.addEventListener('click', function(e) {
                         e.stopPropagation();
@@ -716,14 +708,12 @@
                 });
             }
 
-            // ===== 添加 =====
             function addItem() {
                 const day = daySelect.value;
                 const time = timeInput.value.trim() || '19:00-20:00';
                 const studio = studioInput.value.trim() || '舞室';
                 const type = typeInput.value.trim() || '综合';
                 const cls = classInput.value.trim() || '新课程';
-
                 const newItem = { id: genId(), day, time, studio, type, class: cls, done: false };
                 items.push(newItem);
                 if (!activeDays.has(day)) activeDays.add(day);
@@ -755,21 +745,18 @@
                 }
             }
 
-            // ===== 导出 JPG（完整版） =====
+            // ===== 导出 JPG - 超大高清图 =====
             function exportJPG() {
                 const el = document.getElementById('capture');
 
-                // 保存交互元素
+                // 隐藏交互元素
                 const checks = el.querySelectorAll('.check');
                 const dels = el.querySelectorAll('.del-btn');
                 const weekRowEl = el.querySelector('.week-row');
-
-                // 隐藏交互元素
                 checks.forEach(c => c.style.display = 'none');
                 dels.forEach(d => d.style.display = 'none');
-                if (weekRowEl) weekRowEl.style.display = 'none';
+                if (weekRowEl) weekRowEl.style.display = 'none');
 
-                // 确保完整尺寸
                 el.style.overflow = 'visible';
                 el.style.height = 'auto';
                 el.style.width = '100%';
@@ -777,12 +764,15 @@
                 saveBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> 生成中...';
                 saveBtn.disabled = true;
 
-                // 用高分辨率 + 完整尺寸
+                // 获取完整尺寸
                 const targetWidth = el.scrollWidth;
                 const targetHeight = el.scrollHeight;
 
+                // 用 4 倍高清
+                const scale = 4;
+
                 html2canvas(el, {
-                    scale: 3,
+                    scale: scale,
                     backgroundColor: '#282230',
                     useCORS: true,
                     logging: false,
@@ -791,12 +781,12 @@
                     height: targetHeight,
                     windowWidth: targetWidth,
                     windowHeight: targetHeight,
-                    onclone: function(clonedDoc, clonedElement) {
-                        clonedElement.style.overflow = 'visible';
-                        clonedElement.style.height = 'auto';
-                        clonedElement.style.width = '100%';
+                    onclone: function(doc, elem) {
+                        elem.style.overflow = 'visible';
+                        elem.style.height = 'auto';
+                        elem.style.width = '100%';
                         // 确保所有卡片可见
-                        const cards = clonedElement.querySelectorAll('.card');
+                        const cards = elem.querySelectorAll('.card');
                         cards.forEach(c => c.style.display = 'flex');
                     }
                 }).then(canvas => {
@@ -808,10 +798,10 @@
                     el.style.height = '';
                     el.style.width = '';
 
-                    // 导出 JPG
+                    // 输出大图 JPG
                     const link = document.createElement('a');
                     link.download = 'DANCE_PLANNER.jpg';
-                    link.href = canvas.toDataURL('image/jpeg', 0.95);
+                    link.href = canvas.toDataURL('image/jpeg', 1.0);
                     link.click();
 
                     saveBtn.innerHTML = '<i class="fas fa-image"></i> 导出 JPG';
@@ -821,15 +811,10 @@
                     if (navigator.share) {
                         canvas.toBlob(function(blob) {
                             const file = new File([blob], 'DANCE_PLANNER.jpg', { type: 'image/jpeg' });
-                            navigator.share({
-                                files: [file],
-                                title: 'DANCE PLANNER'
-                            }).catch(() => {});
+                            navigator.share({ files: [file], title: 'DANCE PLANNER' }).catch(() => {});
                         }, 'image/jpeg', 0.95);
                     }
-
                 }).catch(err => {
-                    console.error('导出失败:', err);
                     checks.forEach(c => c.style.display = '');
                     dels.forEach(d => d.style.display = '');
                     if (weekRowEl) weekRowEl.style.display = '';
@@ -842,24 +827,18 @@
                 });
             }
 
-            // ===== 事件 =====
             addBtn.addEventListener('click', addItem);
             cancelBtn.addEventListener('click', clearForm);
             resetBtn.addEventListener('click', resetAll);
             saveBtn.addEventListener('click', exportJPG);
 
-            // 日期输入框自动填充
             startDateInput.addEventListener('focus', function() {
-                if (!this.value) {
-                    const range = getThisWeekRange();
-                    this.value = range.start;
-                }
+                if (!this.value) { const r = getThisWeekRange();
+                    this.value = r.start; }
             });
             endDateInput.addEventListener('focus', function() {
-                if (!this.value) {
-                    const range = getThisWeekRange();
-                    this.value = range.end;
-                }
+                if (!this.value) { const r = getThisWeekRange();
+                    this.value = r.end; }
             });
 
             [timeInput, studioInput, typeInput, classInput].forEach(inp => {
@@ -869,14 +848,12 @@
                 });
             });
 
-            // ===== 启动 =====
             items = defaultItems.map(item => ({ ...item, id: genId() }));
             const days = new Set(items.map(item => item.day));
             activeDays = new Set(ALL_DAYS.filter(d => days.has(d)));
             if (activeDays.size === 0) activeDays.add('周一');
             render();
 
-            // 修复手机 input 缩放
             document.querySelectorAll('input, select').forEach(el => {
                 el.style.fontSize = '16px';
             });
