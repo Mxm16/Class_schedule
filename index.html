@@ -15,6 +15,7 @@
             padding: 0;
             box-sizing: border-box;
         }
+
         body {
             background: #1a1620;
             min-height: 100vh;
@@ -23,6 +24,7 @@
             justify-content: center;
             font-family: 'Segoe UI', system-ui, sans-serif;
         }
+
         .app {
             max-width: 780px;
             width: 100%;
@@ -31,51 +33,37 @@
             padding: 16px 14px 20px;
             border: 1px solid rgba(255, 200, 255, 0.08);
             box-shadow: 0 8px 40px rgba(0, 0, 0, 0.5);
-            position: relative;
         }
+
+        /* ===== 导出区域 - 课表风格 ===== */
         #capture {
             position: relative;
             z-index: 1;
             border-radius: 20px;
-            padding: 4px 2px 12px;
-            background: transparent;
+            padding: 20px 18px 24px;
+            background: linear-gradient(160deg, #282230, #1e1a26);
+            border: 1px solid rgba(255, 200, 255, 0.06);
+            min-height: 400px;
         }
 
-        /* ===== HEADER ===== */
-        .header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding-bottom: 12px;
-            border-bottom: 1px solid rgba(255, 200, 255, 0.06);
-            margin-bottom: 14px;
-            flex-wrap: wrap;
-            gap: 6px;
+        /* 课表头部 */
+        .timetable-header {
+            text-align: center;
+            padding-bottom: 16px;
+            border-bottom: 2px solid rgba(240, 160, 224, 0.12);
+            margin-bottom: 18px;
+            position: relative;
         }
-        .header-left {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            flex-wrap: wrap;
-        }
-        .header h1 {
+        .timetable-header .main-title {
             font-family: 'Orbitron', monospace;
             font-weight: 900;
-            font-size: 18px;
-            letter-spacing: 2px;
+            font-size: 28px;
+            letter-spacing: 4px;
             background: linear-gradient(135deg, #f0a0e0, #ff88aa, #f0a0e0);
             background-size: 200% 200%;
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             animation: gradShift 4s ease-in-out infinite;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-        .header h1 i {
-            -webkit-text-fill-color: initial;
-            color: #f0a0e0;
-            font-size: 18px;
         }
         @keyframes gradShift {
             0%,
@@ -86,24 +74,37 @@
                 background-position: 100% 50%;
             }
         }
-        .header .teacher-tag {
-            font-size: 13px;
-            font-weight: 600;
-            color: rgba(255, 255, 255, 0.7);
-            background: rgba(240, 160, 224, 0.08);
-            border: 1px solid rgba(240, 160, 224, 0.1);
-            padding: 3px 14px;
-            border-radius: 20px;
-            display: flex;
-            align-items: center;
-            gap: 4px;
+        .timetable-header .sub-title {
+            font-size: 14px;
+            color: rgba(255, 255, 255, 0.4);
+            margin-top: 4px;
+            font-weight: 300;
+            letter-spacing: 2px;
         }
-        .header .teacher-tag i {
+        .timetable-header .teacher-name {
+            display: inline-block;
+            margin-top: 6px;
+            font-size: 14px;
+            font-weight: 600;
+            color: rgba(255, 255, 255, 0.6);
+            background: rgba(240, 160, 224, 0.06);
+            border: 1px solid rgba(240, 160, 224, 0.08);
+            padding: 4px 20px;
+            border-radius: 20px;
+        }
+        .timetable-header .teacher-name i {
             color: #f0a0e0;
+            margin-right: 6px;
+        }
+        .timetable-header .week-range {
             font-size: 12px;
+            color: rgba(255, 255, 255, 0.15);
+            margin-top: 4px;
+            font-family: 'Orbitron', monospace;
+            letter-spacing: 1px;
         }
 
-        /* ===== 星期按钮 ===== */
+        /* ===== 星期选择（交互用） ===== */
         .week-row {
             display: flex;
             flex-wrap: wrap;
@@ -136,7 +137,7 @@
             color: #f0c0e0;
         }
 
-        /* ===== 课程列表 ===== */
+        /* ===== 课表列表 ===== */
         .list {
             display: flex;
             flex-direction: column;
@@ -144,100 +145,94 @@
             margin: 10px 0 14px;
             min-height: 60px;
         }
+
+        /* 课表卡片 - 表格风格 */
         .card {
-            background: rgba(255, 255, 255, 0.04);
-            border-radius: 14px;
-            padding: 12px 14px;
-            border: 1px solid rgba(255, 255, 255, 0.05);
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 12px;
+            padding: 12px 16px;
+            border-left: 3px solid rgba(240, 160, 224, 0.2);
             display: flex;
             flex-wrap: wrap;
             align-items: center;
-            gap: 8px;
+            gap: 8px 12px;
+            transition: all 0.2s;
         }
-        .card-left {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            flex: 2 1 180px;
+        .card.done-card {
+            border-left-color: #66e0a0;
+            background: rgba(102, 224, 160, 0.04);
         }
-        .check {
-            font-size: 20px;
-            color: rgba(255, 255, 255, 0.12);
+        .card .card-day {
+            font-family: 'Orbitron', monospace;
+            font-size: 13px;
+            font-weight: 700;
+            color: #d48ab8;
+            min-width: 44px;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+        }
+        .card .card-time {
+            font-size: 13px;
+            color: rgba(255, 255, 255, 0.4);
+            min-width: 80px;
+            font-weight: 500;
+        }
+        .card .card-type {
+            font-size: 11px;
+            font-weight: 600;
+            color: #80c8e8;
+            background: rgba(100, 200, 255, 0.06);
+            border: 1px solid rgba(100, 200, 255, 0.06);
+            padding: 2px 10px;
+            border-radius: 10px;
+        }
+        .card .card-class {
+            font-size: 14px;
+            font-weight: 600;
+            color: rgba(255, 255, 255, 0.85);
+            flex: 1;
+            min-width: 60px;
+        }
+        .card .card-studio {
+            font-size: 12px;
+            color: rgba(255, 255, 255, 0.3);
+        }
+        .card .card-studio i {
+            color: rgba(240, 160, 224, 0.15);
+            margin-right: 4px;
+        }
+        .card .card-status {
+            font-size: 14px;
+            color: rgba(255, 255, 255, 0.08);
+            min-width: 24px;
+            text-align: center;
+        }
+        .card .card-status.done {
+            color: #66e0a0;
+        }
+
+        /* 交互元素（不显示在导出图片中） */
+        .card .check {
+            font-size: 18px;
+            color: rgba(255, 255, 255, 0.1);
             cursor: pointer;
-            width: 28px;
+            width: 26px;
             text-align: center;
             user-select: none;
             transition: all 0.2s;
             -webkit-tap-highlight-color: transparent;
             touch-action: manipulation;
         }
-        .check:active {
+        .card .check:active {
             transform: scale(0.85);
         }
-        .check.done {
-            color: #66e0a0;
-            text-shadow: 0 0 20px rgba(102, 224, 160, 0.1);
-        }
-        .info {
-            flex: 1;
-            min-width: 100px;
-        }
-        .info .title {
-            font-weight: 600;
-            font-size: 14px;
-            color: rgba(255, 255, 255, 0.85);
-            display: flex;
-            flex-wrap: wrap;
-            align-items: center;
-            gap: 4px 8px;
-        }
-        .info .title .day-tag {
-            background: rgba(240, 160, 224, 0.08);
-            border: 1px solid rgba(240, 160, 224, 0.06);
-            padding: 0 8px;
-            border-radius: 10px;
-            font-size: 9px;
-            font-weight: 700;
-            color: #d48ab8;
-            font-family: 'Orbitron', monospace;
-            letter-spacing: 0.3px;
-            text-transform: uppercase;
-        }
-        .info .title .type-badge {
-            background: rgba(100, 200, 255, 0.06);
-            border: 1px solid rgba(100, 200, 255, 0.06);
-            padding: 0 8px;
-            border-radius: 10px;
-            font-size: 10px;
-            font-weight: 600;
-            color: #80c8e8;
-        }
-        .info .title .done-mark {
-            font-size: 12px;
+        .card .check.done {
             color: #66e0a0;
         }
-        .info .meta {
-            font-size: 12px;
-            color: rgba(255, 255, 255, 0.25);
-            display: flex;
-            flex-wrap: wrap;
-            gap: 4px 10px;
-            margin-top: 2px;
-        }
-        .info .meta span {
-            background: rgba(255, 255, 255, 0.02);
-            padding: 1px 10px 1px 6px;
-            border-radius: 10px;
-            border: 1px solid rgba(255, 255, 255, 0.03);
-        }
-        .info .meta i {
-            color: rgba(240, 160, 224, 0.15);
-            width: 12px;
-        }
-        .card-actions button {
+        .card .del-btn {
             background: transparent;
             border: none;
-            color: rgba(255, 255, 255, 0.06);
+            color: rgba(255, 255, 255, 0.05);
             font-size: 14px;
             padding: 4px 6px;
             border-radius: 10px;
@@ -246,11 +241,10 @@
             -webkit-tap-highlight-color: transparent;
             touch-action: manipulation;
         }
-        .card-actions button:active {
+        .card .del-btn:active {
             transform: scale(0.9);
         }
-        .card-actions button:hover {
-            background: rgba(255, 0, 0, 0.08);
+        .card .del-btn:hover {
             color: #ff6688;
         }
 
@@ -366,7 +360,7 @@
             transform: scale(0.95);
         }
 
-        /* ===== 底部 ===== */
+        /* ===== 底部工具栏 ===== */
         .toolbar {
             display: flex;
             justify-content: flex-end;
@@ -374,8 +368,6 @@
             margin-top: 12px;
             padding-top: 12px;
             border-top: 1px solid rgba(255, 255, 255, 0.04);
-            position: relative;
-            z-index: 1;
             flex-wrap: wrap;
         }
         .btn-save {
@@ -418,6 +410,7 @@
         .btn-reset:active {
             transform: scale(0.95);
         }
+
         .footer-note {
             text-align: right;
             font-size: 9px;
@@ -432,19 +425,23 @@
                 padding: 10px 8px 16px;
                 border-radius: 20px;
             }
-            .header h1 {
-                font-size: 16px;
-                letter-spacing: 1px;
+            #capture {
+                padding: 14px 10px 18px;
             }
-            .header .teacher-tag {
+            .timetable-header .main-title {
+                font-size: 20px;
+                letter-spacing: 2px;
+            }
+            .card .card-class {
+                font-size: 13px;
+            }
+            .card .card-time {
+                font-size: 12px;
+                min-width: 60px;
+            }
+            .card .card-day {
                 font-size: 11px;
-                padding: 2px 10px;
-            }
-            .card-left {
-                flex: 1 0 100%;
-            }
-            .card-actions {
-                margin-left: auto;
+                min-width: 34px;
             }
             .form-row input {
                 flex: 1 0 100%;
@@ -453,15 +450,31 @@
                 font-size: 10px;
                 padding: 4px 8px;
             }
-            .info .title {
-                font-size: 13px;
-            }
-            .info .meta {
-                font-size: 11px;
-            }
             .btn-save {
                 font-size: 11px;
                 padding: 6px 16px;
+            }
+            .card {
+                padding: 10px 12px;
+            }
+        }
+
+        /* ===== 打印/导出优化 ===== */
+        @media print {
+            .form,
+            .toolbar,
+            .week-row,
+            .footer-note,
+            .del-btn,
+            .check {
+                display: none !important;
+            }
+            #capture {
+                border: none !important;
+                padding: 20px !important;
+            }
+            .card {
+                break-inside: avoid;
             }
         }
     </style>
@@ -469,64 +482,67 @@
 <body>
 
     <div class="app">
+        <!-- ===== 导出区域 ===== -->
         <div id="capture">
-            <!-- HEADER -->
-            <div class="header">
-                <div class="header-left">
-                    <h1><i class="fas fa-bolt"></i> DANCE PLANNER</h1>
-                    <span class="teacher-tag"><i class="fas fa-star"></i> @Thia西亚</span>
-                </div>
+            <!-- 课表头部 -->
+            <div class="timetable-header">
+                <div class="main-title">✦ DANCE PLANNER ✦</div>
+                <div class="sub-title">— 本周课程表 —</div>
+                <div class="teacher-name"><i class="fas fa-star"></i> @Thia西亚</div>
+                <div class="week-range" id="weekRangeDisplay">WEEK 34 · 2026</div>
             </div>
 
-            <!-- 星期 - 点击切换显示 -->
+            <!-- 星期选择（交互） -->
             <div class="week-row" id="weekRow"></div>
 
-            <!-- 列表 -->
+            <!-- 课表列表 -->
             <div class="list" id="list"></div>
 
-            <!-- 表单 -->
-            <div class="form">
-                <div class="form-row">
-                    <label>星期</label>
-                    <select id="daySelect">
-                        <option value="周一">周一</option>
-                        <option value="周二">周二</option>
-                        <option value="周三">周三</option>
-                        <option value="周四">周四</option>
-                        <option value="周五">周五</option>
-                        <option value="周六">周六</option>
-                        <option value="周日">周日</option>
-                    </select>
-                    <label>时间</label>
-                    <input type="text" id="timeInput" placeholder="19:40-20:40" value="19:00-20:00">
-                </div>
-                <div class="form-row">
-                    <label>类型</label>
-                    <input type="text" id="typeInput" placeholder="Kpop / 编舞 / 男团" value="Kpop">
-                    <label>课程</label>
-                    <input type="text" id="classInput" placeholder="hot body / like fire" value="新课程">
-                </div>
-                <div class="form-row">
-                    <label>舞室</label>
-                    <input type="text" id="studioInput" placeholder="舞室名称" value="GH5">
-                </div>
-                <div class="form-actions">
-                    <button class="btn-secondary" id="cancelBtn">✕ 清空</button>
-                    <button class="btn-primary" id="addBtn"><i class="fas fa-plus"></i> 添加</button>
-                </div>
-            </div>
-            <div class="footer-note">◆ 点击 ○ 打卡 · 星期切换 · 保存到相册</div>
+            <div class="footer-note" id="footerNote">◆ 点击 ○ 打卡 · 星期切换</div>
         </div>
 
-        <!-- 底部 -->
+        <!-- ===== 底部工具栏 ===== -->
         <div class="toolbar">
             <button class="btn-reset" id="resetBtn"><i class="fas fa-undo"></i> 重置</button>
-            <button class="btn-save" id="saveBtn"><i class="fas fa-image"></i> 保存图片</button>
+            <button class="btn-save" id="saveBtn"><i class="fas fa-image"></i> 导出 JPG</button>
+        </div>
+
+        <!-- ===== 表单 ===== -->
+        <div class="form">
+            <div class="form-row">
+                <label>星期</label>
+                <select id="daySelect">
+                    <option value="周一">周一</option>
+                    <option value="周二">周二</option>
+                    <option value="周三">周三</option>
+                    <option value="周四">周四</option>
+                    <option value="周五">周五</option>
+                    <option value="周六">周六</option>
+                    <option value="周日">周日</option>
+                </select>
+                <label>时间</label>
+                <input type="text" id="timeInput" placeholder="19:40-20:40" value="19:00-20:00">
+            </div>
+            <div class="form-row">
+                <label>类型</label>
+                <input type="text" id="typeInput" placeholder="Kpop / 编舞" value="Kpop">
+                <label>课程</label>
+                <input type="text" id="classInput" placeholder="hot body" value="新课程">
+            </div>
+            <div class="form-row">
+                <label>舞室</label>
+                <input type="text" id="studioInput" placeholder="舞室名称" value="GH5">
+            </div>
+            <div class="form-actions">
+                <button class="btn-secondary" id="cancelBtn">✕ 清空</button>
+                <button class="btn-primary" id="addBtn"><i class="fas fa-plus"></i> 添加</button>
+            </div>
         </div>
     </div>
 
     <script>
         (function() {
+            // ===== 示例数据 =====
             const defaultItems = [
                 { id: 'd1', day: '周四', time: '19:40-20:40', studio: 'idolx96店', type: '综合', class: 'hot body (三星代课)',
                     done: false },
@@ -542,6 +558,7 @@
             let items = [];
             let activeDays = new Set();
 
+            // DOM
             const weekRow = document.getElementById('weekRow');
             const listEl = document.getElementById('list');
             const daySelect = document.getElementById('daySelect');
@@ -553,15 +570,31 @@
             const cancelBtn = document.getElementById('cancelBtn');
             const resetBtn = document.getElementById('resetBtn');
             const saveBtn = document.getElementById('saveBtn');
+            const weekRangeDisplay = document.getElementById('weekRangeDisplay');
 
             function genId() { return Date.now() + '-' + Math.random().toString(36).slice(2, 6); }
 
+            // ===== 获取当前周数 =====
+            function getWeekNumber() {
+                const now = new Date();
+                const start = new Date(now.getFullYear(), 0, 1);
+                const diff = (now - start) / (7 * 24 * 60 * 60 * 1000);
+                return Math.ceil(diff);
+            }
+
+            function updateWeekRange() {
+                const week = getWeekNumber();
+                const year = new Date().getFullYear();
+                weekRangeDisplay.textContent = `WEEK ${week} · ${year}`;
+            }
+
+            // ===== 渲染 =====
             function render() {
                 renderWeekRow();
                 renderList();
+                updateWeekRange();
             }
 
-            // ===== 星期行：点击切换显示 =====
             function renderWeekRow() {
                 let html = '';
                 ALL_DAYS.forEach(day => {
@@ -571,7 +604,7 @@
                 weekRow.innerHTML = html;
 
                 document.querySelectorAll('.week-btn').forEach(btn => {
-                    btn.addEventListener('click', function(e) {
+                    btn.addEventListener('click', function() {
                         const day = this.dataset.day;
                         toggleDay(day);
                     });
@@ -580,10 +613,7 @@
 
             function toggleDay(day) {
                 if (activeDays.has(day)) {
-                    if (activeDays.size <= 1) {
-                        // 至少保留一个，可以提示但不强制
-                        return;
-                    }
+                    if (activeDays.size <= 1) return;
                     activeDays.delete(day);
                 } else {
                     activeDays.add(day);
@@ -591,7 +621,6 @@
                 render();
             }
 
-            // ===== 渲染列表 =====
             function renderList() {
                 const filtered = items.filter(item => activeDays.has(item.day));
                 filtered.sort((a, b) => ALL_DAYS.indexOf(a.day) - ALL_DAYS.indexOf(b.day));
@@ -605,30 +634,22 @@
                 let html = '';
                 filtered.forEach(item => {
                     const doneClass = item.done ? 'done' : '';
+                    const checkClass = item.done ? 'done' : '';
                     const icon = item.done ? 'fa-check-circle' : 'fa-circle';
                     const typeDisplay = item.type || '综合';
+
                     html += `
-                        <div class="card" data-id="${item.id}">
-                            <div class="card-left">
-                                <div class="check ${doneClass}" data-id="${item.id}">
-                                    <i class="far ${icon}"></i>
-                                </div>
-                                <div class="info">
-                                    <div class="title">
-                                        <span class="day-tag">${item.day}</span>
-                                        <span class="type-badge">${typeDisplay}</span>
-                                        ${item.class}
-                                        ${item.done ? '<span class="done-mark">✅</span>' : ''}
-                                    </div>
-                                    <div class="meta">
-                                        <span><i class="far fa-clock"></i> ${item.time || '--:--'}</span>
-                                        <span><i class="fas fa-map-pin"></i> ${item.studio || '舞室'}</span>
-                                    </div>
-                                </div>
+                        <div class="card ${item.done ? 'done-card' : ''}" data-id="${item.id}">
+                            <div class="check ${checkClass}" data-id="${item.id}">
+                                <i class="far ${icon}"></i>
                             </div>
-                            <div class="card-actions">
-                                <button class="del-btn" data-id="${item.id}"><i class="fas fa-trash-alt"></i></button>
-                            </div>
+                            <span class="card-day">${item.day}</span>
+                            <span class="card-time">${item.time || '--:--'}</span>
+                            <span class="card-type">${typeDisplay}</span>
+                            <span class="card-class">${item.class}</span>
+                            <span class="card-studio"><i class="fas fa-map-pin"></i>${item.studio || '舞室'}</span>
+                            <span class="card-status ${item.done ? 'done' : ''}">${item.done ? '✓' : ''}</span>
+                            <button class="del-btn" data-id="${item.id}"><i class="fas fa-trash-alt"></i></button>
                         </div>
                     `;
                 });
@@ -691,9 +712,19 @@
                 }
             }
 
-            // ===== 保存图片 - 手机相册 =====
-            function saveImage() {
+            // ===== 导出 JPG =====
+            function exportJPG() {
                 const el = document.getElementById('capture');
+
+                // 暂时隐藏交互元素（但保留打勾状态显示）
+                const checks = el.querySelectorAll('.check');
+                const dels = el.querySelectorAll('.del-btn');
+                const weekRowEl = el.querySelector('.week-row');
+
+                // 隐藏交互元素（导出时不需要）
+                checks.forEach(c => c.style.display = 'none');
+                dels.forEach(d => d.style.display = 'none');
+                if (weekRowEl) weekRowEl.style.display = 'none';
 
                 saveBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> 生成中...';
                 saveBtn.disabled = true;
@@ -708,48 +739,39 @@
                     height: el.scrollHeight,
                     windowWidth: el.scrollWidth,
                     windowHeight: el.scrollHeight,
-                    onclone: function(doc) {
-                        // 确保所有内容完整
-                    }
                 }).then(canvas => {
-                    // 尝试使用系统保存（手机相册）
-                    const dataUrl = canvas.toDataURL('image/png');
+                    // 恢复显示
+                    checks.forEach(c => c.style.display = '');
+                    dels.forEach(d => d.style.display = '');
+                    if (weekRowEl) weekRowEl.style.display = '';
 
-                    // 方法1：通过 a 标签下载（通用）
+                    // 导出为 JPG
                     const link = document.createElement('a');
-                    link.download = 'DANCE_PLANNER.png';
-                    link.href = dataUrl;
+                    link.download = 'DANCE_PLANNER.jpg';
+                    link.href = canvas.toDataURL('image/jpeg', 0.95);
                     link.click();
 
-                    // 方法2：如果是 iOS，尝试通过 Web Share API 保存到相册
-                    if (navigator.share && /iPhone|iPad|iPod/i.test(navigator.userAgent)) {
-                        canvas.toBlob(function(blob) {
-                            const file = new File([blob], 'DANCE_PLANNER.png', { type: 'image/png' });
-                            navigator.share({
-                                files: [file],
-                                title: 'DANCE PLANNER'
-                            }).catch(() => {});
-                        });
-                    }
-
-                    saveBtn.innerHTML = '<i class="fas fa-image"></i> 保存图片';
+                    saveBtn.innerHTML = '<i class="fas fa-image"></i> 导出 JPG';
                     saveBtn.disabled = false;
 
-                    // 额外：如果是安卓，尝试使用 Android 分享
-                    if (navigator.share && /Android/i.test(navigator.userAgent)) {
+                    // 手机分享
+                    if (navigator.share) {
                         canvas.toBlob(function(blob) {
-                            const file = new File([blob], 'DANCE_PLANNER.png', { type: 'image/png' });
+                            const file = new File([blob], 'DANCE_PLANNER.jpg', { type: 'image/jpeg' });
                             navigator.share({
                                 files: [file],
                                 title: 'DANCE PLANNER'
                             }).catch(() => {});
-                        });
+                        }, 'image/jpeg', 0.95);
                     }
 
                 }).catch(err => {
-                    console.error('保存失败:', err);
-                    alert('保存失败，请尝试截图保存。\n' + err.message);
-                    saveBtn.innerHTML = '<i class="fas fa-image"></i> 保存图片';
+                    console.error('导出失败:', err);
+                    checks.forEach(c => c.style.display = '');
+                    dels.forEach(d => d.style.display = '');
+                    if (weekRowEl) weekRowEl.style.display = '';
+                    alert('导出失败，请尝试截图保存。');
+                    saveBtn.innerHTML = '<i class="fas fa-image"></i> 导出 JPG';
                     saveBtn.disabled = false;
                 });
             }
@@ -758,7 +780,7 @@
             addBtn.addEventListener('click', addItem);
             cancelBtn.addEventListener('click', clearForm);
             resetBtn.addEventListener('click', resetAll);
-            saveBtn.addEventListener('click', saveImage);
+            saveBtn.addEventListener('click', exportJPG);
 
             [timeInput, studioInput, typeInput, classInput].forEach(inp => {
                 inp.addEventListener('keypress', function(e) {
@@ -774,7 +796,7 @@
             if (activeDays.size === 0) activeDays.add('周一');
             render();
 
-            // 修复手机上点击 input 放大
+            // 修复手机 input 缩放
             document.querySelectorAll('input, select').forEach(el => {
                 el.style.fontSize = '16px';
             });
