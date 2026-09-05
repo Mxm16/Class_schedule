@@ -35,7 +35,7 @@
             box-shadow: 0 8px 40px rgba(0, 0, 0, 0.5);
         }
 
-        /* ===== 导出区域 - 课表风格 ===== */
+        /* ===== 导出区域 ===== */
         #capture {
             position: relative;
             z-index: 1;
@@ -45,6 +45,7 @@
             border: 1px solid rgba(255, 200, 255, 0.06);
             min-height: 400px;
             overflow: visible;
+            width: 100%;
         }
 
         /* 课表头部 */
@@ -53,7 +54,6 @@
             padding-bottom: 16px;
             border-bottom: 2px solid rgba(240, 160, 224, 0.12);
             margin-bottom: 18px;
-            position: relative;
         }
         .timetable-header .main-title {
             font-family: 'Orbitron', monospace;
@@ -98,43 +98,45 @@
             margin-right: 6px;
         }
 
-        /* 日期范围 - 可编辑 */
+        /* 日期范围 - 好看格式 */
         .date-range-wrap {
             display: flex;
             justify-content: center;
             align-items: center;
             gap: 10px;
-            margin-top: 6px;
-            flex-wrap: wrap;
-        }
-        .date-range-wrap .date-label {
-            font-size: 13px;
-            color: rgba(255, 255, 255, 0.2);
+            margin-top: 8px;
             font-family: 'Orbitron', monospace;
+            font-size: 14px;
+            color: rgba(255, 255, 255, 0.5);
             letter-spacing: 1px;
         }
-        .date-range-wrap .date-input {
+        .date-range-wrap .date-num {
             background: rgba(255, 255, 255, 0.04);
             border: 1px solid rgba(255, 255, 255, 0.06);
-            border-radius: 12px;
-            padding: 4px 12px;
-            font-size: 13px;
+            border-radius: 8px;
+            padding: 4px 14px;
             color: rgba(255, 255, 255, 0.7);
-            width: 110px;
+            font-size: 14px;
+            font-family: 'Orbitron', monospace;
+            letter-spacing: 0.5px;
+            min-width: 100px;
             text-align: center;
+            background: transparent;
             outline: none;
-            font-family: inherit;
         }
-        .date-range-wrap .date-input:focus {
+        .date-range-wrap .date-num:focus {
             border-color: rgba(240, 160, 224, 0.2);
-            background: rgba(255, 255, 255, 0.06);
         }
         .date-range-wrap .date-sep {
             color: rgba(255, 255, 255, 0.15);
+            font-size: 16px;
+        }
+        .date-range-wrap .date-icon {
+            color: rgba(240, 160, 224, 0.2);
             font-size: 14px;
         }
 
-        /* ===== 星期选择（交互用） ===== */
+        /* ===== 星期选择 ===== */
         .week-row {
             display: flex;
             flex-wrap: wrap;
@@ -174,6 +176,7 @@
             gap: 8px;
             margin: 10px 0 8px;
             min-height: 60px;
+            width: 100%;
         }
 
         .card {
@@ -186,6 +189,7 @@
             align-items: center;
             gap: 8px 12px;
             transition: all 0.2s;
+            width: 100%;
         }
         .card.done-card {
             border-left-color: #66e0a0;
@@ -485,28 +489,14 @@
             .card {
                 padding: 10px 12px;
             }
-            .date-range-wrap .date-input {
-                width: 80px;
+            .date-range-wrap .date-num {
                 font-size: 12px;
+                min-width: 70px;
+                padding: 3px 10px;
             }
-        }
-
-        /* ===== 打印/导出优化 ===== */
-        @media print {
-            .form,
-            .toolbar,
-            .week-row,
-            .footer-note,
-            .del-btn,
-            .check {
-                display: none !important;
-            }
-            #capture {
-                border: none !important;
-                padding: 20px !important;
-            }
-            .card {
-                break-inside: avoid;
+            .date-range-wrap {
+                font-size: 12px;
+                gap: 6px;
             }
         }
     </style>
@@ -522,10 +512,10 @@
                 <div class="sub-title">— 本周课程表 —</div>
                 <div class="teacher-name"><i class="fas fa-star"></i> @Thia西亚</div>
                 <div class="date-range-wrap">
-                    <span class="date-label">📅</span>
-                    <input class="date-input" id="startDate" type="text" placeholder="9月1日" value="">
+                    <span class="date-icon">📅</span>
+                    <input class="date-num" id="startDate" type="text" placeholder="2025.09.01" value="">
                     <span class="date-sep">—</span>
-                    <input class="date-input" id="endDate" type="text" placeholder="9月7日" value="">
+                    <input class="date-num" id="endDate" type="text" placeholder="2025.09.07" value="">
                 </div>
             </div>
 
@@ -612,25 +602,32 @@
 
             function genId() { return Date.now() + '-' + Math.random().toString(36).slice(2, 6); }
 
-            // ===== 自动计算本周日期范围 =====
+            // ===== 获取本周日期（格式：2025.09.01） =====
             function getThisWeekRange() {
                 const now = new Date();
-                const dayOfWeek = now.getDay() || 7; // 周一=1, 周日=7
+                const dayOfWeek = now.getDay() || 7;
                 const monday = new Date(now);
                 monday.setDate(now.getDate() - dayOfWeek + 1);
                 const sunday = new Date(monday);
                 sunday.setDate(monday.getDate() + 6);
 
                 const formatDate = (d) => {
-                    return (d.getMonth() + 1) + '月' + d.getDate() + '日';
+                    const year = d.getFullYear();
+                    const month = String(d.getMonth() + 1).padStart(2, '0');
+                    const day = String(d.getDate()).padStart(2, '0');
+                    return year + '.' + month + '.' + day;
                 };
                 return { start: formatDate(monday), end: formatDate(sunday) };
             }
 
             function setDefaultDates() {
                 const range = getThisWeekRange();
-                if (!startDateInput.value) startDateInput.value = range.start;
-                if (!endDateInput.value) endDateInput.value = range.end;
+                if (!startDateInput.value || startDateInput.value === '') {
+                    startDateInput.value = range.start;
+                }
+                if (!endDateInput.value || endDateInput.value === '') {
+                    endDateInput.value = range.end;
+                }
             }
 
             // ===== 渲染 =====
@@ -751,7 +748,6 @@
                     const days = new Set(items.map(item => item.day));
                     activeDays = new Set(ALL_DAYS.filter(d => days.has(d)));
                     if (activeDays.size === 0) activeDays.add('周一');
-                    // 重置日期
                     const range = getThisWeekRange();
                     startDateInput.value = range.start;
                     endDateInput.value = range.end;
@@ -759,11 +755,11 @@
                 }
             }
 
-            // ===== 导出 JPG（修复截一半的问题） =====
+            // ===== 导出 JPG（完整版） =====
             function exportJPG() {
                 const el = document.getElementById('capture');
 
-                // 保存交互元素引用
+                // 保存交互元素
                 const checks = el.querySelectorAll('.check');
                 const dels = el.querySelectorAll('.del-btn');
                 const weekRowEl = el.querySelector('.week-row');
@@ -773,29 +769,35 @@
                 dels.forEach(d => d.style.display = 'none');
                 if (weekRowEl) weekRowEl.style.display = 'none';
 
-                // 强制重新计算布局
+                // 确保完整尺寸
                 el.style.overflow = 'visible';
                 el.style.height = 'auto';
+                el.style.width = '100%';
 
                 saveBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> 生成中...';
                 saveBtn.disabled = true;
 
-                // 先用较小的 scale 预览，确保完整
-                const scale = Math.min(2.5, window.devicePixelRatio || 2);
+                // 用高分辨率 + 完整尺寸
+                const targetWidth = el.scrollWidth;
+                const targetHeight = el.scrollHeight;
 
                 html2canvas(el, {
-                    scale: scale,
+                    scale: 3,
                     backgroundColor: '#282230',
                     useCORS: true,
                     logging: false,
                     allowTaint: true,
-                    width: el.scrollWidth,
-                    height: el.scrollHeight,
-                    windowWidth: el.scrollWidth,
-                    windowHeight: el.scrollHeight,
-                    onclone: function(doc, element) {
-                        // 确保所有内容可见
-                        element.style.overflow = 'visible';
+                    width: targetWidth,
+                    height: targetHeight,
+                    windowWidth: targetWidth,
+                    windowHeight: targetHeight,
+                    onclone: function(clonedDoc, clonedElement) {
+                        clonedElement.style.overflow = 'visible';
+                        clonedElement.style.height = 'auto';
+                        clonedElement.style.width = '100%';
+                        // 确保所有卡片可见
+                        const cards = clonedElement.querySelectorAll('.card');
+                        cards.forEach(c => c.style.display = 'flex');
                     }
                 }).then(canvas => {
                     // 恢复显示
@@ -804,8 +806,9 @@
                     if (weekRowEl) weekRowEl.style.display = '';
                     el.style.overflow = '';
                     el.style.height = '';
+                    el.style.width = '';
 
-                    // 导出为 JPG
+                    // 导出 JPG
                     const link = document.createElement('a');
                     link.download = 'DANCE_PLANNER.jpg';
                     link.href = canvas.toDataURL('image/jpeg', 0.95);
@@ -832,6 +835,7 @@
                     if (weekRowEl) weekRowEl.style.display = '';
                     el.style.overflow = '';
                     el.style.height = '';
+                    el.style.width = '';
                     alert('导出失败，请尝试截图保存。');
                     saveBtn.innerHTML = '<i class="fas fa-image"></i> 导出 JPG';
                     saveBtn.disabled = false;
@@ -844,7 +848,7 @@
             resetBtn.addEventListener('click', resetAll);
             saveBtn.addEventListener('click', exportJPG);
 
-            // 日期输入框自动填充默认值
+            // 日期输入框自动填充
             startDateInput.addEventListener('focus', function() {
                 if (!this.value) {
                     const range = getThisWeekRange();
@@ -870,7 +874,6 @@
             const days = new Set(items.map(item => item.day));
             activeDays = new Set(ALL_DAYS.filter(d => days.has(d)));
             if (activeDays.size === 0) activeDays.add('周一');
-            setDefaultDates();
             render();
 
             // 修复手机 input 缩放
