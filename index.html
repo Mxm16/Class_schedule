@@ -88,44 +88,6 @@
             margin-right: 8px;
         }
 
-        .date-range-wrap {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            gap: 10px;
-            margin-top: 10px;
-            font-family: 'Orbitron', monospace;
-            font-size: 18px;
-            color: #888;
-            letter-spacing: 1px;
-        }
-        .date-range-wrap .date-input {
-            background: #f5f0ea;
-            border: 1px solid #e0d8d0;
-            border-radius: 10px;
-            padding: 6px 14px;
-            color: #2a1a2a;
-            font-size: 18px;
-            font-family: 'Orbitron', monospace;
-            letter-spacing: 0.5px;
-            width: 120px;
-            text-align: center;
-            outline: none;
-            transition: all 0.25s;
-        }
-        .date-range-wrap .date-input:focus {
-            border-color: #d48ab8;
-            box-shadow: 0 0 0 3px rgba(212, 138, 184, 0.08);
-        }
-        .date-range-wrap .date-input::placeholder {
-            color: #bbb;
-            font-size: 14px;
-        }
-        .date-range-wrap .date-sep {
-            color: #ccc;
-            font-size: 18px;
-        }
-
         .week-row {
             display: flex;
             flex-wrap: wrap;
@@ -525,19 +487,6 @@
             border-color: #ddd;
         }
 
-        /* 记忆状态提示 */
-        .memory-badge {
-            display: inline-block;
-            font-size: 11px;
-            color: #aaa;
-            background: #f5f0ea;
-            padding: 2px 12px;
-            border-radius: 12px;
-            margin-left: 10px;
-            font-family: 'Orbitron', monospace;
-            letter-spacing: 0.3px;
-        }
-
         @media (max-width: 480px) {
             .app {
                 padding: 10px 8px 16px;
@@ -590,23 +539,6 @@
             .timetable-header .teacher-name .butterfly {
                 font-size: 18px;
             }
-            .date-range-wrap .date-input {
-                font-size: 14px;
-                width: 80px;
-                padding: 4px 10px;
-            }
-            .date-range-wrap {
-                font-size: 14px;
-                gap: 6px;
-            }
-            .date-range-wrap .date-sep {
-                font-size: 14px;
-            }
-            .memory-badge {
-                font-size: 9px;
-                padding: 1px 8px;
-                margin-left: 6px;
-            }
         }
     </style>
 </head>
@@ -617,12 +549,7 @@
             <div class="timetable-header">
                 <div class="main-title">✦ DANCE PLANNER ✦</div>
                 <div class="sub-title">— 本周课程表 —</div>
-                <div class="teacher-name"><span class="butterfly">🦋</span> @Thia西亚 <span class="memory-badge">💾 自动保存</span></div>
-                <div class="date-range-wrap">
-                    <input class="date-input" id="startDate" type="text" placeholder="9.8" value="">
-                    <span class="date-sep">—</span>
-                    <input class="date-input" id="endDate" type="text" placeholder="9.14" value="">
-                </div>
+                <div class="teacher-name"><span class="butterfly">🦋</span> @Thia西亚</div>
             </div>
 
             <div class="week-row" id="weekRow"></div>
@@ -743,8 +670,6 @@
             const cancelBtn = document.getElementById('cancelBtn');
             const resetBtn = document.getElementById('resetBtn');
             const saveBtn = document.getElementById('saveBtn');
-            const startDateInput = document.getElementById('startDate');
-            const endDateInput = document.getElementById('endDate');
 
             // 编辑弹窗
             const editModal = document.getElementById('editModal');
@@ -762,9 +687,7 @@
             function saveToLocal() {
                 const data = {
                     items: items,
-                    activeDays: Array.from(activeDays),
-                    startDate: startDateInput.value,
-                    endDate: endDateInput.value
+                    activeDays: Array.from(activeDays)
                 };
                 try {
                     localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
@@ -781,36 +704,16 @@
                     if (!data.items || !data.items.length) return false;
                     items = data.items;
                     activeDays = new Set(data.activeDays || ['周一', '周二', '周三', '周四', '周五', '周六', '周日']);
-                    if (data.startDate) startDateInput.value = data.startDate;
-                    if (data.endDate) endDateInput.value = data.endDate;
                     return true;
                 } catch (e) {
                     return false;
                 }
             }
 
-            function getDefaultDateRange() {
-                const now = new Date();
-                const dayOfWeek = now.getDay() || 7;
-                const monday = new Date(now);
-                monday.setDate(now.getDate() - dayOfWeek + 1);
-                const sunday = new Date(monday);
-                sunday.setDate(monday.getDate() + 6);
-                const f = (d) => (d.getMonth() + 1) + '.' + d.getDate();
-                return { start: f(monday), end: f(sunday) };
-            }
-
-            function setDefaultDates() {
-                const range = getDefaultDateRange();
-                if (!startDateInput.value) startDateInput.value = range.start;
-                if (!endDateInput.value) endDateInput.value = range.end;
-            }
-
             // ===== 渲染 =====
             function render() {
                 renderWeekRow();
                 renderList();
-                setDefaultDates();
                 saveToLocal();
             }
 
@@ -981,9 +884,6 @@
                     const days = new Set(items.map(item => item.day));
                     activeDays = new Set(ALL_DAYS.filter(d => days.has(d)));
                     if (activeDays.size === 0) activeDays.add('周一');
-                    const range = getDefaultDateRange();
-                    startDateInput.value = range.start;
-                    endDateInput.value = range.end;
                     render();
                 }
             }
@@ -1089,15 +989,6 @@
             resetBtn.addEventListener('click', resetAll);
             saveBtn.addEventListener('click', exportJPG);
 
-            startDateInput.addEventListener('focus', function() {
-                if (!this.value) { const r = getDefaultDateRange();
-                    this.value = r.start; }
-            });
-            endDateInput.addEventListener('focus', function() {
-                if (!this.value) { const r = getDefaultDateRange();
-                    this.value = r.end; }
-            });
-
             [timeInput, studioInput, typeInput, classInput].forEach(inp => {
                 inp.addEventListener('keypress', function(e) {
                     if (e.key === 'Enter') { e.preventDefault();
@@ -1106,16 +997,12 @@
             });
 
             // ===== 启动 =====
-            // 尝试从 localStorage 加载，如果没有则用默认数据
             const hasSaved = loadFromLocal();
             if (!hasSaved) {
                 items = DEFAULT_ITEMS.map(item => ({ ...item, id: genId() }));
                 const days = new Set(items.map(item => item.day));
                 activeDays = new Set(ALL_DAYS.filter(d => days.has(d)));
                 if (activeDays.size === 0) activeDays.add('周一');
-                const range = getDefaultDateRange();
-                startDateInput.value = range.start;
-                endDateInput.value = range.end;
             }
             render();
 
