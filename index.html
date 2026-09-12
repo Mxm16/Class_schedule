@@ -367,7 +367,6 @@
             transform: scale(0.95);
         }
 
-        /* ===== 快速添加（课表页） ===== */
         .quick-add-section {
             margin: 4px 0 8px;
         }
@@ -514,6 +513,144 @@
             text-transform: none;
         }
 
+        /* 月历 */
+        .calendar-box {
+            background: #faf8f5;
+            border-radius: 16px;
+            padding: 16px 14px;
+            border: 1px solid #eee8e0;
+        }
+        .calendar-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 12px;
+            padding: 0 4px;
+        }
+        .calendar-header .cal-title {
+            font-family: 'Orbitron', monospace;
+            font-size: 16px;
+            font-weight: 700;
+            color: #2a1a2a;
+            letter-spacing: 1px;
+        }
+        .calendar-header button {
+            background: transparent;
+            border: 1px solid #e0d8d0;
+            color: #888;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            transition: all 0.2s;
+            -webkit-tap-highlight-color: transparent;
+            touch-action: manipulation;
+        }
+        .calendar-header button:hover {
+            background: #f5f0ea;
+            border-color: #d48ab8;
+            color: #d48ab8;
+        }
+        .calendar-header button:active {
+            transform: scale(0.9);
+        }
+
+        .calendar-weekdays {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            text-align: center;
+            margin-bottom: 6px;
+            font-size: 11px;
+            color: #bbb;
+            font-family: 'Orbitron', monospace;
+            letter-spacing: 0.5px;
+        }
+        .calendar-grid {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 3px;
+        }
+        .cal-day {
+            aspect-ratio: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            border-radius: 10px;
+            font-size: 13px;
+            color: #666;
+            cursor: pointer;
+            position: relative;
+            transition: all 0.15s;
+            -webkit-tap-highlight-color: transparent;
+            touch-action: manipulation;
+            min-height: 38px;
+        }
+        .cal-day:hover {
+            background: #f5f0ea;
+        }
+        .cal-day:active {
+            transform: scale(0.9);
+        }
+        .cal-day.other-month {
+            color: #ddd;
+            cursor: default;
+        }
+        .cal-day.other-month:hover {
+            background: transparent;
+        }
+        .cal-day.today {
+            background: #fceef6;
+            color: #d48ab8;
+            font-weight: 700;
+        }
+        .cal-day.selected {
+            background: #2a1a2a;
+            color: #fff;
+            font-weight: 700;
+        }
+        .cal-day .dots {
+            display: flex;
+            gap: 2px;
+            position: absolute;
+            bottom: 4px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+        .cal-day .dot {
+            width: 4px;
+            height: 4px;
+            border-radius: 50%;
+        }
+        .cal-day.selected .dot {
+            opacity: 0.9;
+        }
+
+        .cal-detail {
+            margin-top: 14px;
+            border-top: 1px dashed #eee8e0;
+            padding-top: 14px;
+        }
+        .cal-detail-title {
+            font-size: 13px;
+            font-weight: 600;
+            color: #888;
+            margin-bottom: 10px;
+            text-align: left;
+            padding-left: 4px;
+        }
+        .cal-detail .cal-empty {
+            text-align: center;
+            color: #ccc;
+            font-size: 12px;
+            padding: 14px 0;
+            font-style: italic;
+        }
+
         /* 模板列表 */
         .template-list {
             display: flex;
@@ -530,6 +667,7 @@
             flex-wrap: wrap;
             align-items: center;
             gap: 8px 12px;
+            cursor: pointer;
         }
         .template-card .t-info {
             flex: 1;
@@ -636,40 +774,46 @@
             border-style: solid;
         }
 
-        /* 即将上线 */
-        .coming-list {
+        /* 复制上周按钮 */
+        .copy-last-btn {
+            width: 100%;
             background: #faf8f5;
+            border: 1px solid #e0d8d0;
             border-radius: 14px;
-            padding: 8px 18px;
-            border: 1px solid #eee8e0;
-        }
-        .coming-item {
+            padding: 14px 18px;
+            font-size: 14px;
+            font-weight: 600;
+            color: #2a1a2a;
+            cursor: pointer;
             display: flex;
             align-items: center;
-            gap: 12px;
-            padding: 12px 0;
-            font-size: 14px;
-            color: #999;
-            border-bottom: 1px dashed #eee8e0;
+            gap: 10px;
+            transition: all 0.2s;
+            -webkit-tap-highlight-color: transparent;
+            touch-action: manipulation;
         }
-        .coming-item:last-child {
-            border-bottom: none;
-        }
-        .coming-item i {
-            color: #ddd;
-            font-size: 16px;
-            width: 22px;
-            text-align: center;
-        }
-        .coming-item .tag {
-            margin-left: auto;
-            font-size: 10px;
-            color: #ccc;
-            font-family: 'Orbitron', monospace;
-            letter-spacing: 0.5px;
+        .copy-last-btn:hover {
             background: #f5f0ea;
-            padding: 2px 10px;
-            border-radius: 10px;
+            border-color: #d48ab8;
+        }
+        .copy-last-btn:active {
+            transform: scale(0.98);
+        }
+        .copy-last-btn i {
+            color: #d48ab8;
+            font-size: 18px;
+        }
+        .copy-last-btn .sub {
+            margin-left: auto;
+            font-size: 11px;
+            color: #bbb;
+            font-family: 'Orbitron', monospace;
+            font-weight: 400;
+            letter-spacing: 0.5px;
+        }
+        .copy-last-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
         }
 
         /* ===== 底部 Tab ===== */
@@ -715,7 +859,7 @@
             transform: scale(0.97);
         }
 
-        /* ===== 弹窗通用 ===== */
+        /* ===== 弹窗 ===== */
         .modal-overlay {
             position: fixed;
             top: 0;
@@ -849,6 +993,14 @@
                 font-size: 12px;
                 padding: 5px 10px;
             }
+            .cal-day {
+                font-size: 11px;
+                min-height: 32px;
+            }
+            .cal-day .dot {
+                width: 3px;
+                height: 3px;
+            }
         }
     </style>
 </head>
@@ -875,24 +1027,15 @@
                 <button class="btn-save" id="saveBtn"><i class="fas fa-image"></i> 导出 JPG</button>
             </div>
 
-            <!-- 快速添加（模板） -->
-            <div class="quick-add-section" id="quickAddSection">
+            <div class="quick-add-section">
                 <div class="quick-add-label">⭐ 快速添加</div>
                 <div class="quick-add-row" id="quickAddRow"></div>
             </div>
 
             <div class="form">
                 <div class="form-row">
-                    <label>星期</label>
-                    <select id="daySelect">
-                        <option value="周一">周一</option>
-                        <option value="周二">周二</option>
-                        <option value="周三">周三</option>
-                        <option value="周四">周四</option>
-                        <option value="周五">周五</option>
-                        <option value="周六">周六</option>
-                        <option value="周日">周日</option>
-                    </select>
+                    <label>日期</label>
+                    <input type="date" id="dateInput">
                     <label>时间</label>
                     <input type="text" id="timeInput" placeholder="19:40-20:40" value="19:00-20:00">
                 </div>
@@ -917,6 +1060,39 @@
         <div class="page" id="pageFunc">
             <div class="func-page">
 
+                <!-- 月历 -->
+                <div class="func-section">
+                    <div class="func-section-title">
+                        <i class="fas fa-calendar-alt"></i> 月历视图
+                    </div>
+                    <div class="calendar-box">
+                        <div class="calendar-header">
+                            <button id="calPrev"><i class="fas fa-chevron-left"></i></button>
+                            <span class="cal-title" id="calTitle">2026年9月</span>
+                            <button id="calNext"><i class="fas fa-chevron-right"></i></button>
+                        </div>
+                        <div class="calendar-weekdays">
+                            <span>日</span><span>一</span><span>二</span><span>三</span><span>四</span><span>五</span><span>六</span>
+                        </div>
+                        <div class="calendar-grid" id="calGrid"></div>
+                        <div class="cal-detail" id="calDetail">
+                            <div class="cal-detail-title">点击日期查看当天课程</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 复制上周 -->
+                <div class="func-section">
+                    <div class="func-section-title">
+                        <i class="fas fa-copy"></i> 快捷操作
+                    </div>
+                    <button class="copy-last-btn" id="copyLastBtn">
+                        <i class="fas fa-copy"></i>
+                        一键复制上周课表
+                        <span class="sub" id="lastWeekCount">0 节</span>
+                    </button>
+                </div>
+
                 <!-- 收藏模板 -->
                 <div class="func-section">
                     <div class="func-section-title">
@@ -927,25 +1103,6 @@
                     <button class="func-add-btn" id="addTemplateBtn">
                         <i class="fas fa-plus"></i> 添加模板
                     </button>
-                </div>
-
-                <!-- 即将上线 -->
-                <div class="func-section">
-                    <div class="func-section-title">
-                        <i class="fas fa-hourglass-half"></i> 即将上线
-                    </div>
-                    <div class="coming-list">
-                        <div class="coming-item">
-                            <i class="fas fa-calendar-alt"></i>
-                            <span>月历视图</span>
-                            <span class="tag">NEXT</span>
-                        </div>
-                        <div class="coming-item">
-                            <i class="fas fa-copy"></i>
-                            <span>一键复制上周课表</span>
-                            <span class="tag">NEXT</span>
-                        </div>
-                    </div>
                 </div>
 
             </div>
@@ -963,16 +1120,8 @@
         <div class="modal-box">
             <h3>✎ 编辑课程</h3>
             <div class="form-row">
-                <label>星期</label>
-                <select id="editDay">
-                    <option value="周一">周一</option>
-                    <option value="周二">周二</option>
-                    <option value="周三">周三</option>
-                    <option value="周四">周四</option>
-                    <option value="周五">周五</option>
-                    <option value="周六">周六</option>
-                    <option value="周日">周日</option>
-                </select>
+                <label>日期</label>
+                <input type="date" id="editDate">
             </div>
             <div class="form-row">
                 <label>时间</label>
@@ -1002,18 +1151,6 @@
         <div class="modal-box">
             <h3 id="templateModalTitle">⭐ 添加模板</h3>
             <div class="form-row">
-                <label>星期</label>
-                <select id="tplDay">
-                    <option value="周一">周一</option>
-                    <option value="周二">周二</option>
-                    <option value="周三">周三</option>
-                    <option value="周四">周四</option>
-                    <option value="周五">周五</option>
-                    <option value="周六">周六</option>
-                    <option value="周日">周日</option>
-                </select>
-            </div>
-            <div class="form-row">
                 <label>时间</label>
                 <input type="text" id="tplTime" placeholder="19:40-20:40">
             </div>
@@ -1038,27 +1175,71 @@
 
     <script>
         (function() {
-            // ===== 示例数据 =====
-            const DEFAULT_ITEMS = [
-                { id: 'd1', day: '周二', time: '18:30-20:40', studio: 'IDOLX 96店', type: '基础+编舞进阶',
-                    class: 'Need a girl + 洗牌', done: false },
-                { id: 'd2', day: '周四', time: '19:40-20:40', studio: 'IdolX 96', type: '编舞',
-                    class: '编舞代课', done: false },
-                { id: 'd3', day: '周五', time: '20:10-21:10', studio: 'GH5', type: '男团',
-                    class: '82major首班车 like fire DB', done: false },
-                { id: 'd4', day: '周六', time: '19:25-21:40', studio: '小班课', type: '综合',
-                    class: '小班课', done: false },
-                { id: 'd5', day: '周日', time: '13:00-15:00', studio: 'T5浦东', type: '入门',
-                    class: '基础弱 入门 成舞', done: false },
-                { id: 'd6', day: '周日', time: '19:00-21:00', studio: '小班课', type: '综合',
-                    class: '小班课', done: false }
-            ];
+            // ============================================================
+            // 数据层
+            // ============================================================
+            const STORAGE_KEY = 'dance_planner_data_v3';
+            const TEMPLATE_KEY = 'dance_planner_templates_v3';
 
-            const ALL_DAYS = ['周一', '周二', '周三', '周四', '周五', '周六', '周日'];
-            const STORAGE_KEY = 'dance_planner_data';
-            const TEMPLATE_KEY = 'dance_planner_templates';
+            // 日期工具
+            const pad = (n) => String(n).padStart(2, '0');
+            const fmtDate = (d) => d.getFullYear() + '-' + pad(d.getMonth() + 1) + '-' + pad(d.getDate());
+            const parseDate = (s) => { const p = s.split('-'); return new Date(+p[0], +p[1] - 1, +p[2]); };
+            const getDayName = (dateStr) => {
+                const d = parseDate(dateStr);
+                const names = ['周日', '周一', '周二', '周三', '周四', '周五', '周六'];
+                return names[d.getDay()];
+            };
+            const addDays = (dateStr, n) => {
+                const d = parseDate(dateStr);
+                d.setDate(d.getDate() + n);
+                return fmtDate(d);
+            };
 
-            // 自动配色规则
+            // 找到本周一（周一为一周开始）
+            function getMonday(dateStr) {
+                const d = parseDate(dateStr);
+                const dow = d.getDay() || 7;
+                d.setDate(d.getDate() - dow + 1);
+                return fmtDate(d);
+            }
+
+            // 本周日期范围字符串
+            function getWeekRangeStr() {
+                const today = fmtDate(new Date());
+                const mon = getMonday(today);
+                const sun = addDays(mon, 6);
+                const f = (s) => { const d = parseDate(s); return (d.getMonth() + 1) + '月' + d.getDate() + '日'; };
+                return { start: f(mon), end: f(sun), mon, sun };
+            }
+
+            // ============================================================
+            // 示例数据（自动生成日期，本周）
+            // ============================================================
+            function buildDefaultItems() {
+                const today = fmtDate(new Date());
+                const mon = getMonday(today);
+                const dayOffset = { '周一': 0, '周二': 1, '周三': 2, '周四': 3, '周五': 4, '周六': 5, '周日': 6 };
+                const list = [
+                    { day: '周二', time: '18:30-20:40', studio: 'IDOLX 96店', type: '基础+编舞进阶', class: 'Need a girl + 洗牌' },
+                    { day: '周四', time: '19:40-20:40', studio: 'IdolX 96', type: '编舞', class: '编舞代课' },
+                    { day: '周五', time: '20:10-21:10', studio: 'GH5', type: '男团', class: '82major首班车 like fire DB' },
+                    { day: '周六', time: '19:25-21:40', studio: '小班课', type: '综合', class: '小班课' },
+                    { day: '周日', time: '13:00-15:00', studio: 'T5浦东', type: '入门', class: '基础弱 入门 成舞' },
+                    { day: '周日', time: '19:00-21:00', studio: '小班课', type: '综合', class: '小班课' }
+                ];
+                return list.map((item, i) => ({
+                    id: 'd' + (i + 1) + '-' + Date.now(),
+                    date: addDays(mon, dayOffset[item.day]),
+                    time: item.time,
+                    studio: item.studio,
+                    type: item.type,
+                    class: item.class,
+                    done: false
+                }));
+            }
+
+            // 配色规则
             const COLOR_RULES = [
                 { keys: ['男团', '女团'], color: '#66aacc', bg: '#eef4f8', border: '#dde8ee' },
                 { keys: ['编舞'], color: '#a888d8', bg: '#f2eefc', border: '#e8e0f8' },
@@ -1078,16 +1259,21 @@
                 return DEFAULT_COLOR;
             }
 
+            // ============================================================
+            // 状态
+            // ============================================================
             let items = [];
             let templates = [];
-            let activeDays = new Set();
+            let activeDays = new Set(['周一', '周二', '周三', '周四', '周五', '周六', '周日']);
             let editingId = null;
             let editingTemplateId = null;
+            let calYear, calMonth;
+            let calSelectedDate = null;
 
             // DOM
             const weekRow = document.getElementById('weekRow');
             const listEl = document.getElementById('list');
-            const daySelect = document.getElementById('daySelect');
+            const dateInput = document.getElementById('dateInput');
             const timeInput = document.getElementById('timeInput');
             const studioInput = document.getElementById('studioInput');
             const typeInput = document.getElementById('typeInput');
@@ -1097,9 +1283,18 @@
             const resetBtn = document.getElementById('resetBtn');
             const saveBtn = document.getElementById('saveBtn');
             const weekLabel = document.getElementById('weekLabel');
-
-            // 快速添加
             const quickAddRow = document.getElementById('quickAddRow');
+
+            // 月历
+            const calTitle = document.getElementById('calTitle');
+            const calGrid = document.getElementById('calGrid');
+            const calDetail = document.getElementById('calDetail');
+            const calPrev = document.getElementById('calPrev');
+            const calNext = document.getElementById('calNext');
+
+            // 复制上周
+            const copyLastBtn = document.getElementById('copyLastBtn');
+            const lastWeekCount = document.getElementById('lastWeekCount');
 
             // 模板
             const templateList = document.getElementById('templateList');
@@ -1108,7 +1303,7 @@
 
             // 编辑弹窗
             const editModal = document.getElementById('editModal');
-            const editDay = document.getElementById('editDay');
+            const editDate = document.getElementById('editDate');
             const editTime = document.getElementById('editTime');
             const editType = document.getElementById('editType');
             const editClass = document.getElementById('editClass');
@@ -1119,7 +1314,6 @@
             // 模板弹窗
             const templateModal = document.getElementById('templateModal');
             const templateModalTitle = document.getElementById('templateModalTitle');
-            const tplDay = document.getElementById('tplDay');
             const tplTime = document.getElementById('tplTime');
             const tplType = document.getElementById('tplType');
             const tplClass = document.getElementById('tplClass');
@@ -1129,7 +1323,9 @@
 
             function genId() { return Date.now() + '-' + Math.random().toString(36).slice(2, 6); }
 
-            // ===== Tab 切换 =====
+            // ============================================================
+            // Tab 切换
+            // ============================================================
             document.querySelectorAll('.tab-btn').forEach(btn => {
                 btn.addEventListener('click', function() {
                     const tab = this.dataset.tab;
@@ -1141,28 +1337,15 @@
                     } else {
                         document.getElementById('pageFunc').classList.add('active');
                         renderTemplates();
+                        renderCalendar();
+                        updateLastWeekCount();
                     }
                 });
             });
 
-            // ===== 获取本周日期范围 =====
-            function getWeekRange() {
-                const now = new Date();
-                const dayOfWeek = now.getDay() || 7;
-                const monday = new Date(now);
-                monday.setDate(now.getDate() - dayOfWeek + 1);
-                const sunday = new Date(monday);
-                sunday.setDate(monday.getDate() + 6);
-                const f = (d) => (d.getMonth() + 1) + '月' + d.getDate() + '日';
-                return { start: f(monday), end: f(sunday) };
-            }
-
-            function updateWeekLabel() {
-                const range = getWeekRange();
-                weekLabel.textContent = '— ' + range.start + ' — ' + range.end + ' 一周行程 —';
-            }
-
-            // ===== localStorage =====
+            // ============================================================
+            // 存储
+            // ============================================================
             function saveToLocal() {
                 try {
                     localStorage.setItem(STORAGE_KEY, JSON.stringify({
@@ -1178,7 +1361,16 @@
                     if (!raw) return false;
                     const data = JSON.parse(raw);
                     if (!data.items || !data.items.length) return false;
-                    items = data.items;
+                    // 兼容旧数据：如果没有 date 字段，就补上
+                    items = data.items.map(item => {
+                        if (!item.date) {
+                            // 用 day 反推本周日期
+                            const range = getWeekRangeStr();
+                            const dow = { '周一': 0, '周二': 1, '周三': 2, '周四': 3, '周五': 4, '周六': 5, '周日': 6 };
+                            item.date = addDays(range.mon, dow[item.day] !== undefined ? dow[item.day] : 0);
+                        }
+                        return item;
+                    });
                     activeDays = new Set(data.activeDays || ['周一', '周二', '周三', '周四', '周五', '周六', '周日']);
                     return true;
                 } catch (e) {
@@ -1187,9 +1379,7 @@
             }
 
             function saveTemplates() {
-                try {
-                    localStorage.setItem(TEMPLATE_KEY, JSON.stringify(templates));
-                } catch (e) {}
+                try { localStorage.setItem(TEMPLATE_KEY, JSON.stringify(templates)); } catch (e) {}
             }
 
             function loadTemplates() {
@@ -1202,7 +1392,9 @@
                 }
             }
 
-            // ===== 渲染 =====
+            // ============================================================
+            // 渲染：主列表
+            // ============================================================
             function render() {
                 renderWeekRow();
                 renderList();
@@ -1213,7 +1405,7 @@
 
             function renderWeekRow() {
                 let html = '';
-                ALL_DAYS.forEach(day => {
+                ['周一', '周二', '周三', '周四', '周五', '周六', '周日'].forEach(day => {
                     const active = activeDays.has(day) ? 'active' : '';
                     html += `<button class="week-btn ${active}" data-day="${day}">${day}</button>`;
                 });
@@ -1233,12 +1425,22 @@
             }
 
             function renderList() {
-                const filtered = items.filter(item => activeDays.has(item.day));
-                filtered.sort((a, b) => ALL_DAYS.indexOf(a.day) - ALL_DAYS.indexOf(b.day));
+                // 过滤：先按星期筛选，再按本周日期范围筛选
+                const range = getWeekRangeStr();
+                const filtered = items.filter(item => {
+                    const dayName = getDayName(item.date);
+                    if (!activeDays.has(dayName)) return false;
+                    // 只显示本周的（如果你想显示所有日期的，删掉下面这行）
+                    return item.date >= range.mon && item.date <= range.sun;
+                });
+                filtered.sort((a, b) => {
+                    if (a.date !== b.date) return a.date.localeCompare(b.date);
+                    return (a.time || '').localeCompare(b.time || '');
+                });
 
                 if (filtered.length === 0) {
                     listEl.innerHTML =
-                        `<div class="empty"><i class="fas fa-disc"></i><p>还没有课程</p></div>`;
+                        `<div class="empty"><i class="fas fa-disc"></i><p>本周还没有课程</p></div>`;
                     return;
                 }
 
@@ -1250,6 +1452,8 @@
                     const color = getTypeColor(typeDisplay);
                     const cardBorder = item.done ? '#66bb88' : color.color;
                     const cardBg = item.done ? '#f6faf8' : '#faf8f5';
+                    const dayName = getDayName(item.date);
+                    const dateShort = (parseDate(item.date).getMonth() + 1) + '/' + parseDate(item.date).getDate();
 
                     html += `
                         <div class="card ${item.done ? 'done-card' : ''}" data-id="${item.id}"
@@ -1257,7 +1461,7 @@
                             <div class="check ${doneClass}" data-id="${item.id}">
                                 <i class="far ${icon}"></i>
                             </div>
-                            <span class="card-day" style="color: ${color.color};">${item.day}</span>
+                            <span class="card-day" style="color: ${color.color};">${dayName}</span>
                             <span class="card-time">${item.time || '--:--'}</span>
                             <span class="card-type" style="color: ${color.color}; background: ${color.bg}; border: 1px solid ${color.border};">${typeDisplay}</span>
                             <span class="card-class">${item.class}</span>
@@ -1297,7 +1501,14 @@
                 });
             }
 
-            // ===== 快速添加按钮 =====
+            function updateWeekLabel() {
+                const range = getWeekRangeStr();
+                weekLabel.textContent = '— ' + range.start + ' — ' + range.end + ' 一周行程 —';
+            }
+
+            // ============================================================
+            // 快速添加
+            // ============================================================
             function renderQuickAdd() {
                 if (templates.length === 0) {
                     quickAddRow.innerHTML = `<div class="quick-add-empty">还没有模板，去「功能」页添加 ⭐</div>`;
@@ -1321,10 +1532,11 @@
                         const id = this.dataset.id;
                         const tpl = templates.find(t => t.id === id);
                         if (!tpl) return;
-                        // 直接添加
+                        // 用当前日期输入框里的日期（如果没有就今天）
+                        let date = dateInput.value || fmtDate(new Date());
                         const newItem = {
                             id: genId(),
-                            day: tpl.day,
+                            date: date,
                             time: tpl.time,
                             studio: tpl.studio,
                             type: tpl.type,
@@ -1332,18 +1544,19 @@
                             done: false
                         };
                         items.push(newItem);
-                        if (!activeDays.has(tpl.day)) activeDays.add(tpl.day);
                         render();
                     });
                 });
             }
 
-            // ===== 编辑弹窗 =====
+            // ============================================================
+            // 编辑弹窗
+            // ============================================================
             function openEditModal(id) {
                 const item = items.find(it => it.id === id);
                 if (!item) return;
                 editingId = id;
-                editDay.value = item.day || '周一';
+                editDate.value = item.date || '';
                 editTime.value = item.time || '';
                 editType.value = item.type || '';
                 editClass.value = item.class || '';
@@ -1360,20 +1573,11 @@
                 if (!editingId) return;
                 const item = items.find(it => it.id === editingId);
                 if (!item) return;
-                const day = editDay.value;
-                const time = editTime.value.trim() || '--:--';
-                const type = editType.value.trim() || '综合';
-                const cls = editClass.value.trim() || '未命名课程';
-                const studio = editStudio.value.trim() || '舞室';
-
-                if (!activeDays.has(day)) activeDays.add(day);
-
-                item.day = day;
-                item.time = time;
-                item.type = type;
-                item.class = cls;
-                item.studio = studio;
-
+                item.date = editDate.value || item.date;
+                item.time = editTime.value.trim() || '--:--';
+                item.type = editType.value.trim() || '综合';
+                item.class = editClass.value.trim() || '未命名课程';
+                item.studio = editStudio.value.trim() || '舞室';
                 closeEditModal();
                 render();
             }
@@ -1389,14 +1593,15 @@
                 });
             });
 
-            // ===== 模板弹窗 =====
+            // ============================================================
+            // 模板弹窗
+            // ============================================================
             function openTemplateModal(tplId) {
                 if (tplId) {
                     const tpl = templates.find(t => t.id === tplId);
                     if (!tpl) return;
                     editingTemplateId = tplId;
                     templateModalTitle.textContent = '✎ 编辑模板';
-                    tplDay.value = tpl.day || '周一';
                     tplTime.value = tpl.time || '';
                     tplType.value = tpl.type || '';
                     tplClass.value = tpl.class || '';
@@ -1404,7 +1609,6 @@
                 } else {
                     editingTemplateId = null;
                     templateModalTitle.textContent = '⭐ 添加模板';
-                    tplDay.value = '周一';
                     tplTime.value = '';
                     tplType.value = '';
                     tplClass.value = '';
@@ -1419,7 +1623,6 @@
             }
 
             function saveTemplate() {
-                const day = tplDay.value;
                 const time = tplTime.value.trim() || '--:--';
                 const type = tplType.value.trim() || '综合';
                 const cls = tplClass.value.trim() || '未命名课程';
@@ -1428,17 +1631,13 @@
                 if (editingTemplateId) {
                     const tpl = templates.find(t => t.id === editingTemplateId);
                     if (tpl) {
-                        tpl.day = day;
                         tpl.time = time;
                         tpl.type = type;
                         tpl.class = cls;
                         tpl.studio = studio;
                     }
                 } else {
-                    templates.push({
-                        id: genId(),
-                        day, time, type, class: cls, studio
-                    });
+                    templates.push({ id: genId(), time, type, class: cls, studio });
                 }
                 saveTemplates();
                 closeTemplateModal();
@@ -1459,7 +1658,9 @@
 
             addTemplateBtn.addEventListener('click', function() { openTemplateModal(null); });
 
-            // ===== 渲染模板列表 =====
+            // ============================================================
+            // 渲染模板列表
+            // ============================================================
             function renderTemplates() {
                 templateCount.textContent = templates.length + ' 个';
 
@@ -1480,7 +1681,6 @@
                                     <span>${tpl.class}</span>
                                 </div>
                                 <div class="t-meta">
-                                    <span class="t-day">${tpl.day}</span>
                                     <span>${tpl.time}</span>
                                     <span>${tpl.studio}</span>
                                 </div>
@@ -1494,16 +1694,16 @@
                 });
                 templateList.innerHTML = html;
 
-                // 使用
                 document.querySelectorAll('.t-use').forEach(el => {
                     el.addEventListener('click', function(e) {
                         e.stopPropagation();
                         const id = this.dataset.id;
                         const tpl = templates.find(t => t.id === id);
                         if (!tpl) return;
+                        let date = fmtDate(new Date());
                         const newItem = {
                             id: genId(),
-                            day: tpl.day,
+                            date: date,
                             time: tpl.time,
                             studio: tpl.studio,
                             type: tpl.type,
@@ -1511,7 +1711,6 @@
                             done: false
                         };
                         items.push(newItem);
-                        if (!activeDays.has(tpl.day)) activeDays.add(tpl.day);
                         saveToLocal();
                         render();
                         // 切回课表页
@@ -1522,7 +1721,6 @@
                     });
                 });
 
-                // 删除
                 document.querySelectorAll('.t-del').forEach(el => {
                     el.addEventListener('click', function(e) {
                         e.stopPropagation();
@@ -1535,7 +1733,6 @@
                     });
                 });
 
-                // 点击模板卡片 → 编辑
                 document.querySelectorAll('.template-card').forEach(el => {
                     el.addEventListener('click', function(e) {
                         if (e.target.closest('.t-actions')) return;
@@ -1545,16 +1742,193 @@
                 });
             }
 
-            // ===== 添加课程 =====
+            // ============================================================
+            // 月历视图
+            // ============================================================
+            function renderCalendar() {
+                calTitle.textContent = calYear + '年' + (calMonth + 1) + '月';
+
+                const firstDay = new Date(calYear, calMonth, 1);
+                const startDay = firstDay.getDay(); // 0=周日
+                const daysInMonth = new Date(calYear, calMonth + 1, 0).getDate();
+                const daysInPrevMonth = new Date(calYear, calMonth, 0).getDate();
+
+                const todayStr = fmtDate(new Date());
+
+                let html = '';
+
+                // 上月填充
+                for (let i = startDay - 1; i >= 0; i--) {
+                    const d = daysInPrevMonth - i;
+                    html += `<div class="cal-day other-month">${d}</div>`;
+                }
+
+                // 本月
+                for (let d = 1; d <= daysInMonth; d++) {
+                    const dateStr = calYear + '-' + pad(calMonth + 1) + '-' + pad(d);
+                    const isToday = dateStr === todayStr;
+                    const isSelected = dateStr === calSelectedDate;
+
+                    // 找当天课程
+                    const dayItems = items.filter(it => it.date === dateStr);
+                    let dotsHtml = '';
+                    if (dayItems.length > 0) {
+                        // 最多显示 3 个点
+                        const showDots = dayItems.slice(0, 3);
+                        dotsHtml = '<div class="dots">';
+                        showDots.forEach(it => {
+                            const c = getTypeColor(it.type);
+                            dotsHtml += `<span class="dot" style="background: ${c.color};"></span>`;
+                        });
+                        dotsHtml += '</div>';
+                    }
+
+                    let cls = 'cal-day';
+                    if (isToday) cls += ' today';
+                    if (isSelected) cls += ' selected';
+
+                    html += `<div class="${cls}" data-date="${dateStr}">${d}${dotsHtml}</div>`;
+                }
+
+                // 下月填充
+                const totalCells = startDay + daysInMonth;
+                const remain = (7 - (totalCells % 7)) % 7;
+                for (let d = 1; d <= remain; d++) {
+                    html += `<div class="cal-day other-month">${d}</div>`;
+                }
+
+                calGrid.innerHTML = html;
+
+                // 点击日期
+                document.querySelectorAll('.cal-day[data-date]').forEach(el => {
+                    el.addEventListener('click', function() {
+                        const date = this.dataset.date;
+                        calSelectedDate = (calSelectedDate === date) ? null : date;
+                        renderCalendar();
+                        renderCalDetail();
+                    });
+                });
+
+                renderCalDetail();
+            }
+
+            function renderCalDetail() {
+                if (!calSelectedDate) {
+                    calDetail.innerHTML = '<div class="cal-detail-title">点击日期查看当天课程</div>';
+                    return;
+                }
+                const d = parseDate(calSelectedDate);
+                const title = (d.getMonth() + 1) + '月' + d.getDate() + '日 ' + getDayName(calSelectedDate);
+                const dayItems = items.filter(it => it.date === calSelectedDate);
+                dayItems.sort((a, b) => (a.time || '').localeCompare(b.time || ''));
+
+                let html = '<div class="cal-detail-title">' + title + '</div>';
+                if (dayItems.length === 0) {
+                    html += '<div class="cal-empty">这天没有课</div>';
+                } else {
+                    html += '<div class="template-list">';
+                    dayItems.forEach(it => {
+                        const color = getTypeColor(it.type);
+                        html += `
+                            <div class="template-card" style="border-left-color: ${color.color}; cursor: default;">
+                                <div class="t-info">
+                                    <div class="t-title">
+                                        <span class="t-type" style="color: ${color.color}; background: ${color.bg}; border: 1px solid ${color.border};">${it.type}</span>
+                                        <span>${it.class}</span>
+                                    </div>
+                                    <div class="t-meta">
+                                        <span>${it.time}</span>
+                                        <span>${it.studio}</span>
+                                        ${it.done ? '<span style="color:#66bb88;">✓ 已完成</span>' : ''}
+                                    </div>
+                                </div>
+                            </div>
+                        `;
+                    });
+                    html += '</div>';
+                }
+                calDetail.innerHTML = html;
+            }
+
+            calPrev.addEventListener('click', function() {
+                calMonth--;
+                if (calMonth < 0) { calMonth = 11;
+                    calYear--; }
+                renderCalendar();
+            });
+            calNext.addEventListener('click', function() {
+                calMonth++;
+                if (calMonth > 11) { calMonth = 0;
+                    calYear++; }
+                renderCalendar();
+            });
+
+            // ============================================================
+            // 复制上周
+            // ============================================================
+            function getLastWeekItems() {
+                const range = getWeekRangeStr();
+                // 上周一 = 本周一 - 7
+                const lastMon = addDays(range.mon, -7);
+                const lastSun = addDays(range.mon, -1);
+                return items.filter(it => it.date >= lastMon && it.date <= lastSun);
+            }
+
+            function updateLastWeekCount() {
+                const lastItems = getLastWeekItems();
+                lastWeekCount.textContent = lastItems.length + ' 节';
+                copyLastBtn.disabled = lastItems.length === 0;
+            }
+
+            copyLastBtn.addEventListener('click', function() {
+                const lastItems = getLastWeekItems();
+                if (lastItems.length === 0) {
+                    alert('上周没有课程可以复制');
+                    return;
+                }
+                if (!confirm('将上周的 ' + lastItems.length + ' 节课复制到本周？')) return;
+                const range = getWeekRangeStr();
+                lastItems.forEach(it => {
+                    // 上周的日期 + 7 天 = 本周对应日期
+                    const newDate = addDays(it.date, 7);
+                    items.push({
+                        id: genId(),
+                        date: newDate,
+                        time: it.time,
+                        studio: it.studio,
+                        type: it.type,
+                        class: it.class,
+                        done: false
+                    });
+                });
+                saveToLocal();
+                render();
+                updateLastWeekCount();
+                alert('已复制 ' + lastItems.length + ' 节课到本周 ✅');
+            });
+
+            // ============================================================
+            // 添加课程
+            // ============================================================
             function addItem() {
-                const day = daySelect.value;
+                let date = dateInput.value;
+                if (!date) {
+                    date = fmtDate(new Date());
+                }
                 const time = timeInput.value.trim() || '19:00-20:00';
                 const studio = studioInput.value.trim() || '舞室';
                 const type = typeInput.value.trim() || '综合';
                 const cls = classInput.value.trim() || '新课程';
-                const newItem = { id: genId(), day, time, studio, type, class: cls, done: false };
-                items.push(newItem);
-                if (!activeDays.has(day)) activeDays.add(day);
+
+                items.push({
+                    id: genId(),
+                    date,
+                    time,
+                    studio,
+                    type,
+                    class: cls,
+                    done: false
+                });
                 timeInput.value = '';
                 studioInput.value = '';
                 typeInput.value = '';
@@ -1567,20 +1941,20 @@
                 studioInput.value = '';
                 typeInput.value = '';
                 classInput.value = '';
-                daySelect.value = '周一';
+                dateInput.value = fmtDate(new Date());
             }
 
             function resetAll() {
                 if (confirm('重置会丢失所有修改，确定吗？')) {
-                    items = DEFAULT_ITEMS.map(item => ({ ...item, id: genId() }));
-                    const days = new Set(items.map(item => item.day));
-                    activeDays = new Set(ALL_DAYS.filter(d => days.has(d)));
-                    if (activeDays.size === 0) activeDays.add('周一');
+                    items = buildDefaultItems();
+                    activeDays = new Set(['周一', '周二', '周三', '周四', '周五', '周六', '周日']);
                     render();
                 }
             }
 
-            // ===== 导出 JPG =====
+            // ============================================================
+            // 导出 JPG
+            // ============================================================
             function exportJPG() {
                 const el = document.getElementById('capture');
 
@@ -1596,9 +1970,6 @@
                 el.style.width = '100%';
                 el.style.margin = '0 auto';
                 el.style.display = 'block';
-                el.style.position = 'relative';
-                el.style.left = '0';
-                el.style.right = '0';
 
                 saveBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> 生成中...';
                 saveBtn.disabled = true;
@@ -1624,9 +1995,6 @@
                         elem.style.width = '100%';
                         elem.style.margin = '0 auto';
                         elem.style.display = 'block';
-                        elem.style.position = 'relative';
-                        elem.style.left = '0';
-                        elem.style.right = '0';
                         const cards = elem.querySelectorAll('.card');
                         cards.forEach(c => c.style.display = 'flex');
                     }
@@ -1639,9 +2007,6 @@
                     el.style.width = '';
                     el.style.margin = '';
                     el.style.display = '';
-                    el.style.position = '';
-                    el.style.left = '';
-                    el.style.right = '';
 
                     const link = document.createElement('a');
                     link.download = 'DANCE_PLANNER.jpg';
@@ -1666,16 +2031,15 @@
                     el.style.width = '';
                     el.style.margin = '';
                     el.style.display = '';
-                    el.style.position = '';
-                    el.style.left = '';
-                    el.style.right = '';
                     alert('导出失败，请尝试截图保存。');
                     saveBtn.innerHTML = '<i class="fas fa-image"></i> 导出 JPG';
                     saveBtn.disabled = false;
                 });
             }
 
-            // ===== 事件绑定 =====
+            // ============================================================
+            // 事件绑定
+            // ============================================================
             addBtn.addEventListener('click', addItem);
             cancelBtn.addEventListener('click', clearForm);
             resetBtn.addEventListener('click', resetAll);
@@ -1688,14 +2052,21 @@
                 });
             });
 
-            // ===== 启动 =====
+            // ============================================================
+            // 启动
+            // ============================================================
+            const today = new Date();
+            calYear = today.getFullYear();
+            calMonth = today.getMonth();
+            calSelectedDate = fmtDate(today);
+
+            dateInput.value = fmtDate(today);
+
             loadTemplates();
             const hasSaved = loadFromLocal();
             if (!hasSaved) {
-                items = DEFAULT_ITEMS.map(item => ({ ...item, id: genId() }));
-                const days = new Set(items.map(item => item.day));
-                activeDays = new Set(ALL_DAYS.filter(d => days.has(d)));
-                if (activeDays.size === 0) activeDays.add('周一');
+                items = buildDefaultItems();
+                activeDays = new Set(['周一', '周二', '周三', '周四', '周五', '周六', '周日']);
             }
             render();
 
