@@ -31,10 +31,19 @@
             width: 100%;
             background: #ffffff;
             border-radius: 28px;
-            padding: 16px 14px 20px;
+            padding: 16px 14px 0;
             box-shadow: 0 8px 40px rgba(0, 0, 0, 0.08);
             border: 1px solid #e8e0d8;
             margin: 0 auto;
+            overflow: hidden;
+        }
+
+        /* ===== 页面容器 ===== */
+        .page {
+            display: none;
+        }
+        .page.active {
+            display: block;
         }
 
         #capture {
@@ -131,6 +140,7 @@
             width: 100%;
         }
 
+        /* ===== 卡片 (颜色由 JS 动态设定) ===== */
         .card {
             background: #faf8f5;
             border-radius: 16px;
@@ -159,7 +169,6 @@
             font-family: 'Orbitron', monospace;
             font-size: 16px;
             font-weight: 700;
-            color: #d48ab8;
             min-width: 50px;
             letter-spacing: 0.5px;
             text-transform: uppercase;
@@ -175,9 +184,6 @@
         .card .card-type {
             font-size: 14px;
             font-weight: 600;
-            color: #66aacc;
-            background: #eef4f8;
-            border: 1px solid #dde8ee;
             padding: 3px 14px;
             border-radius: 12px;
             pointer-events: none;
@@ -196,7 +202,6 @@
             pointer-events: none;
         }
         .card .card-studio i {
-            color: #d48ab8;
             margin-right: 4px;
             pointer-events: none;
         }
@@ -423,6 +428,109 @@
             letter-spacing: 0.5px;
         }
 
+        /* ===== 功能页占位 ===== */
+        .func-page {
+            padding: 40px 28px 60px;
+            text-align: center;
+            min-height: 400px;
+        }
+        .func-page .func-icon {
+            font-size: 60px;
+            margin-bottom: 20px;
+            opacity: 0.3;
+        }
+        .func-page .func-title {
+            font-family: 'Orbitron', monospace;
+            font-size: 22px;
+            color: #2a1a2a;
+            letter-spacing: 2px;
+            margin-bottom: 10px;
+        }
+        .func-page .func-desc {
+            font-size: 15px;
+            color: #aaa;
+            line-height: 1.8;
+        }
+        .func-page .func-list {
+            margin-top: 30px;
+            text-align: left;
+            max-width: 320px;
+            margin-left: auto;
+            margin-right: auto;
+            background: #faf8f5;
+            border-radius: 16px;
+            padding: 20px 24px;
+            border: 1px solid #eee8e0;
+        }
+        .func-page .func-list .item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 10px 0;
+            font-size: 15px;
+            color: #666;
+            border-bottom: 1px dashed #eee8e0;
+        }
+        .func-page .func-list .item:last-child {
+            border-bottom: none;
+        }
+        .func-page .func-list .item i {
+            color: #d48ab8;
+            font-size: 18px;
+            width: 24px;
+            text-align: center;
+        }
+        .func-page .func-list .item .tag {
+            margin-left: auto;
+            font-size: 11px;
+            color: #ccc;
+            font-family: 'Orbitron', monospace;
+            letter-spacing: 0.5px;
+        }
+
+        /* ===== 底部 Tab 导航 ===== */
+        .tab-bar {
+            display: flex;
+            border-top: 1px solid #eee8e0;
+            margin-top: 8px;
+            background: #ffffff;
+            border-radius: 0 0 28px 28px;
+        }
+        .tab-btn {
+            flex: 1;
+            padding: 18px 0 20px;
+            text-align: center;
+            font-family: 'Orbitron', monospace;
+            font-size: 15px;
+            font-weight: 700;
+            letter-spacing: 2px;
+            color: #bbb;
+            cursor: pointer;
+            transition: all 0.25s ease;
+            border: none;
+            background: transparent;
+            position: relative;
+            -webkit-tap-highlight-color: transparent;
+            touch-action: manipulation;
+        }
+        .tab-btn.active {
+            color: #2a1a2a;
+        }
+        .tab-btn.active::after {
+            content: '';
+            position: absolute;
+            bottom: 8px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 32px;
+            height: 3px;
+            background: #d48ab8;
+            border-radius: 2px;
+        }
+        .tab-btn:active {
+            transform: scale(0.97);
+        }
+
         /* ===== 编辑弹窗 ===== */
         .modal-overlay {
             position: fixed;
@@ -491,7 +599,7 @@
 
         @media (max-width: 480px) {
             .app {
-                padding: 10px 8px 16px;
+                padding: 10px 8px 0;
                 border-radius: 20px;
             }
             #capture {
@@ -543,58 +651,106 @@
             .timetable-header .teacher-name .butterfly {
                 font-size: 18px;
             }
+            .tab-btn {
+                font-size: 13px;
+                padding: 14px 0 16px;
+                letter-spacing: 1px;
+            }
+            .func-page {
+                padding: 30px 18px 40px;
+            }
+            .func-page .func-icon {
+                font-size: 48px;
+            }
         }
     </style>
 </head>
 <body>
 
     <div class="app">
-        <div id="capture">
-            <div class="timetable-header">
-                <div class="main-title">✦ DANCE PLANNER ✦</div>
-                <div class="sub-title" id="weekLabel">— 9月7日 — 9月13日 一周行程 —</div>
-                <div class="teacher-name"><span class="butterfly">🦋</span> @Thia西亚</div>
+
+        <!-- ==================== 页面 1：课表 ==================== -->
+        <div class="page active" id="pageSchedule">
+            <div id="capture">
+                <div class="timetable-header">
+                    <div class="main-title">✦ DANCE PLANNER ✦</div>
+                    <div class="sub-title" id="weekLabel">— 9月7日 — 9月13日 一周行程 —</div>
+                    <div class="teacher-name"><span class="butterfly">🦋</span> @Thia西亚</div>
+                </div>
+
+                <div class="week-row" id="weekRow"></div>
+                <div class="list" id="list"></div>
+                <div class="footer-note">◆ 点击卡片编辑 · 点击 ○ 打卡 · 星期切换</div>
             </div>
 
-            <div class="week-row" id="weekRow"></div>
-            <div class="list" id="list"></div>
-            <div class="footer-note">◆ 点击卡片编辑 · 点击 ○ 打卡 · 星期切换</div>
+            <div class="toolbar">
+                <button class="btn-reset" id="resetBtn"><i class="fas fa-undo"></i> 重置</button>
+                <button class="btn-save" id="saveBtn"><i class="fas fa-image"></i> 导出 JPG</button>
+            </div>
+
+            <div class="form">
+                <div class="form-row">
+                    <label>星期</label>
+                    <select id="daySelect">
+                        <option value="周一">周一</option>
+                        <option value="周二">周二</option>
+                        <option value="周三">周三</option>
+                        <option value="周四">周四</option>
+                        <option value="周五">周五</option>
+                        <option value="周六">周六</option>
+                        <option value="周日">周日</option>
+                    </select>
+                    <label>时间</label>
+                    <input type="text" id="timeInput" placeholder="19:40-20:40" value="19:00-20:00">
+                </div>
+                <div class="form-row">
+                    <label>类型</label>
+                    <input type="text" id="typeInput" placeholder="Kpop / 编舞" value="Kpop">
+                    <label>课程</label>
+                    <input type="text" id="classInput" placeholder="hot body" value="新课程">
+                </div>
+                <div class="form-row">
+                    <label>舞室</label>
+                    <input type="text" id="studioInput" placeholder="舞室名称" value="GH5">
+                </div>
+                <div class="form-actions">
+                    <button class="btn-secondary" id="cancelBtn">✕ 清空</button>
+                    <button class="btn-primary" id="addBtn"><i class="fas fa-plus"></i> 添加</button>
+                </div>
+            </div>
         </div>
 
-        <div class="toolbar">
-            <button class="btn-reset" id="resetBtn"><i class="fas fa-undo"></i> 重置</button>
-            <button class="btn-save" id="saveBtn"><i class="fas fa-image"></i> 导出 JPG</button>
+        <!-- ==================== 页面 2：功能 ==================== -->
+        <div class="page" id="pageFunc">
+            <div class="func-page">
+                <div class="func-icon">⚙️</div>
+                <div class="func-title">功能</div>
+                <div class="func-desc">更多实用功能即将上线</div>
+
+                <div class="func-list">
+                    <div class="item">
+                        <i class="fas fa-calendar-alt"></i>
+                        <span>月历视图</span>
+                        <span class="tag">下一步</span>
+                    </div>
+                    <div class="item">
+                        <i class="fas fa-star"></i>
+                        <span>收藏常用课模板</span>
+                        <span class="tag">下一步</span>
+                    </div>
+                    <div class="item">
+                        <i class="fas fa-copy"></i>
+                        <span>一键复制上周课表</span>
+                        <span class="tag">下一步</span>
+                    </div>
+                </div>
+            </div>
         </div>
 
-        <div class="form">
-            <div class="form-row">
-                <label>星期</label>
-                <select id="daySelect">
-                    <option value="周一">周一</option>
-                    <option value="周二">周二</option>
-                    <option value="周三">周三</option>
-                    <option value="周四">周四</option>
-                    <option value="周五">周五</option>
-                    <option value="周六">周六</option>
-                    <option value="周日">周日</option>
-                </select>
-                <label>时间</label>
-                <input type="text" id="timeInput" placeholder="19:40-20:40" value="19:00-20:00">
-            </div>
-            <div class="form-row">
-                <label>类型</label>
-                <input type="text" id="typeInput" placeholder="Kpop / 编舞" value="Kpop">
-                <label>课程</label>
-                <input type="text" id="classInput" placeholder="hot body" value="新课程">
-            </div>
-            <div class="form-row">
-                <label>舞室</label>
-                <input type="text" id="studioInput" placeholder="舞室名称" value="GH5">
-            </div>
-            <div class="form-actions">
-                <button class="btn-secondary" id="cancelBtn">✕ 清空</button>
-                <button class="btn-primary" id="addBtn"><i class="fas fa-plus"></i> 添加</button>
-            </div>
+        <!-- ==================== 底部 Tab ==================== -->
+        <div class="tab-bar">
+            <button class="tab-btn active" data-tab="schedule">课表</button>
+            <button class="tab-btn" data-tab="func">功能</button>
         </div>
     </div>
 
@@ -639,7 +795,7 @@
 
     <script>
         (function() {
-            // ===== 新示例数据（按图片 9.8 周行程 周四变动） =====
+            // ===== 示例数据 =====
             const DEFAULT_ITEMS = [
                 { id: 'd1', day: '周二', time: '18:30-20:40', studio: 'IDOLX 96店', type: '基础+编舞进阶',
                     class: 'Need a girl + 洗牌', done: false },
@@ -657,6 +813,27 @@
 
             const ALL_DAYS = ['周一', '周二', '周三', '周四', '周五', '周六', '周日'];
             const STORAGE_KEY = 'dance_planner_data';
+
+            // ===== 自动配色规则 =====
+            // 根据 type 关键词匹配颜色
+            const COLOR_RULES = [
+                { keys: ['男团', '女团'], color: '#66aacc', bg: '#eef4f8', border: '#dde8ee' },
+                { keys: ['编舞'], color: '#a888d8', bg: '#f2eefc', border: '#e8e0f8' },
+                { keys: ['入门', '零基础'], color: '#66bb88', bg: '#eef8f2', border: '#ddeee4' },
+                { keys: ['综合', '小班课'], color: '#d48ab8', bg: '#fceef6', border: '#f8e0ee' },
+                { keys: ['代课'], color: '#e8a860', bg: '#fef8ee', border: '#f8ecd8' },
+            ];
+            const DEFAULT_COLOR = { color: '#999', bg: '#f5f5f5', border: '#eeeeee' };
+
+            function getTypeColor(type) {
+                if (!type) return DEFAULT_COLOR;
+                for (const rule of COLOR_RULES) {
+                    for (const key of rule.keys) {
+                        if (type.includes(key)) return rule;
+                    }
+                }
+                return DEFAULT_COLOR;
+            }
 
             let items = [];
             let activeDays = new Set();
@@ -688,6 +865,21 @@
 
             function genId() { return Date.now() + '-' + Math.random().toString(36).slice(2, 6); }
 
+            // ===== Tab 切换 =====
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const tab = this.dataset.tab;
+                    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+                    this.classList.add('active');
+                    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+                    if (tab === 'schedule') {
+                        document.getElementById('pageSchedule').classList.add('active');
+                    } else {
+                        document.getElementById('pageFunc').classList.add('active');
+                    }
+                });
+            });
+
             // ===== 获取本周日期范围 =====
             function getWeekRange() {
                 const now = new Date();
@@ -705,7 +897,7 @@
                 weekLabel.textContent = '— ' + range.start + ' — ' + range.end + ' 一周行程 —';
             }
 
-            // ===== localStorage 操作 =====
+            // ===== localStorage =====
             function saveToLocal() {
                 const data = {
                     items: items,
@@ -774,16 +966,23 @@
                     const doneClass = item.done ? 'done' : '';
                     const icon = item.done ? 'fa-check-circle' : 'fa-circle';
                     const typeDisplay = item.type || '综合';
+                    const color = getTypeColor(typeDisplay);
+
+                    // 卡片边框色 & 背景
+                    const cardBorder = item.done ? '#66bb88' : color.color;
+                    const cardBg = item.done ? '#f6faf8' : '#faf8f5';
+
                     html += `
-                        <div class="card ${item.done ? 'done-card' : ''}" data-id="${item.id}">
+                        <div class="card ${item.done ? 'done-card' : ''}" data-id="${item.id}"
+                             style="border-left-color: ${cardBorder}; background: ${cardBg};">
                             <div class="check ${doneClass}" data-id="${item.id}">
                                 <i class="far ${icon}"></i>
                             </div>
-                            <span class="card-day">${item.day}</span>
+                            <span class="card-day" style="color: ${color.color};">${item.day}</span>
                             <span class="card-time">${item.time || '--:--'}</span>
-                            <span class="card-type">${typeDisplay}</span>
+                            <span class="card-type" style="color: ${color.color}; background: ${color.bg}; border: 1px solid ${color.border};">${typeDisplay}</span>
                             <span class="card-class">${item.class}</span>
-                            <span class="card-studio"><i class="fas fa-map-pin"></i>${item.studio || '舞室'}</span>
+                            <span class="card-studio" style="color: #aaa;"><i class="fas fa-map-pin" style="color: ${color.color};"></i>${item.studio || '舞室'}</span>
                             <span class="card-status ${item.done ? 'done' : ''}">${item.done ? '✓' : ''}</span>
                             <button class="del-btn" data-id="${item.id}"><i class="fas fa-trash-alt"></i></button>
                         </div>
@@ -895,7 +1094,6 @@
                 daySelect.value = '周一';
             }
 
-            // ===== 重置 =====
             function resetAll() {
                 if (confirm('重置会丢失所有修改，确定吗？')) {
                     items = DEFAULT_ITEMS.map(item => ({ ...item, id: genId() }));
