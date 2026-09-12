@@ -38,7 +38,6 @@
             overflow: hidden;
         }
 
-        /* ===== 页面容器 ===== */
         .page {
             display: none;
         }
@@ -140,7 +139,6 @@
             width: 100%;
         }
 
-        /* ===== 卡片 (颜色由 JS 动态设定) ===== */
         .card {
             background: #faf8f5;
             border-radius: 16px;
@@ -369,6 +367,61 @@
             transform: scale(0.95);
         }
 
+        /* ===== 快速添加（课表页） ===== */
+        .quick-add-section {
+            margin: 4px 0 8px;
+        }
+        .quick-add-label {
+            font-size: 11px;
+            color: #bbb;
+            font-family: 'Orbitron', monospace;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            text-align: left;
+            padding: 0 4px 6px;
+        }
+        .quick-add-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+        }
+        .quick-add-btn {
+            background: #f5f0ea;
+            border: 1px solid #e0d8d0;
+            padding: 6px 14px;
+            border-radius: 14px;
+            font-size: 13px;
+            font-weight: 500;
+            color: #666;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            -webkit-tap-highlight-color: transparent;
+            touch-action: manipulation;
+        }
+        .quick-add-btn:active {
+            transform: scale(0.95);
+        }
+        .quick-add-btn:hover {
+            background: #ede5dc;
+            border-color: #d48ab8;
+            color: #2a1a2a;
+        }
+        .quick-add-btn .type-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            flex-shrink: 0;
+        }
+        .quick-add-empty {
+            font-size: 12px;
+            color: #ccc;
+            padding: 6px 4px;
+            font-style: italic;
+        }
+
         .toolbar {
             display: flex;
             justify-content: flex-end;
@@ -428,67 +481,198 @@
             letter-spacing: 0.5px;
         }
 
-        /* ===== 功能页占位 ===== */
+        /* ===== 功能页 ===== */
         .func-page {
-            padding: 40px 28px 60px;
-            text-align: center;
+            padding: 24px 20px 40px;
             min-height: 400px;
         }
-        .func-page .func-icon {
-            font-size: 60px;
-            margin-bottom: 20px;
-            opacity: 0.3;
+        .func-section {
+            margin-bottom: 24px;
         }
-        .func-page .func-title {
+        .func-section-title {
             font-family: 'Orbitron', monospace;
-            font-size: 22px;
+            font-size: 14px;
+            font-weight: 700;
             color: #2a1a2a;
             letter-spacing: 2px;
-            margin-bottom: 10px;
+            text-transform: uppercase;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
         }
-        .func-page .func-desc {
-            font-size: 15px;
-            color: #aaa;
-            line-height: 1.8;
+        .func-section-title i {
+            color: #d48ab8;
         }
-        .func-page .func-list {
-            margin-top: 30px;
-            text-align: left;
-            max-width: 320px;
+        .func-section-title .count {
+            font-size: 11px;
+            color: #bbb;
+            font-weight: 400;
+            letter-spacing: 0.5px;
             margin-left: auto;
-            margin-right: auto;
+            font-family: 'Segoe UI', sans-serif;
+            text-transform: none;
+        }
+
+        /* 模板列表 */
+        .template-list {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+        .template-card {
             background: #faf8f5;
-            border-radius: 16px;
-            padding: 20px 24px;
+            border-radius: 14px;
+            padding: 12px 16px;
+            border: 1px solid #eee8e0;
+            border-left: 4px solid #d48ab8;
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 8px 12px;
+        }
+        .template-card .t-info {
+            flex: 1;
+            min-width: 150px;
+            text-align: left;
+        }
+        .template-card .t-title {
+            font-size: 14px;
+            font-weight: 600;
+            color: #2a1a2a;
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 6px;
+        }
+        .template-card .t-title .t-type {
+            font-size: 11px;
+            font-weight: 600;
+            padding: 2px 10px;
+            border-radius: 10px;
+        }
+        .template-card .t-meta {
+            font-size: 12px;
+            color: #aaa;
+            margin-top: 3px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 4px 12px;
+        }
+        .template-card .t-meta .t-day {
+            font-family: 'Orbitron', monospace;
+            font-weight: 700;
+            color: #d48ab8;
+        }
+        .template-card .t-actions {
+            display: flex;
+            gap: 6px;
+        }
+        .template-card .t-actions button {
+            border: none;
+            padding: 5px 12px;
+            border-radius: 10px;
+            font-size: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            -webkit-tap-highlight-color: transparent;
+            touch-action: manipulation;
+        }
+        .template-card .t-use {
+            background: #d48ab8;
+            color: #fff;
+        }
+        .template-card .t-use:hover {
+            background: #c07aa8;
+        }
+        .template-card .t-del {
+            background: transparent;
+            color: #ccc;
+            font-size: 14px;
+            padding: 5px 8px;
+        }
+        .template-card .t-del:hover {
+            color: #cc6666;
+        }
+
+        .template-empty {
+            text-align: center;
+            padding: 24px 10px;
+            color: #ccc;
+            font-size: 13px;
+            background: #faf8f5;
+            border-radius: 14px;
+            border: 1px dashed #e0d8d0;
+        }
+        .template-empty i {
+            display: block;
+            font-size: 24px;
+            margin-bottom: 8px;
+            color: #e0d8d0;
+        }
+
+        .func-add-btn {
+            margin-top: 10px;
+            background: transparent;
+            border: 1px dashed #d48ab8;
+            color: #d48ab8;
+            padding: 10px 18px;
+            border-radius: 14px;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            width: 100%;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            -webkit-tap-highlight-color: transparent;
+            touch-action: manipulation;
+        }
+        .func-add-btn:hover {
+            background: #fceef6;
+            border-style: solid;
+        }
+
+        /* 即将上线 */
+        .coming-list {
+            background: #faf8f5;
+            border-radius: 14px;
+            padding: 8px 18px;
             border: 1px solid #eee8e0;
         }
-        .func-page .func-list .item {
+        .coming-item {
             display: flex;
             align-items: center;
             gap: 12px;
-            padding: 10px 0;
-            font-size: 15px;
-            color: #666;
+            padding: 12px 0;
+            font-size: 14px;
+            color: #999;
             border-bottom: 1px dashed #eee8e0;
         }
-        .func-page .func-list .item:last-child {
+        .coming-item:last-child {
             border-bottom: none;
         }
-        .func-page .func-list .item i {
-            color: #d48ab8;
-            font-size: 18px;
-            width: 24px;
+        .coming-item i {
+            color: #ddd;
+            font-size: 16px;
+            width: 22px;
             text-align: center;
         }
-        .func-page .func-list .item .tag {
+        .coming-item .tag {
             margin-left: auto;
-            font-size: 11px;
+            font-size: 10px;
             color: #ccc;
             font-family: 'Orbitron', monospace;
             letter-spacing: 0.5px;
+            background: #f5f0ea;
+            padding: 2px 10px;
+            border-radius: 10px;
         }
 
-        /* ===== 底部 Tab 导航 ===== */
+        /* ===== 底部 Tab ===== */
         .tab-bar {
             display: flex;
             border-top: 1px solid #eee8e0;
@@ -531,7 +715,7 @@
             transform: scale(0.97);
         }
 
-        /* ===== 编辑弹窗 ===== */
+        /* ===== 弹窗通用 ===== */
         .modal-overlay {
             position: fixed;
             top: 0;
@@ -557,6 +741,8 @@
             width: 100%;
             box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
             animation: modalIn 0.25s ease;
+            max-height: 90vh;
+            overflow-y: auto;
         }
         @keyframes modalIn {
             from {
@@ -657,10 +843,11 @@
                 letter-spacing: 1px;
             }
             .func-page {
-                padding: 30px 18px 40px;
+                padding: 18px 12px 30px;
             }
-            .func-page .func-icon {
-                font-size: 48px;
+            .quick-add-btn {
+                font-size: 12px;
+                padding: 5px 10px;
             }
         }
     </style>
@@ -686,6 +873,12 @@
             <div class="toolbar">
                 <button class="btn-reset" id="resetBtn"><i class="fas fa-undo"></i> 重置</button>
                 <button class="btn-save" id="saveBtn"><i class="fas fa-image"></i> 导出 JPG</button>
+            </div>
+
+            <!-- 快速添加（模板） -->
+            <div class="quick-add-section" id="quickAddSection">
+                <div class="quick-add-label">⭐ 快速添加</div>
+                <div class="quick-add-row" id="quickAddRow"></div>
             </div>
 
             <div class="form">
@@ -723,27 +916,38 @@
         <!-- ==================== 页面 2：功能 ==================== -->
         <div class="page" id="pageFunc">
             <div class="func-page">
-                <div class="func-icon">⚙️</div>
-                <div class="func-title">功能</div>
-                <div class="func-desc">更多实用功能即将上线</div>
 
-                <div class="func-list">
-                    <div class="item">
-                        <i class="fas fa-calendar-alt"></i>
-                        <span>月历视图</span>
-                        <span class="tag">下一步</span>
+                <!-- 收藏模板 -->
+                <div class="func-section">
+                    <div class="func-section-title">
+                        <i class="fas fa-star"></i> 常用课模板
+                        <span class="count" id="templateCount">0 个</span>
                     </div>
-                    <div class="item">
-                        <i class="fas fa-star"></i>
-                        <span>收藏常用课模板</span>
-                        <span class="tag">下一步</span>
+                    <div class="template-list" id="templateList"></div>
+                    <button class="func-add-btn" id="addTemplateBtn">
+                        <i class="fas fa-plus"></i> 添加模板
+                    </button>
+                </div>
+
+                <!-- 即将上线 -->
+                <div class="func-section">
+                    <div class="func-section-title">
+                        <i class="fas fa-hourglass-half"></i> 即将上线
                     </div>
-                    <div class="item">
-                        <i class="fas fa-copy"></i>
-                        <span>一键复制上周课表</span>
-                        <span class="tag">下一步</span>
+                    <div class="coming-list">
+                        <div class="coming-item">
+                            <i class="fas fa-calendar-alt"></i>
+                            <span>月历视图</span>
+                            <span class="tag">NEXT</span>
+                        </div>
+                        <div class="coming-item">
+                            <i class="fas fa-copy"></i>
+                            <span>一键复制上周课表</span>
+                            <span class="tag">NEXT</span>
+                        </div>
                     </div>
                 </div>
+
             </div>
         </div>
 
@@ -754,7 +958,7 @@
         </div>
     </div>
 
-    <!-- 编辑弹窗 -->
+    <!-- ===== 编辑课程弹窗 ===== -->
     <div class="modal-overlay" id="editModal">
         <div class="modal-box">
             <h3>✎ 编辑课程</h3>
@@ -793,6 +997,45 @@
         </div>
     </div>
 
+    <!-- ===== 模板弹窗 ===== -->
+    <div class="modal-overlay" id="templateModal">
+        <div class="modal-box">
+            <h3 id="templateModalTitle">⭐ 添加模板</h3>
+            <div class="form-row">
+                <label>星期</label>
+                <select id="tplDay">
+                    <option value="周一">周一</option>
+                    <option value="周二">周二</option>
+                    <option value="周三">周三</option>
+                    <option value="周四">周四</option>
+                    <option value="周五">周五</option>
+                    <option value="周六">周六</option>
+                    <option value="周日">周日</option>
+                </select>
+            </div>
+            <div class="form-row">
+                <label>时间</label>
+                <input type="text" id="tplTime" placeholder="19:40-20:40">
+            </div>
+            <div class="form-row">
+                <label>类型</label>
+                <input type="text" id="tplType" placeholder="Kpop / 编舞">
+            </div>
+            <div class="form-row">
+                <label>课程</label>
+                <input type="text" id="tplClass" placeholder="课程名称">
+            </div>
+            <div class="form-row">
+                <label>舞室</label>
+                <input type="text" id="tplStudio" placeholder="舞室名称">
+            </div>
+            <div class="form-actions">
+                <button class="btn-secondary" id="tplCancelBtn">取消</button>
+                <button class="btn-primary" id="tplSaveBtn">保存模板</button>
+            </div>
+        </div>
+    </div>
+
     <script>
         (function() {
             // ===== 示例数据 =====
@@ -813,9 +1056,9 @@
 
             const ALL_DAYS = ['周一', '周二', '周三', '周四', '周五', '周六', '周日'];
             const STORAGE_KEY = 'dance_planner_data';
+            const TEMPLATE_KEY = 'dance_planner_templates';
 
-            // ===== 自动配色规则 =====
-            // 根据 type 关键词匹配颜色
+            // 自动配色规则
             const COLOR_RULES = [
                 { keys: ['男团', '女团'], color: '#66aacc', bg: '#eef4f8', border: '#dde8ee' },
                 { keys: ['编舞'], color: '#a888d8', bg: '#f2eefc', border: '#e8e0f8' },
@@ -836,8 +1079,10 @@
             }
 
             let items = [];
+            let templates = [];
             let activeDays = new Set();
             let editingId = null;
+            let editingTemplateId = null;
 
             // DOM
             const weekRow = document.getElementById('weekRow');
@@ -853,6 +1098,14 @@
             const saveBtn = document.getElementById('saveBtn');
             const weekLabel = document.getElementById('weekLabel');
 
+            // 快速添加
+            const quickAddRow = document.getElementById('quickAddRow');
+
+            // 模板
+            const templateList = document.getElementById('templateList');
+            const templateCount = document.getElementById('templateCount');
+            const addTemplateBtn = document.getElementById('addTemplateBtn');
+
             // 编辑弹窗
             const editModal = document.getElementById('editModal');
             const editDay = document.getElementById('editDay');
@@ -862,6 +1115,17 @@
             const editStudio = document.getElementById('editStudio');
             const editSaveBtn = document.getElementById('editSaveBtn');
             const editCancelBtn = document.getElementById('editCancelBtn');
+
+            // 模板弹窗
+            const templateModal = document.getElementById('templateModal');
+            const templateModalTitle = document.getElementById('templateModalTitle');
+            const tplDay = document.getElementById('tplDay');
+            const tplTime = document.getElementById('tplTime');
+            const tplType = document.getElementById('tplType');
+            const tplClass = document.getElementById('tplClass');
+            const tplStudio = document.getElementById('tplStudio');
+            const tplSaveBtn = document.getElementById('tplSaveBtn');
+            const tplCancelBtn = document.getElementById('tplCancelBtn');
 
             function genId() { return Date.now() + '-' + Math.random().toString(36).slice(2, 6); }
 
@@ -876,6 +1140,7 @@
                         document.getElementById('pageSchedule').classList.add('active');
                     } else {
                         document.getElementById('pageFunc').classList.add('active');
+                        renderTemplates();
                     }
                 });
             });
@@ -899,12 +1164,11 @@
 
             // ===== localStorage =====
             function saveToLocal() {
-                const data = {
-                    items: items,
-                    activeDays: Array.from(activeDays)
-                };
                 try {
-                    localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+                    localStorage.setItem(STORAGE_KEY, JSON.stringify({
+                        items: items,
+                        activeDays: Array.from(activeDays)
+                    }));
                 } catch (e) {}
             }
 
@@ -922,10 +1186,27 @@
                 }
             }
 
+            function saveTemplates() {
+                try {
+                    localStorage.setItem(TEMPLATE_KEY, JSON.stringify(templates));
+                } catch (e) {}
+            }
+
+            function loadTemplates() {
+                try {
+                    const raw = localStorage.getItem(TEMPLATE_KEY);
+                    if (!raw) return;
+                    templates = JSON.parse(raw);
+                } catch (e) {
+                    templates = [];
+                }
+            }
+
             // ===== 渲染 =====
             function render() {
                 renderWeekRow();
                 renderList();
+                renderQuickAdd();
                 updateWeekLabel();
                 saveToLocal();
             }
@@ -967,8 +1248,6 @@
                     const icon = item.done ? 'fa-check-circle' : 'fa-circle';
                     const typeDisplay = item.type || '综合';
                     const color = getTypeColor(typeDisplay);
-
-                    // 卡片边框色 & 背景
                     const cardBorder = item.done ? '#66bb88' : color.color;
                     const cardBg = item.done ? '#f6faf8' : '#faf8f5';
 
@@ -982,7 +1261,7 @@
                             <span class="card-time">${item.time || '--:--'}</span>
                             <span class="card-type" style="color: ${color.color}; background: ${color.bg}; border: 1px solid ${color.border};">${typeDisplay}</span>
                             <span class="card-class">${item.class}</span>
-                            <span class="card-studio" style="color: #aaa;"><i class="fas fa-map-pin" style="color: ${color.color};"></i>${item.studio || '舞室'}</span>
+                            <span class="card-studio"><i class="fas fa-map-pin" style="color: ${color.color};"></i>${item.studio || '舞室'}</span>
                             <span class="card-status ${item.done ? 'done' : ''}">${item.done ? '✓' : ''}</span>
                             <button class="del-btn" data-id="${item.id}"><i class="fas fa-trash-alt"></i></button>
                         </div>
@@ -1014,6 +1293,47 @@
                         if (e.target.closest('.del-btn') || e.target.closest('.check')) return;
                         const id = this.dataset.id;
                         openEditModal(id);
+                    });
+                });
+            }
+
+            // ===== 快速添加按钮 =====
+            function renderQuickAdd() {
+                if (templates.length === 0) {
+                    quickAddRow.innerHTML = `<div class="quick-add-empty">还没有模板，去「功能」页添加 ⭐</div>`;
+                    return;
+                }
+                let html = '';
+                templates.forEach(tpl => {
+                    const color = getTypeColor(tpl.type);
+                    const shortClass = tpl.class.length > 8 ? tpl.class.slice(0, 8) + '…' : tpl.class;
+                    html += `
+                        <button class="quick-add-btn" data-id="${tpl.id}">
+                            <span class="type-dot" style="background: ${color.color};"></span>
+                            ${shortClass}
+                        </button>
+                    `;
+                });
+                quickAddRow.innerHTML = html;
+
+                document.querySelectorAll('.quick-add-btn').forEach(btn => {
+                    btn.addEventListener('click', function() {
+                        const id = this.dataset.id;
+                        const tpl = templates.find(t => t.id === id);
+                        if (!tpl) return;
+                        // 直接添加
+                        const newItem = {
+                            id: genId(),
+                            day: tpl.day,
+                            time: tpl.time,
+                            studio: tpl.studio,
+                            type: tpl.type,
+                            class: tpl.class,
+                            done: false
+                        };
+                        items.push(newItem);
+                        if (!activeDays.has(tpl.day)) activeDays.add(tpl.day);
+                        render();
                     });
                 });
             }
@@ -1069,7 +1389,163 @@
                 });
             });
 
-            // ===== 添加 =====
+            // ===== 模板弹窗 =====
+            function openTemplateModal(tplId) {
+                if (tplId) {
+                    const tpl = templates.find(t => t.id === tplId);
+                    if (!tpl) return;
+                    editingTemplateId = tplId;
+                    templateModalTitle.textContent = '✎ 编辑模板';
+                    tplDay.value = tpl.day || '周一';
+                    tplTime.value = tpl.time || '';
+                    tplType.value = tpl.type || '';
+                    tplClass.value = tpl.class || '';
+                    tplStudio.value = tpl.studio || '';
+                } else {
+                    editingTemplateId = null;
+                    templateModalTitle.textContent = '⭐ 添加模板';
+                    tplDay.value = '周一';
+                    tplTime.value = '';
+                    tplType.value = '';
+                    tplClass.value = '';
+                    tplStudio.value = '';
+                }
+                templateModal.classList.add('show');
+            }
+
+            function closeTemplateModal() {
+                templateModal.classList.remove('show');
+                editingTemplateId = null;
+            }
+
+            function saveTemplate() {
+                const day = tplDay.value;
+                const time = tplTime.value.trim() || '--:--';
+                const type = tplType.value.trim() || '综合';
+                const cls = tplClass.value.trim() || '未命名课程';
+                const studio = tplStudio.value.trim() || '舞室';
+
+                if (editingTemplateId) {
+                    const tpl = templates.find(t => t.id === editingTemplateId);
+                    if (tpl) {
+                        tpl.day = day;
+                        tpl.time = time;
+                        tpl.type = type;
+                        tpl.class = cls;
+                        tpl.studio = studio;
+                    }
+                } else {
+                    templates.push({
+                        id: genId(),
+                        day, time, type, class: cls, studio
+                    });
+                }
+                saveTemplates();
+                closeTemplateModal();
+                renderTemplates();
+                renderQuickAdd();
+            }
+
+            tplSaveBtn.addEventListener('click', saveTemplate);
+            tplCancelBtn.addEventListener('click', closeTemplateModal);
+            templateModal.addEventListener('click', function(e) {
+                if (e.target === this) closeTemplateModal();
+            });
+            document.querySelectorAll('#tplTime, #tplType, #tplClass, #tplStudio').forEach(inp => {
+                inp.addEventListener('keypress', function(e) {
+                    if (e.key === 'Enter') saveTemplate();
+                });
+            });
+
+            addTemplateBtn.addEventListener('click', function() { openTemplateModal(null); });
+
+            // ===== 渲染模板列表 =====
+            function renderTemplates() {
+                templateCount.textContent = templates.length + ' 个';
+
+                if (templates.length === 0) {
+                    templateList.innerHTML =
+                        `<div class="template-empty"><i class="fas fa-star"></i>还没有模板<br>点下面按钮添加常用课</div>`;
+                    return;
+                }
+
+                let html = '';
+                templates.forEach(tpl => {
+                    const color = getTypeColor(tpl.type);
+                    html += `
+                        <div class="template-card" data-id="${tpl.id}" style="border-left-color: ${color.color};">
+                            <div class="t-info">
+                                <div class="t-title">
+                                    <span class="t-type" style="color: ${color.color}; background: ${color.bg}; border: 1px solid ${color.border};">${tpl.type}</span>
+                                    <span>${tpl.class}</span>
+                                </div>
+                                <div class="t-meta">
+                                    <span class="t-day">${tpl.day}</span>
+                                    <span>${tpl.time}</span>
+                                    <span>${tpl.studio}</span>
+                                </div>
+                            </div>
+                            <div class="t-actions">
+                                <button class="t-use" data-id="${tpl.id}">使用</button>
+                                <button class="t-del" data-id="${tpl.id}"><i class="fas fa-trash-alt"></i></button>
+                            </div>
+                        </div>
+                    `;
+                });
+                templateList.innerHTML = html;
+
+                // 使用
+                document.querySelectorAll('.t-use').forEach(el => {
+                    el.addEventListener('click', function(e) {
+                        e.stopPropagation();
+                        const id = this.dataset.id;
+                        const tpl = templates.find(t => t.id === id);
+                        if (!tpl) return;
+                        const newItem = {
+                            id: genId(),
+                            day: tpl.day,
+                            time: tpl.time,
+                            studio: tpl.studio,
+                            type: tpl.type,
+                            class: tpl.class,
+                            done: false
+                        };
+                        items.push(newItem);
+                        if (!activeDays.has(tpl.day)) activeDays.add(tpl.day);
+                        saveToLocal();
+                        render();
+                        // 切回课表页
+                        document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+                        document.querySelector('.tab-btn[data-tab="schedule"]').classList.add('active');
+                        document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+                        document.getElementById('pageSchedule').classList.add('active');
+                    });
+                });
+
+                // 删除
+                document.querySelectorAll('.t-del').forEach(el => {
+                    el.addEventListener('click', function(e) {
+                        e.stopPropagation();
+                        const id = this.dataset.id;
+                        if (!confirm('删除这个模板？')) return;
+                        templates = templates.filter(t => t.id !== id);
+                        saveTemplates();
+                        renderTemplates();
+                        renderQuickAdd();
+                    });
+                });
+
+                // 点击模板卡片 → 编辑
+                document.querySelectorAll('.template-card').forEach(el => {
+                    el.addEventListener('click', function(e) {
+                        if (e.target.closest('.t-actions')) return;
+                        const id = this.dataset.id;
+                        openTemplateModal(id);
+                    });
+                });
+            }
+
+            // ===== 添加课程 =====
             function addItem() {
                 const day = daySelect.value;
                 const time = timeInput.value.trim() || '19:00-20:00';
@@ -1213,6 +1689,7 @@
             });
 
             // ===== 启动 =====
+            loadTemplates();
             const hasSaved = loadFromLocal();
             if (!hasSaved) {
                 items = DEFAULT_ITEMS.map(item => ({ ...item, id: genId() }));
