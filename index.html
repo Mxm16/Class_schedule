@@ -98,6 +98,7 @@
             margin-right: 8px;
         }
 
+        /* 星期按钮：选中=深色，未选中=浅色 */
         .week-row {
             display: flex;
             flex-wrap: wrap;
@@ -112,7 +113,7 @@
             border-radius: 20px;
             font-size: 16px;
             font-weight: 600;
-            color: #888;
+            color: #bbb;
             cursor: pointer;
             transition: all 0.2s ease;
             font-family: 'Orbitron', monospace;
@@ -128,11 +129,6 @@
             background: #2a1a2a;
             border-color: #2a1a2a;
             color: #fff;
-        }
-        /* 该天有课的浅色标记 */
-        .week-btn.has-class:not(.active) {
-            border-color: #d48ab8;
-            color: #d48ab8;
         }
 
         .list {
@@ -514,7 +510,6 @@
             text-transform: none;
         }
 
-        /* 月历 */
         .calendar-box {
             background: #faf8f5;
             border-radius: 16px;
@@ -649,7 +644,6 @@
             font-style: italic;
         }
 
-        /* 模板列表 */
         .template-list {
             display: flex;
             flex-direction: column;
@@ -767,7 +761,6 @@
             border-style: solid;
         }
 
-        /* 复制上周 */
         .copy-last-btn {
             width: 100%;
             background: #faf8f5;
@@ -809,7 +802,6 @@
             cursor: not-allowed;
         }
 
-        /* ===== 底部 Tab ===== */
         .tab-bar {
             display: flex;
             border-top: 1px solid #eee8e0;
@@ -852,7 +844,6 @@
             transform: scale(0.97);
         }
 
-        /* ===== 弹窗 ===== */
         .modal-overlay {
             position: fixed;
             top: 0;
@@ -1200,9 +1191,6 @@
                 return { start: f(mon), end: f(sun), mon, sun };
             }
 
-            // ============================================================
-            // 示例数据
-            // ============================================================
             function buildDefaultItems() {
                 const today = fmtDate(new Date());
                 const mon = getMonday(today);
@@ -1226,7 +1214,6 @@
                 }));
             }
 
-            // 配色
             const COLOR_RULES = [
                 { keys: ['男团', '女团'], color: '#66aacc', bg: '#eef4f8', border: '#dde8ee' },
                 { keys: ['编舞'], color: '#a888d8', bg: '#f2eefc', border: '#e8e0f8' },
@@ -1251,8 +1238,8 @@
             // ============================================================
             let items = [];
             let templates = [];
-            // activeDays 现在表示「用户手动选中的筛选集合」
-            // 默认会根据本周有课的星期自动填充
+            // activeDays：用户选中显示的星期（点击切换）
+            // 初始值 = 本周有课的星期
             let activeDays = new Set();
             let editingId = null;
             let editingTemplateId = null;
@@ -1307,9 +1294,7 @@
 
             function genId() { return Date.now() + '-' + Math.random().toString(36).slice(2, 6); }
 
-            // ============================================================
-            // 获取「本周有课的星期」集合
-            // ============================================================
+            // 获取本周有课的星期集合
             function getThisWeekDays() {
                 const range = getWeekRangeStr();
                 const days = new Set();
@@ -1367,7 +1352,7 @@
                         }
                         return item;
                     });
-                    // 如果老数据有 activeDays 就用，否则根据本周课程自动算
+                    // 用存储的 activeDays，否则根据本周自动算
                     if (data.activeDays && data.activeDays.length) {
                         activeDays = new Set(data.activeDays);
                     } else {
@@ -1404,23 +1389,15 @@
                 saveToLocal();
             }
 
-            // 星期行：只亮本周有课的星期（默认），但用户可以手动开关
+            // 星期按钮：颜色 = 是否被选中（active）
+            // 初始选中 = 本周有课的星期
             function renderWeekRow() {
-                const thisWeekDays = getThisWeekDays();
                 const allDays = ['周一', '周二', '周三', '周四', '周五', '周六', '周日'];
-
-                // 如果 activeDays 为空（例如清空过），默认只亮有课的
-                if (activeDays.size === 0 && thisWeekDays.size > 0) {
-                    activeDays = new Set(thisWeekDays);
-                }
-
                 let html = '';
                 allDays.forEach(day => {
                     const isActive = activeDays.has(day);
-                    const hasClass = thisWeekDays.has(day);
-                    const activeCls = isActive ? 'active' : '';
-                    const hasCls = hasClass ? 'has-class' : '';
-                    html += `<button class="week-btn ${activeCls} ${hasCls}" data-day="${day}">${day}</button>`;
+                    const cls = isActive ? 'active' : '';
+                    html += `<button class="week-btn ${cls}" data-day="${day}">${day}</button>`;
                 });
                 weekRow.innerHTML = html;
 
@@ -1440,7 +1417,6 @@
 
             function renderList() {
                 const range = getWeekRangeStr();
-                // 只显示「本周 + activeDays 里选中的星期」
                 const filtered = items.filter(item => {
                     if (item.date < range.mon || item.date > range.sun) return false;
                     const dayName = getDayName(item.date);
@@ -1670,7 +1646,7 @@
             addTemplateBtn.addEventListener('click', function() { openTemplateModal(null); });
 
             // ============================================================
-            // 渲染模板列表
+            // 模板列表
             // ============================================================
             function renderTemplates() {
                 templateCount.textContent = templates.length + ' 个';
@@ -1752,7 +1728,7 @@
             }
 
             // ============================================================
-            // 月历视图
+            // 月历
             // ============================================================
             function renderCalendar() {
                 calTitle.textContent = calYear + '年' + (calMonth + 1) + '月';
