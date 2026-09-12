@@ -129,6 +129,11 @@
             border-color: #2a1a2a;
             color: #fff;
         }
+        /* 该天有课的浅色标记 */
+        .week-btn.has-class:not(.active) {
+            border-color: #d48ab8;
+            color: #d48ab8;
+        }
 
         .list {
             display: flex;
@@ -317,10 +322,6 @@
         .form-row select:focus {
             border-color: #d48ab8;
             box-shadow: 0 0 0 3px rgba(212, 138, 184, 0.08);
-        }
-        .form-row select option {
-            background: #fff;
-            color: #333;
         }
         .form-actions {
             display: flex;
@@ -626,9 +627,6 @@
             height: 4px;
             border-radius: 50%;
         }
-        .cal-day.selected .dot {
-            opacity: 0.9;
-        }
 
         .cal-detail {
             margin-top: 14px;
@@ -696,11 +694,6 @@
             display: flex;
             flex-wrap: wrap;
             gap: 4px 12px;
-        }
-        .template-card .t-meta .t-day {
-            font-family: 'Orbitron', monospace;
-            font-weight: 700;
-            color: #d48ab8;
         }
         .template-card .t-actions {
             display: flex;
@@ -774,7 +767,7 @@
             border-style: solid;
         }
 
-        /* 复制上周按钮 */
+        /* 复制上周 */
         .copy-last-btn {
             width: 100%;
             background: #faf8f5;
@@ -1060,7 +1053,6 @@
         <div class="page" id="pageFunc">
             <div class="func-page">
 
-                <!-- 月历 -->
                 <div class="func-section">
                     <div class="func-section-title">
                         <i class="fas fa-calendar-alt"></i> 月历视图
@@ -1081,7 +1073,6 @@
                     </div>
                 </div>
 
-                <!-- 复制上周 -->
                 <div class="func-section">
                     <div class="func-section-title">
                         <i class="fas fa-copy"></i> 快捷操作
@@ -1093,7 +1084,6 @@
                     </button>
                 </div>
 
-                <!-- 收藏模板 -->
                 <div class="func-section">
                     <div class="func-section-title">
                         <i class="fas fa-star"></i> 常用课模板
@@ -1181,7 +1171,6 @@
             const STORAGE_KEY = 'dance_planner_data_v3';
             const TEMPLATE_KEY = 'dance_planner_templates_v3';
 
-            // 日期工具
             const pad = (n) => String(n).padStart(2, '0');
             const fmtDate = (d) => d.getFullYear() + '-' + pad(d.getMonth() + 1) + '-' + pad(d.getDate());
             const parseDate = (s) => { const p = s.split('-'); return new Date(+p[0], +p[1] - 1, +p[2]); };
@@ -1196,7 +1185,6 @@
                 return fmtDate(d);
             };
 
-            // 找到本周一（周一为一周开始）
             function getMonday(dateStr) {
                 const d = parseDate(dateStr);
                 const dow = d.getDay() || 7;
@@ -1204,7 +1192,6 @@
                 return fmtDate(d);
             }
 
-            // 本周日期范围字符串
             function getWeekRangeStr() {
                 const today = fmtDate(new Date());
                 const mon = getMonday(today);
@@ -1214,7 +1201,7 @@
             }
 
             // ============================================================
-            // 示例数据（自动生成日期，本周）
+            // 示例数据
             // ============================================================
             function buildDefaultItems() {
                 const today = fmtDate(new Date());
@@ -1239,7 +1226,7 @@
                 }));
             }
 
-            // 配色规则
+            // 配色
             const COLOR_RULES = [
                 { keys: ['男团', '女团'], color: '#66aacc', bg: '#eef4f8', border: '#dde8ee' },
                 { keys: ['编舞'], color: '#a888d8', bg: '#f2eefc', border: '#e8e0f8' },
@@ -1264,7 +1251,9 @@
             // ============================================================
             let items = [];
             let templates = [];
-            let activeDays = new Set(['周一', '周二', '周三', '周四', '周五', '周六', '周日']);
+            // activeDays 现在表示「用户手动选中的筛选集合」
+            // 默认会根据本周有课的星期自动填充
+            let activeDays = new Set();
             let editingId = null;
             let editingTemplateId = null;
             let calYear, calMonth;
@@ -1285,23 +1274,19 @@
             const weekLabel = document.getElementById('weekLabel');
             const quickAddRow = document.getElementById('quickAddRow');
 
-            // 月历
             const calTitle = document.getElementById('calTitle');
             const calGrid = document.getElementById('calGrid');
             const calDetail = document.getElementById('calDetail');
             const calPrev = document.getElementById('calPrev');
             const calNext = document.getElementById('calNext');
 
-            // 复制上周
             const copyLastBtn = document.getElementById('copyLastBtn');
             const lastWeekCount = document.getElementById('lastWeekCount');
 
-            // 模板
             const templateList = document.getElementById('templateList');
             const templateCount = document.getElementById('templateCount');
             const addTemplateBtn = document.getElementById('addTemplateBtn');
 
-            // 编辑弹窗
             const editModal = document.getElementById('editModal');
             const editDate = document.getElementById('editDate');
             const editTime = document.getElementById('editTime');
@@ -1311,7 +1296,6 @@
             const editSaveBtn = document.getElementById('editSaveBtn');
             const editCancelBtn = document.getElementById('editCancelBtn');
 
-            // 模板弹窗
             const templateModal = document.getElementById('templateModal');
             const templateModalTitle = document.getElementById('templateModalTitle');
             const tplTime = document.getElementById('tplTime');
@@ -1322,6 +1306,20 @@
             const tplCancelBtn = document.getElementById('tplCancelBtn');
 
             function genId() { return Date.now() + '-' + Math.random().toString(36).slice(2, 6); }
+
+            // ============================================================
+            // 获取「本周有课的星期」集合
+            // ============================================================
+            function getThisWeekDays() {
+                const range = getWeekRangeStr();
+                const days = new Set();
+                items.forEach(it => {
+                    if (it.date >= range.mon && it.date <= range.sun) {
+                        days.add(getDayName(it.date));
+                    }
+                });
+                return days;
+            }
 
             // ============================================================
             // Tab 切换
@@ -1361,17 +1359,20 @@
                     if (!raw) return false;
                     const data = JSON.parse(raw);
                     if (!data.items || !data.items.length) return false;
-                    // 兼容旧数据：如果没有 date 字段，就补上
                     items = data.items.map(item => {
                         if (!item.date) {
-                            // 用 day 反推本周日期
                             const range = getWeekRangeStr();
                             const dow = { '周一': 0, '周二': 1, '周三': 2, '周四': 3, '周五': 4, '周六': 5, '周日': 6 };
                             item.date = addDays(range.mon, dow[item.day] !== undefined ? dow[item.day] : 0);
                         }
                         return item;
                     });
-                    activeDays = new Set(data.activeDays || ['周一', '周二', '周三', '周四', '周五', '周六', '周日']);
+                    // 如果老数据有 activeDays 就用，否则根据本周课程自动算
+                    if (data.activeDays && data.activeDays.length) {
+                        activeDays = new Set(data.activeDays);
+                    } else {
+                        activeDays = getThisWeekDays();
+                    }
                     return true;
                 } catch (e) {
                     return false;
@@ -1393,7 +1394,7 @@
             }
 
             // ============================================================
-            // 渲染：主列表
+            // 渲染
             // ============================================================
             function render() {
                 renderWeekRow();
@@ -1403,13 +1404,26 @@
                 saveToLocal();
             }
 
+            // 星期行：只亮本周有课的星期（默认），但用户可以手动开关
             function renderWeekRow() {
+                const thisWeekDays = getThisWeekDays();
+                const allDays = ['周一', '周二', '周三', '周四', '周五', '周六', '周日'];
+
+                // 如果 activeDays 为空（例如清空过），默认只亮有课的
+                if (activeDays.size === 0 && thisWeekDays.size > 0) {
+                    activeDays = new Set(thisWeekDays);
+                }
+
                 let html = '';
-                ['周一', '周二', '周三', '周四', '周五', '周六', '周日'].forEach(day => {
-                    const active = activeDays.has(day) ? 'active' : '';
-                    html += `<button class="week-btn ${active}" data-day="${day}">${day}</button>`;
+                allDays.forEach(day => {
+                    const isActive = activeDays.has(day);
+                    const hasClass = thisWeekDays.has(day);
+                    const activeCls = isActive ? 'active' : '';
+                    const hasCls = hasClass ? 'has-class' : '';
+                    html += `<button class="week-btn ${activeCls} ${hasCls}" data-day="${day}">${day}</button>`;
                 });
                 weekRow.innerHTML = html;
+
                 document.querySelectorAll('.week-btn').forEach(btn => {
                     btn.addEventListener('click', function() {
                         const day = this.dataset.day;
@@ -1425,13 +1439,12 @@
             }
 
             function renderList() {
-                // 过滤：先按星期筛选，再按本周日期范围筛选
                 const range = getWeekRangeStr();
+                // 只显示「本周 + activeDays 里选中的星期」
                 const filtered = items.filter(item => {
+                    if (item.date < range.mon || item.date > range.sun) return false;
                     const dayName = getDayName(item.date);
-                    if (!activeDays.has(dayName)) return false;
-                    // 只显示本周的（如果你想显示所有日期的，删掉下面这行）
-                    return item.date >= range.mon && item.date <= range.sun;
+                    return activeDays.has(dayName);
                 });
                 filtered.sort((a, b) => {
                     if (a.date !== b.date) return a.date.localeCompare(b.date);
@@ -1453,7 +1466,6 @@
                     const cardBorder = item.done ? '#66bb88' : color.color;
                     const cardBg = item.done ? '#f6faf8' : '#faf8f5';
                     const dayName = getDayName(item.date);
-                    const dateShort = (parseDate(item.date).getMonth() + 1) + '/' + parseDate(item.date).getDate();
 
                     html += `
                         <div class="card ${item.done ? 'done-card' : ''}" data-id="${item.id}"
@@ -1532,7 +1544,6 @@
                         const id = this.dataset.id;
                         const tpl = templates.find(t => t.id === id);
                         if (!tpl) return;
-                        // 用当前日期输入框里的日期（如果没有就今天）
                         let date = dateInput.value || fmtDate(new Date());
                         const newItem = {
                             id: genId(),
@@ -1700,10 +1711,9 @@
                         const id = this.dataset.id;
                         const tpl = templates.find(t => t.id === id);
                         if (!tpl) return;
-                        let date = fmtDate(new Date());
                         const newItem = {
                             id: genId(),
-                            date: date,
+                            date: fmtDate(new Date()),
                             time: tpl.time,
                             studio: tpl.studio,
                             type: tpl.type,
@@ -1713,7 +1723,6 @@
                         items.push(newItem);
                         saveToLocal();
                         render();
-                        // 切回课表页
                         document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
                         document.querySelector('.tab-btn[data-tab="schedule"]').classList.add('active');
                         document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
@@ -1749,7 +1758,7 @@
                 calTitle.textContent = calYear + '年' + (calMonth + 1) + '月';
 
                 const firstDay = new Date(calYear, calMonth, 1);
-                const startDay = firstDay.getDay(); // 0=周日
+                const startDay = firstDay.getDay();
                 const daysInMonth = new Date(calYear, calMonth + 1, 0).getDate();
                 const daysInPrevMonth = new Date(calYear, calMonth, 0).getDate();
 
@@ -1757,23 +1766,19 @@
 
                 let html = '';
 
-                // 上月填充
                 for (let i = startDay - 1; i >= 0; i--) {
                     const d = daysInPrevMonth - i;
                     html += `<div class="cal-day other-month">${d}</div>`;
                 }
 
-                // 本月
                 for (let d = 1; d <= daysInMonth; d++) {
                     const dateStr = calYear + '-' + pad(calMonth + 1) + '-' + pad(d);
                     const isToday = dateStr === todayStr;
                     const isSelected = dateStr === calSelectedDate;
-
-                    // 找当天课程
                     const dayItems = items.filter(it => it.date === dateStr);
+
                     let dotsHtml = '';
                     if (dayItems.length > 0) {
-                        // 最多显示 3 个点
                         const showDots = dayItems.slice(0, 3);
                         dotsHtml = '<div class="dots">';
                         showDots.forEach(it => {
@@ -1790,7 +1795,6 @@
                     html += `<div class="${cls}" data-date="${dateStr}">${d}${dotsHtml}</div>`;
                 }
 
-                // 下月填充
                 const totalCells = startDay + daysInMonth;
                 const remain = (7 - (totalCells % 7)) % 7;
                 for (let d = 1; d <= remain; d++) {
@@ -1799,7 +1803,6 @@
 
                 calGrid.innerHTML = html;
 
-                // 点击日期
                 document.querySelectorAll('.cal-day[data-date]').forEach(el => {
                     el.addEventListener('click', function() {
                         const date = this.dataset.date;
@@ -1868,7 +1871,6 @@
             // ============================================================
             function getLastWeekItems() {
                 const range = getWeekRangeStr();
-                // 上周一 = 本周一 - 7
                 const lastMon = addDays(range.mon, -7);
                 const lastSun = addDays(range.mon, -1);
                 return items.filter(it => it.date >= lastMon && it.date <= lastSun);
@@ -1887,13 +1889,10 @@
                     return;
                 }
                 if (!confirm('将上周的 ' + lastItems.length + ' 节课复制到本周？')) return;
-                const range = getWeekRangeStr();
                 lastItems.forEach(it => {
-                    // 上周的日期 + 7 天 = 本周对应日期
-                    const newDate = addDays(it.date, 7);
                     items.push({
                         id: genId(),
-                        date: newDate,
+                        date: addDays(it.date, 7),
                         time: it.time,
                         studio: it.studio,
                         type: it.type,
@@ -1947,7 +1946,7 @@
             function resetAll() {
                 if (confirm('重置会丢失所有修改，确定吗？')) {
                     items = buildDefaultItems();
-                    activeDays = new Set(['周一', '周二', '周三', '周四', '周五', '周六', '周日']);
+                    activeDays = getThisWeekDays();
                     render();
                 }
             }
@@ -2066,7 +2065,7 @@
             const hasSaved = loadFromLocal();
             if (!hasSaved) {
                 items = buildDefaultItems();
-                activeDays = new Set(['周一', '周二', '周三', '周四', '周五', '周六', '周日']);
+                activeDays = getThisWeekDays();
             }
             render();
 
